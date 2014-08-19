@@ -9,9 +9,5 @@
  */
 angular.module('verpApp')
   .controller('SceneCtrl', function ($scope) {
-//    $scope.awesomeThings = [
-//      'HTML5 Boilerplate',
-//      'AngularJS',
-//      'Karma'
-//    ];
+
   });

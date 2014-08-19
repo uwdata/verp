@@ -5,4 +5,6 @@ dist
 .idea
 .editorconfig
 .DS_store
+.gitignore
+.gitattributes
 bower_components
