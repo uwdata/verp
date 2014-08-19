@@ -21,10 +21,15 @@ angular.module('verpApp')
                 .eps($scope.eps/100)
                 .distfn($scope.distfn)
                 .update();
+        };
+
+        $scope.setrp = function(newrp){
+
+            $scope.rp = newrp;
+
         }
 
-    })
-    .directive('rp', function(){
+    }).directive('rp', function(){
 
         function  nrnd() {
             var  x1, x2, w, y1, y2, w;
@@ -80,7 +85,7 @@ angular.module('verpApp')
                     a = Array.apply(null, new Array(w)).map(function(d,i){return Math.cos(i);}),
                     b = a.slice().map(function(d,i){return Math.cos(i+25);});
 
-                  scope.rp = rep.crp()
+                   scope.rp = rep.crp()
                       .width(w)
                       .height(h)
                       .eps(scope.eps/100);
@@ -108,8 +113,8 @@ angular.module('verpApp')
                 d3.select(element[0]).append('svg')
                     .attr('width',w)
                     .attr('height', 10)
+                    .style('background-color','coral')
                     .append("g")
-                    .attr('background-color','red')
                     .attr('width', w)
                     .attr('height',10)
                     .attr("class", "x brush")
@@ -119,7 +124,6 @@ angular.module('verpApp')
 //                    .attr('y', -12);
 //                    .attr("height", 20);
                 function brushed() {
-                //xs.domain(brush.empty() ? xs.domain() : brush.extent());
                     var e = brush.extent();
                     scope.rp.range({s:~~xs(e[0]), e:~~xs(e[1])});
                 }

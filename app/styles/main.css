@@ -45,6 +45,11 @@ body {
 @media (min-width: 768px) {
   .container {
     max-width: 1024px;
+    padding-left:5px;
+    padding-right:5px;
+padding-top:10px;
+    padding-bottom:10px;
+
   }
 }
 .container-narrow > hr {
@@ -110,8 +115,34 @@ image-rendering: optimize-contrast;
   .header {
     margin-bottom: 30px;
   }
+
+      .container .jumbotron {
+          padding-right:10px;
+          padding-left: 10px;
+          /*padding-top:40px;*/
+          /*padding-bottom:20px;*/
+      }
+
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
   }
+}
+/*.input-group-btn-padding {*/
+    /*padding:0 0;*/
+/*}*/
+
+label{
+  font-weight: 200;
+  font-size:12px;
+  font-family: HelveticaNeue-Light ;
+}
+
+.nopadding{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.slider{
+    width:95%;
 }

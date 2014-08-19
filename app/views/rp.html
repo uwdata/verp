@@ -1,30 +1,34 @@
-<div class="col-md-6 column" ng-controller="RecurrenceCtrl">
+<div ng-controller="RecurrenceCtrl" class="col-md-7 column">
+
     <div class="row clearfix">
-        <div class="col-md-1 column">
+
+        <div class="col-md-7 column">
+            <rp></rp>
+            <p class="img-label">RP</p>
         </div>
-        <div class="col-md-4 column">
+        <div class="col-md-5 column">
+            <form  role="form" class="form">
+                <div class="form-group slider">
+                    <label>epsilon</label>
+                    <input type="range" min=0" max="100" value="{{eps}}" ng-model="eps" ng-change="update()"/>
+                    <p>{{eps}}</p>
+                </div>
+                <label>distance functions</label>
+                <div class="form-group">
+                    <label class="radio-inline">
+                        <input type="radio" name="norms" value="l1" ng-model="distfn" ng-change="update()" />L1</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="norms" value="l2" ng-model="distfn" ng-change="update()" checked/>L2</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="norms" value="max" ng-model="distfn" ng-change="update()" />max</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="norms" value="min" ng-model="distfn" ng-change="update()" />min</label>
+                </div>
+            </form>
+            <label>time interval</label>
+            <xbrush></xbrush>
             <xbrush></xbrush>
         </div>
-         <div class="col-md-1 column">
-      </div>
+
     </div>
-    <div class="row clearfix">
-        <div class="col-md-1 column" ng-controller="RecurrenceCtrl">
-        </div>
-        <div class="col-md-4 column">
-            <rp></rp>
-        </div>
-         <div class="col-md-1 column" style="margin-left:160px;width:102px">
-             <input type="range" min=0" max="100" value="{{eps}}" ng-model="eps" ng-change="update()" />
-             <p>{{eps}}</p>
-             <form name="myForm">
-             <input type="radio" name="norms" value="l1" ng-model="distfn" ng-change="update()" />L1
-             <input type="radio" name="norms" value="l2" ng-model="distfn" ng-change="update()" checked/>L2
-             <input type="radio" name="norms" value="max" ng-model="distfn" ng-change="update()" />max
-             <input type="radio" name="norms" value="min" ng-model="distfn" ng-change="update()" />min
-             <p>{{radio}}</p>
-              </form>
-         </div>
-    </div>
-    <p class="img-label">RP</p>
 </div>
