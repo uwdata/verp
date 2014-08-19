@@ -128,9 +128,6 @@ image-rendering: optimize-contrast;
     border-bottom: 0;
   }
 }
-/*.input-group-btn-padding {*/
-    /*padding:0 0;*/
-/*}*/
 
 label{
   font-weight: 200;
@@ -146,3 +143,5 @@ label{
 .slider{
     width:95%;
 }
+
+

@@ -26,8 +26,15 @@
                 </div>
             </form>
             <label>time interval</label>
-            <xbrush></xbrush>
-            <xbrush></xbrush>
+            <xbrush axis="x"></xbrush>
+            <div id="time-lock">
+            <input type="checkbox" ng-model="brush.lock" checked>
+                <span class="glyphicon glyphicon-lock"></span>
+            </input>
+            </div>
+            <xbrush axis="y"></xbrush>
+            <label>embedding dimensions</label>
+
         </div>
 
     </div>

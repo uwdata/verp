@@ -10,24 +10,19 @@
 angular.module('verpApp')
     .controller('RecurrenceCtrl', function ($scope) {
         $scope.canvasSize= [300,300];
+        $scope.rpPanelSize = [200,300];
         $scope.rp = null;
         $scope.eps = 50;
         $scope.distfn = 'l2';
+        $scope.brush = {};
+        $scope.brush.lock = true;
 
         $scope.update =  function(){
-            console.log($scope.distfn);
-            console.log('updating rec plot'+$scope.eps);
             $scope.rp
                 .eps($scope.eps/100)
                 .distfn($scope.distfn)
                 .update();
         };
-
-        $scope.setrp = function(newrp){
-
-            $scope.rp = newrp;
-
-        }
 
     }).directive('rp', function(){
 
@@ -46,9 +41,7 @@ angular.module('verpApp')
         }
 
         function dist(a,b){
-
             return Math.abs(a-b) < 0.1 ? 255:0;
-
         }
 
         function myrpimage(rp, a){
@@ -78,8 +71,8 @@ angular.module('verpApp')
             restrict:'E',
             replace:true,
             template:'<div></div>',
-            link:function(scope, element, attrs){
 
+            link:function(scope, element, attrs){
                 var w = scope.canvasSize[0],
                     h = scope.canvasSize[1],
                     a = Array.apply(null, new Array(w)).map(function(d,i){return Math.cos(i);}),
@@ -89,6 +82,7 @@ angular.module('verpApp')
                       .width(w)
                       .height(h)
                       .eps(scope.eps/100);
+
                  scope.rp({x:a, y:a}, element[0]);
             }
         };
@@ -101,18 +95,21 @@ angular.module('verpApp')
             template: '<div></div>',
             link: function (scope, element, attrs) {
 
-                console.log('xbrush is called!');
-
-                var w = scope.canvasSize[0],
-                    h = scope.canvasSize[1],
-                    xs = d3.scale.linear().range([0, 300]),
+                var w = scope.rpPanelSize[0],
+                    h = scope.rpPanelSize[1],
+                    axis = attrs.axis,
+                    xs = d3.scale.linear()
+                        .range([0, 300]),
                     brush = d3.svg.brush()
                         .x(xs)
                         .on('brush', brushed);
 
+                scope.brush[axis] = brush;
+
                 d3.select(element[0]).append('svg')
                     .attr('width',w)
                     .attr('height', 10)
+                    .attr('id', attrs.axis+'brush')
                     .style('background-color','coral')
                     .append("g")
                     .attr('width', w)
@@ -121,8 +118,6 @@ angular.module('verpApp')
                     .call(brush)
                     .selectAll("rect")
                     .attr('height',10);
-//                    .attr('y', -12);
-//                    .attr("height", 20);
                 function brushed() {
                     var e = brush.extent();
                     scope.rp.range({s:~~xs(e[0]), e:~~xs(e[1])});
@@ -131,7 +126,6 @@ angular.module('verpApp')
             }
         };
     }).directive('ybrush', function(){
-
         return{
             restrict: 'E',
             replace: true,
