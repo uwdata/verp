@@ -99,7 +99,7 @@ angular.module('verpApp')
                     h = scope.rpPanelSize[1],
                     axis = attrs.axis,
                     brushScaleX = d3.scale.linear().range([0, w]),
-//                    dataScaleX = d3.scale.linear().range([0, scope.canvasSize[0]]),
+                   //dataScaleX = d3.scale.linear().range([0, scope.canvasSize[0]]),
                     brush = d3.svg.brush()
                         .x(brushScaleX)
                         .extent([0,1])
@@ -109,30 +109,36 @@ angular.module('verpApp')
 
                 var brushsvg = d3.select(element[0])
                     .append('svg')
-                    .attr('width',w)
-                    .attr('height', 10)
+                    .attr('width',w+10)
+                    .attr('height', 10);
+
                     brushsvg.append("g")
+                        .attr('transform', 'translate(10,0)')
                     .attr('width', w)
                     .attr('height',10)
                         .attr('id', attrs.axis+'brush')
                     .attr("class", "x brush")
-
                     .call(brush)
                     .selectAll("rect")
                     .attr('height',10);
 
                 var xx= d3.scale.identity()
-                    .domain([0, w]);
-
-                var myaxis= d3.svg.axis()
+                    .domain([0, w]),
+                axisfn = d3.svg.axis()
                     .scale(xx)
                     .outerTickSize(0)
-                    .ticks(0);
-
-                brushsvg.append("g")
+                    .ticks(0),
+                brushaxis = brushsvg.append("g")
                     .attr("class", "x axis")
-                    .attr('transform', 'translate(0,'+5+')')
-                    .call(myaxis);
+                    .attr('transform', 'translate(10,'+5+')')
+                    .call(axisfn)
+                    .append('text')
+                    .attr('class', 'x label')
+                    .attr('dx','-0.75em')
+                    .attr('dy','0.25em')
+                    .text(axis);
+
+
 
                 function brushed() {
                     var e = brush.extent(),
@@ -143,38 +149,6 @@ angular.module('verpApp')
                         scope.brush.y.extent([e[0], e[1]]);
                         d3.select('#ybrush').call(scope.brush.y);
                     }
-                }
-
-            }
-        };
-    }).directive('ybrush', function(){
-        return{
-            restrict: 'E',
-            replace: true,
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
-
-                var w = scope.canvasSize[0],
-                    h = scope.canvasSize[1],
-                    xs = d3.scale.linear().range([0, w]),
-                    brush = d3.svg.brush()
-                        .x(xs)
-                        .extent([40, 60]);
-
-                d3.select(element[0]).append('svg')
-                    .attr('width',10)
-                    .attr('height', h)
-                    .style('margin-left',20)
-                    .append("rect")
-                    .attr('width', 10)
-                    .attr('height',h)
-                    .attr("class", "y brush")
-                    .call(brush)
-                    .selectAll("rect")
-                    .attr('y', -12);
-
-                function brushed(){
-                    xs.domain(brush.empty() ? xs.domain() : brush.extent());
                 }
 
             }

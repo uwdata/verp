@@ -3,11 +3,12 @@
     version: "1.0.0"
   };
   rep.crp = function() {
-    var data = null, rpdata = null, rpimage = null, image = null, canvas = null, ctx = null, range = null, eps = .5, width = 100, height = 100, distfn = rep.norms["l2"];
+    var data = null, rpdata = null, rpimage = null, image = null, canvas = null, svgCanvas = {}, ctx = null, range = null, eps = .5, width = 100, height = 100, distfn = rep.norms["l2"];
     function crp(d, el) {
       var w = d.x.length, h = w;
       data = d;
       canvas = d3.select(el).append("canvas").attr("width", width).attr("height", height).node();
+      initSvgCanvas(el);
       ctx = canvas.getContext("2d");
       ctx.imageSmoothingEnabled = false;
       rpimage = ctx.getImageData(0, 0, w, h);
@@ -22,6 +23,14 @@
       image.src = canvas.toDataURL();
       ctx.clearRect(0, 0, width, height);
       ctx.drawImage(image, 0, 0);
+    }
+    function initSvgCanvas(el) {
+      svgCanvas.s = d3.select(el).append("svg").attr("id", "canvas-svg").attr("width", width).attr("height", height);
+      var s = svgCanvas.s;
+      svgCanvas.xsLabel = s.append("text").attr("class", "rplabel").attr("dy", "-0.25em").text("0");
+      svgCanvas.xeLabel = s.append("text").attr("class", "rplabel").attr("dy", "-0.25em").attr("dx", width).attr("text-anchor", "end").text("300");
+      svgCanvas.ysLabel = s.append("text").attr("class", "rplabel").attr("dy", "1em").attr("dx", "-0.25em").attr("text-anchor", "end").text("0");
+      svgCanvas.yeLabel = s.append("text").attr("class", "rplabel").attr("dx", "-0.25em").attr("dy", height).attr("text-anchor", "end").text("300");
     }
     crp.update = function() {
       if (data !== null) update();
@@ -58,6 +67,10 @@
       ctx.globalCompositeOperation = "destination-over";
       ctx.clearRect(0, 0, 300, 300);
       ctx.drawImage(image, range.s, range.s, dw, dh, 0, 0, width, height);
+      svgCanvas.xsLabel.text(range.s + "");
+      svgCanvas.xeLabel.text(range.e + "");
+      svgCanvas.ysLabel.text(range.s + "");
+      svgCanvas.yeLabel.text(range.e + "");
       return crp;
     };
     crp.data = function(_) {
