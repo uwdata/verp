@@ -9,8 +9,8 @@
  */
 angular.module('verpApp')
     .controller('RecurrenceCtrl', function ($scope) {
-        $scope.canvasSize= [300,300];
-        $scope.rpPanelSize = [200,300];
+        $scope.canvasSize = [300, 300];
+        $scope.rpPanelSize = [200, 300];
         $scope.rp = null;
         $scope.eps = 50;
         $scope.distfn = 'l2';
@@ -98,29 +98,51 @@ angular.module('verpApp')
                 var w = scope.rpPanelSize[0],
                     h = scope.rpPanelSize[1],
                     axis = attrs.axis,
-                    xs = d3.scale.linear()
-                        .range([0, 300]),
+                    brushScaleX = d3.scale.linear().range([0, w]),
+//                    dataScaleX = d3.scale.linear().range([0, scope.canvasSize[0]]),
                     brush = d3.svg.brush()
-                        .x(xs)
+                        .x(brushScaleX)
+                        .extent([0,1])
                         .on('brush', brushed);
 
                 scope.brush[axis] = brush;
 
-                d3.select(element[0]).append('svg')
+                var brushsvg = d3.select(element[0])
+                    .append('svg')
                     .attr('width',w)
                     .attr('height', 10)
-                    .attr('id', attrs.axis+'brush')
-                    .style('background-color','coral')
-                    .append("g")
+                    brushsvg.append("g")
                     .attr('width', w)
                     .attr('height',10)
+                        .attr('id', attrs.axis+'brush')
                     .attr("class", "x brush")
+
                     .call(brush)
                     .selectAll("rect")
                     .attr('height',10);
+
+                var xx= d3.scale.identity()
+                    .domain([0, w]);
+
+                var myaxis= d3.svg.axis()
+                    .scale(xx)
+                    .outerTickSize(0)
+                    .ticks(0);
+
+                brushsvg.append("g")
+                    .attr("class", "x axis")
+                    .attr('transform', 'translate(0,'+5+')')
+                    .call(myaxis);
+
                 function brushed() {
-                    var e = brush.extent();
-                    scope.rp.range({s:~~xs(e[0]), e:~~xs(e[1])});
+                    var e = brush.extent(),
+                    start = ~~(1.5*brushScaleX(e[0])),
+                    end = ~~(1.5*brushScaleX(e[1]));
+                    scope.rp.range({s:start, e:end});
+                    if(axis === 'x' && scope.brush.lock === true) {
+                        scope.brush.y.extent([e[0], e[1]]);
+                        d3.select('#ybrush').call(scope.brush.y);
+                    }
                 }
 
             }

@@ -79,18 +79,6 @@ padding-top:10px;
   margin-top: 28px;
 }
 
-.axis path,
-.axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-}
-
-.brush .extent {
-    stroke:#fff;
-    fill-opacity: .25;
-    shape-rendering: crispEdges;
-}
 
 canvas {
 image-rendering: optimizeSpeed;
