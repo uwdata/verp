@@ -3,26 +3,35 @@
     version: "1.0.0"
   };
   rep.crp = function() {
-    var data = null, rpdata = null, rpimage = null, image = null, canvas = null, svgCanvas = {}, ctx = null, range = null, eps = .5, width = 100, height = 100, distfn = rep.norms["l2"];
+    var data = null, rpdata = null, rpimage = null, image = null, canvas = null, svgCanvas = {}, ctx = null, eps = .5, width = 100, height = 100, range = {
+      xs: 0,
+      xe: 1,
+      ys: 0,
+      ye: 1
+    }, distfn = rep.norms["l2"], imgWidth, imgHeight;
     function crp(d, el) {
-      var w = d.x.length, h = w;
       data = d;
+      updateScale();
       canvas = d3.select(el).append("canvas").attr("width", width).attr("height", height).node();
-      initSvgCanvas(el);
       ctx = canvas.getContext("2d");
-      ctx.imageSmoothingEnabled = false;
-      rpimage = ctx.getImageData(0, 0, w, h);
+      initSvgCanvas(el);
       image = new Image();
       update();
       return crp;
     }
     function update() {
+      ctx.clearRect(0, 0, width, height);
+      rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
       rpdata = rep_rp(data, distfn, eps);
       rep.toimg(rpdata, rpimage.data);
       ctx.putImageData(rpimage, 0, 0);
+      ctx.imageSmoothingEnabled = false;
       image.src = canvas.toDataURL();
-      ctx.clearRect(0, 0, width, height);
-      ctx.drawImage(image, 0, 0);
+      ctx.drawImage(image, ~~(range.xs * imgWidth), ~~(range.ys * imgHeight), ~~((range.xe - range.xs) * imgWidth), ~~((range.ye - range.ys) * imgHeight), 0, 0, width, height);
+    }
+    function updateScale() {
+      imgWidth = data.x.length;
+      imgHeight = data.y.length;
     }
     function initSvgCanvas(el) {
       svgCanvas.s = d3.select(el).append("svg").attr("id", "canvas-svg").attr("width", width).attr("height", height);
@@ -33,7 +42,10 @@
       svgCanvas.yeLabel = s.append("text").attr("class", "rplabel").attr("dx", "-0.25em").attr("dy", height).attr("text-anchor", "end").text("300");
     }
     crp.update = function() {
-      if (data !== null) update();
+      if (data !== null) {
+        updateScale();
+        update();
+      }
       return crp;
     };
     crp.distfn = function(_) {
@@ -63,14 +75,11 @@
     crp.range = function(_) {
       if (!arguments.length) return range;
       range = _;
-      var dw = range.e - range.s, dh = range.e - range.s, i;
-      ctx.globalCompositeOperation = "destination-over";
-      ctx.clearRect(0, 0, 300, 300);
-      ctx.drawImage(image, range.s, range.s, dw, dh, 0, 0, width, height);
-      svgCanvas.xsLabel.text(range.s + "");
-      svgCanvas.xeLabel.text(range.e + "");
-      svgCanvas.ysLabel.text(range.s + "");
-      svgCanvas.yeLabel.text(range.e + "");
+      var xs = ~~(range.xs * imgWidth), ys = ~~(range.ys * imgHeight), xe = ~~((range.xe - range.xs) * imgWidth), ye = ~~((range.ye - range.ys) * imgHeight);
+      svgCanvas.xsLabel.text(xs + "");
+      svgCanvas.xeLabel.text(xe + "");
+      svgCanvas.ysLabel.text(ys + "");
+      svgCanvas.yeLabel.text(ye + "");
       return crp;
     };
     crp.data = function(_) {
@@ -99,7 +108,8 @@
   rep.norms = {
     l1: rep_dist_l1,
     l2: rep_dist_l2,
-    max: rep_dist_max
+    max: rep_dist_max,
+    min: rep_dist_min
   };
   function rep_dist_l2(a, b) {
     if (typeof a === "number") return Math.abs(a - b);
@@ -108,7 +118,7 @@
     return Math.sqrt(s);
   }
   function rep_dist_l1(a, b) {
-    if (typeof a === "number") return Math.abs(a * b);
+    if (typeof a === "number") return Math.abs(a - b);
     var n = a.length, s = 0, i;
     for (i = 0; i < n; s += Math.abs(a[i] - b[i]), i++) ;
     return s;
@@ -118,6 +128,12 @@
     var n = a.length, s = [], i;
     for (i = 0; i < n; s.push(Math.abs(a[i] - b[i])), i++) ;
     return Math.max.apply(null, s);
+  }
+  function rep_dist_min(a, b) {
+    if (typeof a === "number") return Math.abs(a - b);
+    var n = a.length, s = [], i;
+    for (i = 0; i < n; s.push(Math.abs(a[i] - b[i])), i++) ;
+    return Math.min.apply(null, s);
   }
   if (typeof define === "function" && define.amd) {
     define(rep);

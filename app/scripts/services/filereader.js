@@ -10,7 +10,6 @@
 angular.module('verpApp')
   .factory('FileReader', function ($q, $log){
 
-    //Service logic
       var onLoad = function(reader, deferred, scope) {
             return function () {
                 scope.$apply(function () {

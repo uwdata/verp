@@ -1,16 +1,16 @@
-<div ng-controller="RecurrenceCtrl" class="col-md-7 column">
+<div class="col-md-7 column" ng-controller="RecurrenceCtrl">
 
     <div class="row clearfix">
 
         <div class="col-md-7 column">
-            <rp></rp>
+           <rp width="300" height="300"></rp>
             <p class="img-label">RP</p>
         </div>
-        <div class="col-md-5 column nopadding">
-            <form  role="form" class="form">
+        <div class="col-md-5 column nopadding" >
+            <form  role="form" class="form" >
                 <div class="form-group slider">
                     <label>epsilon</label>
-                    <input type="range" min=0" max="100" value="{{eps}}" ng-model="eps" ng-change="update()"/>
+                    <input type="range" min=0" max="100"  value="{{eps}}" ng-model="eps" ng-change="update()"/>
                     <p>{{eps}}</p>
                 </div>
                 <label>distance functions</label>

@@ -8,25 +8,21 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-  .controller('UploadCtrl', function ($scope, FileReader) {
-
-
+    .controller('UploadCtrl', function ($scope, FileReader, DataService) {
         $scope.getFile = function () {
-            $scope.progress = 0;
+
             FileReader.readAsText($scope.file, $scope)
                 .then(function(result) {
-                    console.log(result);
-                    $scope.eye= JSON.parse(result);
-
+                    DataService.eyeTracking(JSON.parse(result));
                 });
 
-                 $scope.currentFrame.src = 'data/'+$scope.file.name.split('.')[0] + '.scn' + '/frm-0.png';
-
+            var sceneDir= 'data/'+$scope.file.name.split('.')[0] + '.scn';
+            DataService.sceneSrc(sceneDir);
         };
 
-        $scope.$on("fileProgress", function(e, progress) {
-            $scope.progress = progress.loaded / progress.total;
-        });
+//        $scope.$on("fileProgress", function(e, progress) {
+//            $scope.progress = progress.loaded / progress.total;
+//        });
 
     }).directive('fileSelect', function(){
 

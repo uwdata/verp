@@ -1,4 +1,4 @@
-function  jsonwrite(filename,s)
+function  jsonwrite(s, filename)
 %
 % File  : jsonwrite.m
 % Author: Cagatay Demiralp (cagatay)
@@ -72,9 +72,11 @@ function printNumericArray(fid,v)
 
 f = ~( m == 1 || n == 1 );
 format = ['[' repmat('%g,', [1 n-1]) '%g]'];
+
 if(f)
     fprintf(fid,'[\n');
 end
+
 for i=1:m
     fprintf(fid,format,v(i,:));
     if(i < m)

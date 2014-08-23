@@ -80,16 +80,6 @@ padding-top:10px;
 }
 
 
-canvas {
-image-rendering: optimizeSpeed;
-image-rendering: -moz-crisp-edges;
-image-rendering: -webkit-optimize-contrast;
-/*//  (Safari now, Chrome soon)*/
-image-rendering: -o-crisp-edges;
-image-rendering: optimize-contrast;
--ms-interpolation-mode: nearest-neighbor;
-}
-
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
