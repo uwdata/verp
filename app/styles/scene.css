@@ -1,7 +1,20 @@
-
-#tracking-sp{
-    position: absolute;
-    top:3px;
-    left:63px;
-    margin:auto
+#scene{
+    position:relative;
 }
+
+.stacked{
+   position:absolute;
+}
+
+.scene-name div{
+    position:absolute;
+    display:block;
+    text-align:left ! important;
+}
+
+.scene-info label{
+    position:absolute;
+    display:block;
+    top:320px;
+}
+

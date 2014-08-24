@@ -1,12 +1,18 @@
-<div class="col-md-5 column nopadding" ng-controller="SceneCtrl">
-    <p style="padding: 0;margin-top:-2em">{{src}}</p>
+<div class="col-md-5 column " ng-controller="SceneCtrl">
+
+    <label class="scene-name">{{src}}</label>
+
     <div id="scene" class="img-with-label">
-        <scene-frame></scene-frame>
-        <sp width="300" height="300"></sp>
+            <scene-frame class="stacked"></scene-frame>
+            <sp width="300" height="300" class="stacked"></sp>
     </div>
-    <p class="img-label">Scene</p>
-    <div class="form-group" ng-show="src">
-        <label class="checkbox-inline">
-            <input type="checkbox" ng-model="showTracking"/>show tracking positions</label>
-    </div>
+
+    <label ng-show = "!src">Scene</label>
+     <div class="scene-info">
+            <div class="form-group" ng-show="src">
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="showTracking"/>show tracking positions</label>
+            </div>
+        </div>
+
 </div>
