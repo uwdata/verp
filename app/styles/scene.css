@@ -6,7 +6,7 @@
    position:absolute;
 }
 
-.scene-name div{
+.viewname label{
     position:absolute;
     display:block;
     text-align:left ! important;
@@ -18,3 +18,13 @@
     top:320px;
 }
 
+.rectbrush .extent {
+    stroke:#fff;
+    fill-opacity:0.25;
+    fill: coral;
+    shape-rendering: crispEdges;
+}
+
+.highlight circle{
+    fill:red !important;
+}

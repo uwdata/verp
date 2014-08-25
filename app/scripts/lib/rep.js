@@ -8,9 +8,15 @@
       xe: 1,
       ys: 0,
       ye: 1
-    }, distfn = rep.norms["l2"], imgWidth, imgHeight;
-    function crp(d, el) {
+    }, distfn = rep.norms["l2"], imgWidth, imgHeight, activeDomain;
+    function initData(d) {
+      var m = d.x.length, n = d.y.length;
       data = d;
+      rpdata = Array.apply(null, new Array(m * n)).map(Number.prototype.valueOf, 0);
+      activeDomain = Array.apply(null, new Array(m)).map(Number.prototype.valueOf, 1);
+    }
+    function crp(d, el) {
+      initData(d);
       updateScale();
       canvas = d3.select(el).append("canvas").attr("width", width).attr("height", height).node();
       ctx = canvas.getContext("2d");
@@ -22,7 +28,7 @@
     function update() {
       ctx.clearRect(0, 0, width, height);
       rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
-      rpdata = rep_rp(data, distfn, eps);
+      rpdata = rep_rp(rpdata, data, distfn, eps);
       rep.toimg(rpdata, rpimage.data);
       ctx.putImageData(rpimage, 0, 0);
       ctx.imageSmoothingEnabled = false;
@@ -41,6 +47,26 @@
       svgCanvas.ysLabel = s.append("text").attr("class", "rplabel").attr("dy", "1em").attr("dx", "-0.25em").attr("text-anchor", "end").text("0");
       svgCanvas.yeLabel = s.append("text").attr("class", "rplabel").attr("dx", "-0.25em").attr("dy", height).attr("text-anchor", "end").text("300");
     }
+    crp.activeDomain = function(e) {
+      if (!arguments) return activeDomain;
+      var i = Math.round(e[0][0]), j = Math.round(e[0][1]), endX = Math.round(e[1][0]), endY = Math.round(e[1][1]), v;
+      activeDomain.forEach(function(d, i, a) {
+        a[i] = 0;
+      });
+      for (;i < endX; i++) {
+        for (;j < endY; j++) {
+          v = rpdata[imgWidth * i + j];
+          if (activeDomain[i] === 0) activeDomain[i] = v;
+          if (activeDomain[j] === 0) activeDomain[j] = v;
+        }
+      }
+      return activeDomain;
+    };
+    crp.resetActiveDomain = function() {
+      activeDomain.forEach(function(d, i, a) {
+        a[i] = 0;
+      });
+    };
     crp.update = function() {
       if (data !== null) {
         updateScale();
@@ -84,13 +110,13 @@
     };
     crp.data = function(_) {
       if (!arguments.length) return data;
-      data = _;
+      initData(_);
       return crp;
     };
     return crp;
   };
-  function rep_rp(d, fn, eps) {
-    var x = d.x, y = d.y, n = x.length, a = Array.apply(null, new Array(n * n)).map(Number.prototype.valueOf, 0), i, j;
+  function rep_rp(a, d, fn, eps) {
+    var x = d.x, y = d.y, n = x.length, i, j;
     for (i = 0; i < n; i++) for (j = 0; j < n; j++) a[n * i + j] = rep_theta(fn(x[i], y[j]), eps);
     return a;
   }

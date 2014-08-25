@@ -14,15 +14,9 @@ angular.module('verpApp')
         $scope.src = "";
 
         function sceneUpdate(e,d){
-
-
-//          var img = document.getElementById('current-frame');
-
-
-            $scope.src = d.src + '/frm-0.png';
-
+           $scope.src = d.src + '/frm-0.png';
         }
-//        console.log($scope);
+
         $scope.$on('scene.update', sceneUpdate);
 
     });

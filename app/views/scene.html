@@ -1,10 +1,10 @@
-<div class="col-md-5 column " ng-controller="SceneCtrl">
+<div class="col-md-5 column" ng-controller="SceneCtrl">
 
-    <label class="scene-name">{{src}}</label>
-
+    <label class="viewname">{{src}}</label>
     <div id="scene" class="img-with-label">
-            <scene-frame class="stacked"></scene-frame>
-            <sp width="300" height="300" class="stacked"></sp>
+       <scene-frame class="stacked"></scene-frame>
+       <sp width="300" height="300" class="stacked"></sp>
+        <brush id="sp" width="300" height="300" ng-show="showTracking" class = "stacked"></brush>
     </div>
 
     <label ng-show = "!src">Scene</label>

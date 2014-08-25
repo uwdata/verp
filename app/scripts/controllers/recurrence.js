@@ -14,10 +14,6 @@ angular.module('verpApp')
         $scope.distfn = 'l2';
         $scope.brush = {};
         $scope.brush.lock = true;
-//        $scope.range =  null; //{s:null, e:null};
-
-//        $scope.setRange = function(r){ console.log('setting range'); $scope.range = r;}
-
 
 
     }).directive('xbrush', function($rootScope){
@@ -71,21 +67,17 @@ angular.module('verpApp')
                     .text(axis);
 
 
-
                 function brushed() {
                     var e = brush.extent(),
                     //TODO: remove the constants
                     start = e[0],
                     end = e[1];
-
                     $rootScope.$broadcast('range.update',{xs:start, xe:end, ys:start, ye:end});
-//                    scope.rp.range({s:start, e:end});
                     if(axis === 'x' && scope.brush.lock === true) {
                         scope.brush.y.extent([e[0], e[1]]);
                         d3.select('#ybrush').call(scope.brush.y);
                     }
                 }
-
             }
         };
     });
