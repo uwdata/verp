@@ -11,6 +11,9 @@ angular.module('verpApp')
     .controller('RecurrenceCtrl', function ($scope, DataService) {
         $scope.rpPanelSize = [200, 300];
         $scope.eps = 50;
+        $scope.epsmin = 0;
+        $scope.epsmax = 100;
+        $scope.epsstep= 1;
         $scope.distfn = 'l2';
         $scope.brush = {};
         $scope.brush.lock = true;
@@ -40,14 +43,14 @@ angular.module('verpApp')
                     .attr('width',w+10)
                     .attr('height', 10);
 
-                    brushsvg.append("g")
+                    brushsvg.append('g')
                         .attr('transform', 'translate(10,0)')
                     .attr('width', w)
                     .attr('height',10)
                         .attr('id', attrs.axis+'brush')
-                    .attr("class", "x brush")
+                    .attr('class', 'x brush')
                     .call(brush)
-                    .selectAll("rect")
+                    .selectAll('rect')
                     .attr('height',10);
 
                 var xx= d3.scale.identity()
@@ -56,8 +59,8 @@ angular.module('verpApp')
                     .scale(xx)
                     .outerTickSize(0)
                     .ticks(0),
-                brushaxis = brushsvg.append("g")
-                    .attr("class", "x axis")
+                brushaxis = brushsvg.append('g')
+                    .attr('class', 'x axis')
                     .attr('transform', 'translate(10,'+5+')')
                     .call(axisfn)
                     .append('text')

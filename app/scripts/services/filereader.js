@@ -8,7 +8,7 @@
  * Factory in the verpApp.
  */
 angular.module('verpApp')
-  .factory('FileReader', function ($q, $log){
+  .factory('FileReader', function ($q){
 
       var onLoad = function(reader, deferred, scope) {
             return function () {
@@ -26,21 +26,21 @@ angular.module('verpApp')
             };
         };
 
-        var onProgress = function(reader, scope) {
-            return function (event) {
-                scope.$broadcast("fileProgress",
-                    {
-                        total: event.total,
-                        loaded: event.loaded
-                    });
-            };
-        };
+//        var onProgress = function(reader, scope) {
+//            return function (event) {
+//                scope.$broadcast('fileProgress',
+//                    {
+//                        total: event.total,
+//                        loaded: event.loaded
+//                    });
+//            };
+//        };
 
         var getReader = function(deferred, scope) {
             var reader = new FileReader();
             reader.onload = onLoad(reader, deferred, scope);
             reader.onerror = onError(reader, deferred, scope);
-            reader.onprogress = onProgress(reader, scope);
+//            reader.onprogress = onProgress(reader, scope);
             return reader;
         };
 

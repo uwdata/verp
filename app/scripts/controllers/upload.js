@@ -19,7 +19,6 @@ angular.module('verpApp')
             var sceneDir= 'data/'+$scope.file.name.split('.')[0] + '.scn';
             DataService.sceneSrc(sceneDir);
         };
-
 //        $scope.$on("fileProgress", function(e, progress) {
 //            $scope.progress = progress.loaded / progress.total;
 //        });

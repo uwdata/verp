@@ -8,7 +8,7 @@
       xe: 1,
       ys: 0,
       ye: 1
-    }, distfn = rep.norms["l2"], imgWidth, imgHeight, activeDomain;
+    }, distfn = rep.norms.l2, imgWidth, imgHeight, activeDomain;
     function initData(d) {
       var m = d.x.length, n = d.y.length;
       data = d;
@@ -49,15 +49,17 @@
     }
     crp.activeDomain = function(e) {
       if (!arguments) return activeDomain;
-      var i = Math.round(e[0][0]), j = Math.round(e[0][1]), endX = Math.round(e[1][0]), endY = Math.round(e[1][1]), v;
-      activeDomain.forEach(function(d, i, a) {
-        a[i] = 0;
+      var endX = Math.round(e[1][0]), endY = Math.round(e[1][1]), v;
+      activeDomain.forEach(function(d, k, a) {
+        a[k] = 0;
       });
-      for (;i < endX; i++) {
-        for (;j < endY; j++) {
-          v = rpdata[imgWidth * i + j];
-          if (activeDomain[i] === 0) activeDomain[i] = v;
-          if (activeDomain[j] === 0) activeDomain[j] = v;
+      for (var j = Math.round(e[0][1]); j < endY; j++) {
+        for (var i = Math.round(e[0][0]); i < endX; i++) {
+          v = rpdata[imgWidth * j + i];
+          if (v > 0) {
+            activeDomain[i] = 1;
+            activeDomain[j] = 1;
+          }
         }
       }
       return activeDomain;
@@ -77,7 +79,7 @@
     crp.distfn = function(_) {
       if (!arguments.length) return distfn;
       var t = typeof _;
-      if (t === "string") distfn = rep.norms[_] ? rep.norms[_] : rep.norms["l2"]; else if (t === "function") distfn = _; else {
+      if (t === "string") distfn = rep.norms._ ? rep.norms._ : rep.norms.l2; else if (t === "function") distfn = _; else {
         console.warn("Incorrect form of the distance function!");
         console.warn("Reverting back to the default, Euclidean distance");
       }

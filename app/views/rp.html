@@ -11,9 +11,12 @@
         <div class="col-md-5 column nopadding" >
             <form  role="form" class="form" >
                 <div class="form-group slider">
-                    <label>epsilon</label>
-                    <input type="range" min=0" max="100"  value="{{eps}}" ng-model="eps" ng-change="update()"/>
-                    <p>{{eps}}</p>
+                    <div style="display:block"><label>epsilon</label></div>
+                    <label class="numinput">min:</label><input type="number"  id="min-input" value="{{epsmin}}" ng-model="epsmin">
+                    <label class="numinput">step:</label><input type="number" id="max-input" value="{{epsstep}}" ng-model="epsstep">
+                    <label class="numinput">max:</label><input type="number" id="step-input" value="{{epsmax}}" ng-model="epsmax">
+                    <input type="range" min="{{epsmin}}" max={{epsmax}}  value="{{eps}}" ng-model=eps ng-change="update()"/>
+                    <label style="display:block;text-align:center">{{eps}}</label>
                 </div>
                 <label>distance functions</label>
                 <div class="form-group">
