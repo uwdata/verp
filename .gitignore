@@ -7,4 +7,5 @@ dist
 .DS_store
 .gitignore
 .gitattributes
+/*~
 bower_components

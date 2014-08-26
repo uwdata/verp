@@ -1,0 +1,89 @@
+
+canvas {
+image-rendering: optimizeSpeed;
+image-rendering: -moz-crisp-edges;
+image-rendering: -webkit-optimize-contrast;
+/*//  (Safari now, Chrome soon)*/
+image-rendering: -o-crisp-edges;
+image-rendering: optimize-contrast;
+-ms-interpolation-mode: nearest-neighbor;
+}
+
+#canvas-svg {
+    overflow: visible;
+    float: left;
+    position: absolute;
+    left: 15px
+}
+
+#time-lock input[type="checkbox"]{
+margin-top: 4px;
+position:relative;
+left:48%
+}
+
+#time-lock  .glyphicon-lock {
+  margin-top:-0.25em;
+  position:relative;
+  left:48%;
+  font-size:0.75em;
+}
+
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #9b9b9b;
+    shape-rendering: crispEdges;
+}
+
+.brush .extent {
+    stroke:#fff;
+    fill-opacity:1.0;
+    fill: coral;
+    shape-rendering: crispEdges;
+}
+
+.x .label {
+    font-weight: 300;
+    font-size:12px;
+    font-family: HelveticaNeue-Light ;
+}
+
+.rplabel {
+    font-weight: 300;
+    font-size:10px;
+    font-family: HelveticaNeue-Light ;
+    fill: coral;
+}
+
+.slider{
+    width:95%;
+}
+
+.slider input[type=number]{
+    width:20%;
+    font-size:10px;
+    background-color: rgb(250, 250, 250);
+    border-radius: 2px;
+    border: rgb(238,238,238);
+    text-align:center;
+    color: #9b9b9b;
+    -webkit-border-radius:4px;
+}
+
+
+.slider input[type=number]:hover{
+    color: #232323;
+}
+
+.slider input[type=number]:hover>.numinput{
+   color: #232323;
+
+}
+.numinput{
+   color: #9b9b9b;
+   font-size:12px;
+}
+
+

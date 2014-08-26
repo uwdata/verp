@@ -123,18 +123,25 @@
       return crp;
     };
     crp.highlight = function(_) {
-      if (_ === null) return;
-      console.log("crp.highlight");
-      console.log(_);
+      if (_ === null || _.length === 0) {
+        update();
+        return;
+      }
       rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
-      var d = rpimage.data, indx1, indx2, f;
+      var d = rpimage.data, a = [ 255, 0, 0 ], indx1, indx2, s1, s2, f, v;
       for (var i = 0; i < imgHeight; i++) {
         for (var j = i; j < imgWidth; j++) {
-          indx1 = 4 * (imgWidth * i + j) + 3;
-          indx2 = 4 * (imgWidth * j + i) + 3;
+          s1 = imgWidth * i + j;
+          s2 = imgWidth * j + i;
+          indx1 = 4 * s1;
+          indx2 = 4 * s2;
           f = _[i] === 1 && _[j] === 1;
-          d[indx1] = f === true ? 10 : 255;
-          d[indx2] = d[indx1];
+          for (var k = 0; k < 3; k++) {
+            v = 255 * rpdata[s1];
+            d[indx1 + k] = f === true ? .5 * (a[k] + v) : v;
+            d[indx2 + k] = d[indx1 + k];
+          }
+          d[indx2 + k] = d[indx1 + k] = 255;
         }
       }
       updateNoDist();
