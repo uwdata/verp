@@ -10,14 +10,16 @@
 angular.module('verpApp')
     .controller('UploadCtrl', function ($scope, FileReader, DataService) {
         $scope.getFile = function () {
+            var scene = {};
 
             FileReader.readAsText($scope.file, $scope)
                 .then(function(result) {
                     DataService.eyeTracking(JSON.parse(result));
                 });
 
-            var sceneDir= 'data/'+$scope.file.name.split('.')[0] + '.scn';
-            DataService.sceneSrc(sceneDir);
+           scene.src = 'data/'+$scope.file.name.split('.')[0] + '.scn';
+
+            DataService.sceneSrc(scene.src);
         };
 //        $scope.$on("fileProgress", function(e, progress) {
 //            $scope.progress = progress.loaded / progress.total;

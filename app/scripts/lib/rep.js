@@ -35,6 +35,13 @@
       image.src = canvas.toDataURL();
       ctx.drawImage(image, ~~(range.xs * imgWidth), ~~(range.ys * imgHeight), ~~((range.xe - range.xs) * imgWidth), ~~((range.ye - range.ys) * imgHeight), 0, 0, width, height);
     }
+    function updateNoDist() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.putImageData(rpimage, 0, 0);
+      ctx.imageSmoothingEnabled = false;
+      image.src = canvas.toDataURL();
+      ctx.drawImage(image, ~~(range.xs * imgWidth), ~~(range.ys * imgHeight), ~~((range.xe - range.xs) * imgWidth), ~~((range.ye - range.ys) * imgHeight), 0, 0, width, height);
+    }
     function updateScale() {
       imgWidth = data.x.length;
       imgHeight = data.y.length;
@@ -114,6 +121,23 @@
       if (!arguments.length) return data;
       initData(_);
       return crp;
+    };
+    crp.highlight = function(_) {
+      if (_ === null) return;
+      console.log("crp.highlight");
+      console.log(_);
+      rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
+      var d = rpimage.data, indx1, indx2, f;
+      for (var i = 0; i < imgHeight; i++) {
+        for (var j = i; j < imgWidth; j++) {
+          indx1 = 4 * (imgWidth * i + j) + 3;
+          indx2 = 4 * (imgWidth * j + i) + 3;
+          f = _[i] === 1 && _[j] === 1;
+          d[indx1] = f === true ? 10 : 255;
+          d[indx2] = d[indx1];
+        }
+      }
+      updateNoDist();
     };
     return crp;
   };

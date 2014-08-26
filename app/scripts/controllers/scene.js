@@ -11,12 +11,7 @@ angular.module('verpApp')
     .controller('SceneCtrl', function ($scope, DataService) {
 
         $scope.showTracking = false;
-        $scope.src = "";
-
-        function sceneUpdate(e,d){
-           $scope.src = d.src + '/frm-0.png';
-        }
-
-        $scope.$on('scene.update', sceneUpdate);
+        $scope.frmScaleX = 1;
+        $scope.frmScaleY = 1;
 
     });
