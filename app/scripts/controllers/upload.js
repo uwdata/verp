@@ -14,15 +14,16 @@ angular.module('verpApp')
             FileReader.readAsText($scope.file, $scope)
                 .then(function(result) {
                     DataService.scene(
-                        {data:JSON.parse(result),
-                        src:'data/'+$scope.file.name.split('.')[0] + '.scn'
+                        {data: JSON.parse(result),
+                         src: 'data/'+$scope.file.name.split('.')[0] + '.scn'
                         });
                 });
 
         };
-//        $scope.$on("fileProgress", function(e, progress) {
-//            $scope.progress = progress.loaded / progress.total;
-//        });
+
+//       $scope.$on("fileProgress", function(e, progress) {
+//           $scope.progress = progress.loaded / progress.total;
+//       });
 
     }).directive('fileSelect', function(){
 

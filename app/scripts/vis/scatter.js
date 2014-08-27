@@ -22,7 +22,6 @@ Scatter.prototype.init = function(div, cp){
     this.p_.color = d3.scale.category10();
     this.interacts_ = {};
 
-
     //create the root svg node
     this.svg_= d3.select(div)
         .append('svg')
@@ -72,8 +71,6 @@ Scatter.prototype.update = function(data, key){
     this.highlighted_ = Array.apply(null, new Array(data.length))
         .map(Number.prototype.valueOf,0);
 
-    console.log(this.highlighted_.length);
-
     var p = this.p_,
         x = p.axis.x,
         y = p.axis.y,
@@ -109,7 +106,7 @@ Scatter.prototype.update = function(data, key){
         .remove();
 
     function appendShape(d,i){
-        return drawfn(d3.select(this),i).style('fill', 'none').style('stroke','orange');
+        return drawfn(d3.select(this),i);
     }
 
 };
@@ -136,7 +133,8 @@ Scatter.prototype.interaction = function(e, f, frevert){
 
 Scatter.prototype.highlight = function(a, f){
 
-    var h = this.highlighted_, p = this.p_, v;
+    var h = this.highlighted_,
+        p = this.p_, v;
 
     console.log(arguments.length);
 
@@ -159,7 +157,6 @@ Scatter.prototype.highlight = function(a, f){
                 return (h[i] = a[i]);
             });
     }
-
     return h;
 };
 

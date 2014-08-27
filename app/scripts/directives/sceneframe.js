@@ -22,15 +22,14 @@ angular.module('verpApp')
 
              function sceneUpdate(e,d){
                 s.frm.onload  = function() {
-                    d.data.pos.domainWidth =  s.frm.width;
+
+                    d.data.pos.domainWidth = s.frm.width;
                     d.data.pos.domainHeight = s.frm.height;
-//                    console.log(d.data.pos.domainWidth, d.data.pos.domainHeight);
-//                    s.imgWidth = s.frm.width;
-//                    s.imgHeight = s.frm.height;
-//                s.frmScaleX =  attrs.width / s.imgWidth;
-//                s.frmScaleY =  attrs.height / s.imgHeight;
-                s.frm.height = 300;
-                s.frm.width =  300;
+                    s.imgWidth = s.frm.width;
+                    s.imgHeight = s.frm.height;
+                    s.frm.height = 300;
+                    s.frm.width =  300;
+
                EventService.broadcastSceneReady(d);
             };
 

@@ -1,5 +1,3 @@
-Linking from tracking positions to rp 
-
 Update brush selections when rp controls change
 
 Fix the scale of real life images

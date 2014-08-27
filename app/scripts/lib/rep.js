@@ -3,12 +3,17 @@
     version: "1.0.0"
   };
   rep.crp = function() {
-    var data = null, rpdata = null, rpimage = null, image = null, canvas = null, svgCanvas = {}, ctx = null, eps = .5, width = 100, height = 100, range = {
+    var data = null, rpdata = null, rpimage = null, image = null, canvas = null, ctx = null, svgCanvas = {}, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
       xs: 0,
       xe: 1,
       ys: 0,
       ye: 1
-    }, distfn = rep.norms.l2, imgWidth, imgHeight, activeDomain;
+    }, domain = {
+      xs: 0,
+      xe: width,
+      ys: 0,
+      ye: height
+    }, activeDomain, scaleX, scaleY;
     function initData(d) {
       var m = d.x.length, n = d.y.length;
       data = d;
@@ -45,6 +50,14 @@
     function updateScale() {
       imgWidth = data.x.length;
       imgHeight = data.y.length;
+      domain = {
+        xs: 0,
+        xe: imgWidth,
+        ys: 0,
+        ye: imgHeight
+      };
+      scaleX = d3.scale.linear().domain([ domain.xs, domain.xe ]).range([ 0, width ]);
+      scaleY = d3.scale.linear().domain([ domain.ys, domain.ye ]).range([ 0, height ]);
     }
     function initSvgCanvas(el) {
       svgCanvas.s = d3.select(el).append("svg").attr("id", "canvas-svg").attr("width", width).attr("height", height);
@@ -56,12 +69,13 @@
     }
     crp.activeDomain = function(e) {
       if (!arguments) return activeDomain;
-      var endX = Math.round(e[1][0]), endY = Math.round(e[1][1]), v;
+      var startX = Math.round(scaleX.invert(e[0][0])), endX = Math.round(scaleX.invert(e[1][0])), startY = Math.round(scaleY.invert(e[0][1])), endY = Math.round(scaleY.invert(e[1][1])), v;
+      console.log(startX, endX, startY, endY);
       activeDomain.forEach(function(d, k, a) {
         a[k] = 0;
       });
-      for (var j = Math.round(e[0][1]); j < endY; j++) {
-        for (var i = Math.round(e[0][0]); i < endX; i++) {
+      for (var j = startY; j < endY; j++) {
+        for (var i = startX; i < endX; i++) {
           v = rpdata[imgWidth * j + i];
           if (v > 0) {
             activeDomain[i] = 1;

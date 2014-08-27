@@ -8,4 +8,5 @@ dist
 .gitignore
 .gitattributes
 /*~
+app/todo.txt/*
 bower_components
