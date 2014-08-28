@@ -46,17 +46,17 @@ circle{
 
 
 
-input[type="range"] {
-    -webkit-appearance: none;
+/*input[type="range"] {*/
+    /*-webkit-appearance: none;*/
     /*background-color: black;*/
     /*height: 5px;*/
-}
+/*}*/
 
-input[type="range"]::-webkit-slider-thumb{
-    -webkit-appearance:none;
+/*input[type="range"]::-webkit-slider-thumb{*/
+    /*-webkit-appearance:none;*/
     /*background-color: #666;*/
-    height:5px !important;
-}
+    /*height:5px !important;*/
+/*}*/
 /*input[type='range'] {*/
     /*height:3px;*/
 /*}*/
@@ -79,7 +79,6 @@ input[type="range"]::-webkit-slider-thumb{
                        /*background: #fff;*/
                        /*box-shadow: 1px 1px 1px rgba(0,0,0,0.6);*/
                    /*}*/
-
 
 /*input[type="range"]::-webkit-slider-thumb {*/
     /*-webkit-appearance: none;*/
