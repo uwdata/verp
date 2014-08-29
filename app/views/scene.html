@@ -2,27 +2,42 @@
 
     <label class="viewname">{{frm.src}}</label>
     <div id="scene" class="img-with-label">
-       <scene-frame class="stacked" ng-style="imgStyle"></scene-frame>
-       <sp width="300" height="300" class="stacked" ng-style="spStyle"></sp>
+        <scene-frame class="stacked" ng-style="imgStyle"></scene-frame>
+        <sp width="300" height="300" class="stacked" ng-style="spStyle"></sp>
         <brush id="sp" width="300" height="300" ng-show="showTracking" class = "stacked"></brush>
     </div>
 
     <label ng-show = "!frm.src">Scene</label>
-     <div class="scene-info">
-            <div class="form-group" ng-show="frm.src">
-                <label class="checkbox">
-                    <input type="checkbox" ng-model="showTracking" ng-change="imgStyle={'opacity':0.5}"/>show tracking positions</label>
+    <div class="scene-info">
+        <div class="form-group" ng-show="frm.src">
+            <label class="checkbox">
+                <input type="checkbox" ng-model="showTracking" ng-change="imgStyle={'opacity':0.5}"/>show tracking positions</label>
 
-                    <input type="range"  min=0 step=0.1 max=1.0
-                           ng-model="imgOpacity"
-                           ng-change="imgStyle={'opacity':imgOpacity}" style="position:absolute;top:350px;width:150px;display:block"/>
+            <input type="range"  min="0" step="0.05" max="1.0"
+                   ng-model="imgOpacity"
+                   ng-change="imgStyle={'opacity':imgOpacity}" style="position:absolute;top:350px;width:150px;display:block"/>
 
-                     <input type="range"  min="0" step="0.1" max="1.0"
-                           ng-model="spOpacity"
-                           ng-init="spOpacity=1.0"
-                           ng-change="spStyle={'opacity':spOpacity}" style="position:absolute;top:375px;width:150px;display:block"/>
+            <input type="range"  min="0" step="0.05" max="1.0"
+                   ng-model="spOpacity"
+                   ng-init="spOpacity=1.0"
+                   ng-change="spStyle={'opacity':spOpacity}" style="position:absolute;top:375px;width:150px;display:block"/>
 
+            <div class="player" ng-show="frm.src"   style="position:absolute;top:395px;width:150px;display:block">
+
+                <input type="range"  min=0 step=0.05 max=1.0 ng-change="player.manual()" ng-model="player.currentTime" />
+
+                    <span class="btn-sm glyphicon glyphicon-backward" ng-click="player.backward()"></span>
+
+                    <span class="btn-sm glyphicon glyphicon-play"
+                          ng-class="{ 'glyphicon-play': !player.playing, 'glyphicon-pause': player.playing }"
+                          ng-click="player.playPause()"></span>
+
+                    <span class="btn-sm glyphicon glyphicon-forward" ng-click="player.forward()"></span>
+
+                <spap>{{player.currentTime}}</span>
             </div>
+
         </div>
+    </div>
 
 </div>

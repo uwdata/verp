@@ -31,7 +31,7 @@ angular.module('verpApp')
                 verp.value.push(verp.pos[i]);
             }
 
-            console.log(verp)
+//  console.log(verp)
 
         };
 
