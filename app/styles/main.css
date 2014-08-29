@@ -114,8 +114,11 @@ label{
     margin: 0 !important;
 }
 
-
+.slider{
+    width:95%;
+}
 
 .mainrow{
     height:400px;
+    margin-bottom:10px;
 }

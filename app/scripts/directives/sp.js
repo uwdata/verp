@@ -16,6 +16,14 @@ var postLink = function(scope, element, attrs) {
         sp = null;
 
 
+
+   function show(e,d){
+      var indx = d.currentTime,
+          cond = function(indx, i){return i>indx;};
+        if(sp!==null) sp.show(indx, cond);
+
+   }
+
    function cond(e,d,x,y){
        return !(e[0][0] > d[x] || d[x] > e[1][0]
            || e[0][1] > d[y] || d[y] > e[1][1]);
@@ -28,10 +36,11 @@ var postLink = function(scope, element, attrs) {
 
    function highlight(e,d){
 
-       console.log(d);
-
        if(sp) sp.highlight(d);
    }
+
+
+
 
    function update(e, d){
        if(sp === null) {
@@ -45,7 +54,7 @@ var postLink = function(scope, element, attrs) {
 
    scope.$on('scene.ready', update);
    scope.$on('rp.selection', highlight);
-
+   scope.$on('player.time', show);
 };
 
     return {

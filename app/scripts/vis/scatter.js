@@ -130,6 +130,24 @@ Scatter.prototype.interaction = function(e, f, frevert){
     interacts[e].push({on:f, off:frevert});
 };
 
+Scatter.prototype.show = function(indx,f){
+
+   var shapes = this.svg_.selectAll('.shape');
+
+     if(arguments.length === 2){
+            shapes.classed('hidden',
+                function (d, i){
+                return f(indx,i);
+            });
+     }else{
+         shapes.classed('hidden',
+                function (d, i){
+                return indx !== i ;
+            });
+     }
+
+};
+
 
 Scatter.prototype.highlight = function(a, f){
 

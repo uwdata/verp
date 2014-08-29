@@ -14,8 +14,14 @@ angular.module('verpApp')
             sceneBrush= {},
             rpSelection  = {},
             sceneSelection = {},
-            scene   = null;
+            scene   = null,
+            player = null;
 
+
+        var broadcastPlayerTimeChange = function broadcastPlayerTimeChange(d){
+            player = d;
+            $rootScope.$broadcast('player.time', player);
+        };
 
         var broadcastSceneReady = function broadcastSceneReady(d){
             scene = d;
@@ -49,7 +55,8 @@ angular.module('verpApp')
         return {
             broadcastRPBrush:broadcastRPBrush,
             broadcastSPBrush: broadcastSPBrush,
-            broadcastSceneReady:broadcastSceneReady
+            broadcastSceneReady:broadcastSceneReady,
+            broadcastPlayerTimeChange:broadcastPlayerTimeChange
         };
 
 

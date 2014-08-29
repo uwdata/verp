@@ -1,4 +1,26 @@
-<div class="row clearfix jumbotron">
-	<div class="col-md-12 column">Timeline</div>
+<div class="row clearfix jumbotron timeline" ng-controller="TimelineCtrl">
+
+	<div class="col-md-12 column nopadding">
+
+        <div class="player" ng-show="player.sceneReady" >
+
+                <input type="range"  min={{player.min}}
+                       step={{player.step}}
+                       max={{player.max}}
+                       ng-change="player.manual()"
+                       ng-model="player.currentTime" />
+
+            <div style="text-align:center">
+                    <span class="btn-sm glyphicon glyphicon-backward" ng-click="player.backward()"></span>
+                    <span class="btn-sm glyphicon glyphicon-play"
+                          ng-class="{ 'glyphicon-play': !player.playing, 'glyphicon-pause': player.playing }"
+                          ng-click="player.playPause()"></span>
+                    <span class="btn-sm glyphicon glyphicon-forward" ng-click="player.forward()"></span>
+                    <span style="font-size:10px">time:{{player.currentTime}}</span></div>
+
+                </div>
+            </div>
+
+    </div>
 </div>
 

@@ -33,6 +33,10 @@ circle{
     stroke-width:2;
 }
 
+.hidden circle{
+    display:none;
+}
+
 .highlight circle{
     fill:red;
     opacity:0.9;
@@ -40,9 +44,6 @@ circle{
     stroke-width:3;
 }
 
-.glyphicon:hover {
-    cursor:pointer;
-}
 
 
 
