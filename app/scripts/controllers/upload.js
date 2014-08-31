@@ -19,19 +19,30 @@ angular.module('verpApp')
                 indx2 = rest.indexOf('\n'),
                 tracking = rest.substring(indx2+1).split('\n'),
                 verp = {pos:[], value:[], time:[], frmid:[]},
-                n = tracking.length, i, row;
+                n = tracking.length, j = 0, i, row, p;
 
             verp.info = header;
 
             for (i=0; i < n; i++){
+
                 row = tracking[i].split('\t');
+
+                if(row.length  === 0 ||
+                    row === 'undefined') continue;
+
                 verp.frmid.push(0);
                 verp.time.push(+row[0]);
-                verp.pos.push(row.splice(3,4).map(function(d){return +d;}));
-                verp.value.push(verp.pos[i]);
+                p = row.splice(3,2);
+                p[0] = +p[0];
+                p[1] = +p[1];
+                verp.pos.push(p);
+                verp.value
+                    .push(verp.pos[j++]);
             }
 
-//  console.log(verp)
+            verp.pos = verp.pos.splice(0,verp.pos.length-1);
+
+            return verp;
 
         };
 
@@ -40,12 +51,26 @@ angular.module('verpApp')
             FileReader.readAsText($scope.file, $scope)
                 .then(function(result) {
 
-                    parseIDF(result);
+                    var t = $scope.file.name.split('.'),
+                       src = 'data/'+ t[0] + '.scn' ;
+
+                    if(t[t.length-1] === 'json')
 
                     DataService.scene(
                         {data: JSON.parse(result),
-                            src: 'data/'+$scope.file.name.split('.')[0] + '.scn'
+                            src: src
                         });
+
+                    else if(t[t.length-1] === 'idf'){
+
+                        console.log(parseIDF(result));
+
+                    DataService.scene(
+                        {data: parseIDF(result),
+                            src: src
+                        });
+                    }
+
                 });
 
         };

@@ -3,7 +3,7 @@
     version: "1.0.0"
   };
   rep.crp = function() {
-    var data = null, rpdata = null, rpimage = null, image = null, canvas = null, ctx = null, svgCanvas = {}, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
+    var data = null, rpdata = null, rpdataDirty = true, rpimage = null, buf = null, buf8 = null, data32 = null, image = null, canvas = null, ctx = null, svgCanvas = {}, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
       xs: 0,
       xe: 1,
       ys: 0,
@@ -14,27 +14,41 @@
       ys: 0,
       ye: height
     }, activeDomain, scaleX, scaleY;
+    function initArray(a, v) {
+      var n = a.length, i = 0;
+      for (;i < n; ++i) a[i] = v;
+    }
     function initData(d) {
-      var m = d.x.length, n = d.y.length;
+      imgWidth = d.x.length;
+      imgHeight = d.y.length;
       data = d;
-      rpdata = Array.apply(null, new Array(m * n)).map(Number.prototype.valueOf, 0);
-      activeDomain = Array.apply(null, new Array(m)).map(Number.prototype.valueOf, 1);
+      var s = imgWidth * imgHeight;
+      rpdata = new Float32Array(s);
+      activeDomain = new Uint8Array(s);
+      rpdataDirty = true;
+      buf = new ArrayBuffer(s * 4);
+      buf8 = new Uint8ClampedArray(buf);
+      data32 = new Uint32Array(buf);
+      ctx.clearRect(0, 0, width, height);
+      rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
     }
     function crp(d, el) {
-      initData(d);
-      updateScale();
       canvas = d3.select(el).append("canvas").attr("width", width).attr("height", height).node();
       ctx = canvas.getContext("2d");
+      initData(d);
+      updateScale();
       initSvgCanvas(el);
       image = new Image();
       update();
       return crp;
     }
     function update() {
-      ctx.clearRect(0, 0, width, height);
-      rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
-      rpdata = rep_rp(rpdata, data, distfn, eps);
-      rep.toimg(rpdata, rpimage.data);
+      if (rpdataDirty === true) {
+        rpdata = rep_rp(rpdata, data, distfn);
+        rpdataDirty = false;
+      }
+      rep.toimg(rpdata, data32, imgWidth, imgHeight, eps);
+      rpimage.data.set(buf8);
       ctx.putImageData(rpimage, 0, 0);
       ctx.imageSmoothingEnabled = false;
       image.src = canvas.toDataURL();
@@ -70,10 +84,7 @@
     crp.activeDomain = function(e) {
       if (!arguments) return activeDomain;
       var startX = Math.round(scaleX.invert(e[0][0])), endX = Math.round(scaleX.invert(e[1][0])), startY = Math.round(scaleY.invert(e[0][1])), endY = Math.round(scaleY.invert(e[1][1])), v;
-      console.log(startX, endX, startY, endY);
-      activeDomain.forEach(function(d, k, a) {
-        a[k] = 0;
-      });
+      initArray(activeDomain, 0);
       for (var j = startY; j < endY; j++) {
         for (var i = startX; i < endX; i++) {
           v = rpdata[imgWidth * j + i];
@@ -99,8 +110,14 @@
     };
     crp.distfn = function(_) {
       if (!arguments.length) return distfn;
-      var t = typeof _;
-      if (t === "string") distfn = rep.norms._ ? rep.norms._ : rep.norms.l2; else if (t === "function") distfn = _; else {
+      var old = distfn, t = typeof _;
+      if (t === "string") {
+        distfn = rep.norms[_] !== "undefined" ? rep.norms[_] : rep.norms.l2;
+        rpdataDirty = true;
+      } else if (t === "function") {
+        distfn = _;
+        rpdataDirty = true;
+      } else {
         console.warn("Incorrect form of the distance function!");
         console.warn("Reverting back to the default, Euclidean distance");
       }
@@ -162,20 +179,22 @@
     };
     return crp;
   };
-  function rep_rp(a, d, fn, eps) {
-    var x = d.x, y = d.y, n = x.length, i, j;
-    for (i = 0; i < n; i++) for (j = 0; j < n; j++) a[n * i + j] = rep_theta(fn(x[i], y[j]), eps);
+  function rep_rp(a, d, fn) {
+    console.log("computing the distance matrix");
+    var x = d.x, y = d.y, n = x.length, m = y.length, i, j;
+    for (i = 0; i < m; i++) for (j = 0; j < n; j++) a[n * i + j] = fn(x[i], y[j]);
     return a;
   }
-  function rep_theta(d, eps) {
-    return d <= eps ? 1 : 0;
-  }
-  rep.toimg = function(data, img) {
-    var n = data.length, i, j, v;
-    for (i = 0; i < n; i++) {
-      v = 255 * data[i];
-      for (j = 0; j < 3; j++) img[4 * i + j] = v;
-      img[4 * i + j] = 255;
+  rep.toimg = function(data, img, w, h, eps) {
+    var i, j, k, k2, v;
+    for (i = 0; i < h; i++) {
+      for (j = i; j < w; j++) {
+        k = i * w + j;
+        v = data[k] <= eps ? 255 : 0;
+        img[k] = 255 << 24 | v << 16 | v << 8 | v;
+        k2 = j * w + i;
+        img[k2] = img[k];
+      }
     }
   };
   rep.norms = {

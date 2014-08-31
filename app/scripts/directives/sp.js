@@ -45,7 +45,7 @@ var postLink = function(scope, element, attrs) {
    function update(e, d){
        if(sp === null) {
            sp = new Scatter(d.data.pos, element[0], {width: w,  height: h,
-               scale: {x: 0.5, y: 0.5}, k: {x: 0, y: 1}});
+               scale: {x: 0.5, y: 0.5}, k: {x:0, y:1}});
            DataService.service('spSelection', condHighlight);
        }else {
            sp.update(d.data.pos);

@@ -82,7 +82,7 @@ Scatter.prototype.update = function(data, key){
 
     //update
     c.transition().duration(1000)
-        .attr('transform', function(d){
+        .attr('transform', function(d,i){
             return 'translate('+x(d[k.x]) + ',' + y(d[k.y]) + ') ' +
                 'scale(' + sx + ',' + sy + ')';
         })
@@ -91,7 +91,7 @@ Scatter.prototype.update = function(data, key){
     c.enter()//create
         .append('g')
         .attr('class', 'shape')
-        .attr('transform', function(d){
+        .attr('transform', function(d,i){
             return 'translate('+x(d[k.x]) + ',' + y(d[k.y]) + ') ' +
                 'scale(' + sx + ',' + sy + ')';
         })
