@@ -7,20 +7,20 @@
  * # sceneFrame
  */
 angular.module('verpApp')
-  .directive('sceneFrame', function (EventService) {
+    .directive('sceneFrame', function (EventService) {
 
 
         var sceneFrameLink= function(scope, element, attrs){
 
-       var s = scope;
-        s.frm = new Image();
-        s.frmScaleX = 1;
-        s.frmScaleY = 1;
+            var s = scope;
+            s.frm = new Image();
+            s.frmScaleX = 1;
+            s.frmScaleY = 1;
 
 
             element[0].appendChild(scope.frm);
 
-             function sceneUpdate(e,d){
+            function sceneUpdate(e,d){
 
                 s.frm.onload  = function() {
 
@@ -31,21 +31,22 @@ angular.module('verpApp')
                     s.frm.height = 300;
                     s.frm.width =  300;
 
-               EventService.broadcastSceneReady(d);
+                    EventService.broadcastSceneReady(d);
 
-            };
+                };
 
-                 s.frm.src = d.src + '/frm-0.png';
-             }
+                s.frm.src = '/data/'+d.src;
+            }
+
             scope.$on('scene.update', sceneUpdate);
 
         };
 
-    return {
-      template: '<div></div>',
-      restrict: 'E',
-      replace:true,
-      link:sceneFrameLink
-      }
+        return {
+            template: '<div></div>',
+            restrict: 'E',
+            replace:true,
+            link:sceneFrameLink
+        }
 
     });

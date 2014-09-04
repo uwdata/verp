@@ -10,6 +10,19 @@
 angular.module('verpApp')
     .controller('UploadCtrl', function ($scope, FileReader, DataService) {
 
+        var coordXform = function(d){
+
+       var  cw = 1680, ch = 1050,  w = d.domainWidth, h = d.domainHeight,
+           tx = -(cw -w)*0.5, ty = -(ch-h)*0.5, i;
+
+       for (i = 0; i < d.length; i++){
+          if(!(Math.abs(d[i][0]) < 0.001 && Math.abs(d[i][1]) < 0.001)) {
+              d[i][0] += tx;
+              d[i][1] += ty;
+          }
+       }
+
+   };
 
         var parseIDF = function(txt){
 
@@ -33,13 +46,8 @@ angular.module('verpApp')
                 verp.frmid.push(0);
                 verp.time.push(+row[0]);
                 p = row.splice(3,2);
-                // gawande_pea_q1_p2,  1000 707
-                // gawande_vtvf_q2_p1, 1000 696
-                // dynamic_pea_q1_p6, 2560 1440
-                // colorblock_vtvf_q2_p1, 772 1000
                 p[0] = +p[0];
                 p[1] = +p[1];
-
                 verp.pos.push(p);
                 verp.value
                     .push(verp.pos[j++]);
@@ -48,7 +56,7 @@ angular.module('verpApp')
 
             verp.pos = verp.pos.splice(0,verp.pos.length-1);
 
-            console.log(verp.pos.length);
+            verp.pos.coordXform =  coordXform;
 
             return verp;
         };
@@ -59,9 +67,12 @@ angular.module('verpApp')
                 .then(function(result) {
 
                     var t = $scope.file.name.split('.'),
-                        src = 'data/'+ t[0] + '.scn' ;
+                        src = t[0] + '.png' ;
 
-                    if(t[t.length-1] === 'json')
+                    console.log($scope.file.name);
+                    console.log($scope.file);
+
+                    if(t[t.length - 1] === 'json')
 
                         DataService.scene(
                             {data: JSON.parse(result),
@@ -69,8 +80,6 @@ angular.module('verpApp')
                             });
 
                     else if(t[t.length-1] === 'idf'){
-
-//                        console.log(parseIDF(result));
 
                         DataService.scene(
                             {data: parseIDF(result),
@@ -82,9 +91,6 @@ angular.module('verpApp')
 
         };
 
-//       $scope.$on("fileProgress", function(e, progress) {
-//           $scope.progress = progress.loaded / progress.total;
-//       });
 
     }).directive('fileSelect', function(){
 

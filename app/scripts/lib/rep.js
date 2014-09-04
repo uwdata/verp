@@ -3,7 +3,7 @@
     version: "1.0.0"
   };
   rep.crp = function() {
-    var data = null, rpdata = null, rpdataDirty = true, rpimage = null, buf = null, buf8 = null, data32 = null, image = null, canvas = null, ctx = null, svgCanvas = {}, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
+    var data = null, rpdata = null, rpdataDirty = true, rpimage = null, buf = null, buf8 = null, data32 = null, image = null, canvas = null, canvasOffScreen = null, offScreenDirty = true, ctx = null, ctxOffScreen = null, svgCanvas = {}, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
       xs: 0,
       xe: 1,
       ys: 0,
@@ -19,8 +19,6 @@
       for (;i < n; ++i) a[i] = v;
     }
     function initData(d) {
-      imgWidth = d.x.length;
-      imgHeight = d.y.length;
       data = d;
       var s = imgWidth * imgHeight;
       rpdata = new Float32Array(s);
@@ -29,41 +27,42 @@
       buf = new ArrayBuffer(s * 4);
       buf8 = new Uint8ClampedArray(buf);
       data32 = new Uint32Array(buf);
-      ctx.clearRect(0, 0, width, height);
-      rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
+      ctx.globalCompositeOperation = "source-over";
+      ctx.imageSmoothingEnabled = false;
+      ctxOffScreen.imageSmoothingEnabled = false;
+      rpimage = ctxOffScreen.getImageData(0, 0, imgWidth, imgHeight);
     }
-
     function crp(d, el) {
+      imgWidth = d.x.length;
+      imgHeight = d.y.length;
+      canvasOffScreen = document.createElement("canvas");
+      canvasOffScreen.width = imgWidth;
+      canvasOffScreen.height = imgHeight;
+      ctxOffScreen = canvasOffScreen.getContext("2d");
       canvas = d3.select(el).append("canvas").attr("width", width).attr("height", height).node();
       ctx = canvas.getContext("2d");
       initData(d);
       updateScale();
       initSvgCanvas(el);
-      image = new Image();
       update();
       return crp;
     }
-    function update() {
-      ctx.clearRect(0, 0, width, height);
-      rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
-      if (rpdataDirty === true) {
-        rpdata = rep_rp(rpdata, data, distfn);
-        rpdataDirty = false;
-      }
-      rep.toimg(rpdata, data32, imgWidth, imgHeight, eps);
+    function renderOffScreen() {
       rpimage.data.set(buf8);
-      ctx.putImageData(rpimage, 0, 0);
-      ctx.imageSmoothingEnabled = false;
-      image.src = canvas.toDataURL();
-      ctx.drawImage(image, ~~(range.xs * imgWidth), ~~(range.ys * imgHeight), ~~((range.xe - range.xs) * imgWidth), ~~((range.ye - range.ys) * imgHeight), 0, 0, width, height);
+      ctxOffScreen.putImageData(rpimage, 0, 0);
+      offScreenDirty = false;
     }
-    function updateNoDist() {
-      ctx.clearRect(0, 0, width, height);
-      rpimage.data.set(buf8);
-      ctx.putImageData(rpimage, 0, 0);
-      ctx.imageSmoothingEnabled = false;
-      image.src = canvas.toDataURL();
-      ctx.drawImage(image, ~~(range.xs * imgWidth), ~~(range.ys * imgHeight), ~~((range.xe - range.xs) * imgWidth), ~~((range.ye - range.ys) * imgHeight), 0, 0, width, height);
+    function updateRP() {
+      rpdata = rep_rp(rpdata, data, distfn);
+      rep.toimg(rpdata, data32, imgWidth, imgHeight, eps);
+      rpdataDirty = false;
+      offScreenDirty = true;
+    }
+    function update() {
+      if (rpdataDirty === true) updateRP();
+      if (offScreenDirty === true) renderOffScreen();
+      var dx = scaleX.domain(), dy = scaleY.domain();
+      ctx.drawImage(canvasOffScreen, dx[0], dy[0], dx[1] - dx[0], dy[1] - dy[0], 0, 0, width, height);
     }
     function updateScale() {
       imgWidth = data.x.length;
@@ -102,7 +101,6 @@
     };
     crp.update = function() {
       if (data !== null) {
-        updateScale();
         update();
       }
       return crp;
@@ -124,23 +122,25 @@
     };
     crp.eps = function(_) {
       if (!arguments.length) return eps;
-      eps = _;
+      eps = +_;
       return crp;
     };
     crp.width = function(_) {
       if (!arguments.length) return width;
-      width = _;
+      width = +_;
       return crp;
     };
     crp.height = function(_) {
       if (!arguments.length) return height;
-      height = _;
+      height = +_;
       return crp;
     };
     crp.range = function(_) {
       if (!arguments.length) return range;
       range = _;
-      var xs = ~~(range.xs * imgWidth), ys = ~~(range.ys * imgHeight), xe = ~~((range.xe - range.xs) * imgWidth), ye = ~~((range.ye - range.ys) * imgHeight);
+      var xs = ~~(range.xs * imgWidth), ys = ~~(range.ys * imgHeight), xe = ~~(range.xe * imgWidth), ye = ~~(range.ye * imgHeight);
+      scaleX.domain([ xs, xe ]);
+      scaleY.domain([ ys, ye ]);
       svgCanvas.xsLabel.text(xs + "");
       svgCanvas.xeLabel.text(xe + "");
       svgCanvas.ysLabel.text(ys + "");
@@ -153,6 +153,7 @@
       return crp;
     };
     crp.highlight = function(_) {
+      offScreenDirty = true;
       if (_ === null || _.length === 0) {
         update();
         return;
@@ -168,7 +169,7 @@
           d[s2] = d[s1];
         }
       }
-      updateNoDist();
+      update();
     };
     return crp;
   };
