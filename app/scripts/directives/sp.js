@@ -30,25 +30,47 @@ var postLink = function(scope, element, attrs) {
    }
 
    function condHighlight(d){
-      console.log('condHighlight');
        return (sp===null) ? null : sp.highlight(d, cond);
    }
+
 
    function highlight(e,d){
 
        if(sp) sp.highlight(d);
    }
 
+   function coordXform(d){
 
+       var  cw = 1680, ch = 1050,  w = d.domainWidth, h = d.domainHeight,
+           tx = -(cw -w)*0.5, ty = -(ch-h)*0.5, i;
 
+       for (i = 0; i < d.length; i++){
+           d[i][0] += tx;
+           d[i][1] += ty;
+       }
+
+   }
 
    function update(e, d){
+
        if(sp === null) {
-           sp = new Scatter(d.data.pos, element[0], {width: w,  height: h,
-               scale: {x: 0.5, y: 0.5}, k: {x:0, y:1}});
+
+           //transform when scene ready
+           coordXform(d.data.pos);
+
+           sp = new Scatter(d.data.pos,
+               element[0],
+               {width: w,  height: h,
+                scale: {x: 0.5, y: 0.5},
+                    k: {x:0, y:1}
+               });
+
            DataService.service('spSelection', condHighlight);
+
        }else {
+
            sp.update(d.data.pos);
+
        }
    }
 

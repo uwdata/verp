@@ -154,7 +154,6 @@ Scatter.prototype.highlight = function(a, f){
     var h = this.highlighted_,
         p = this.p_, v;
 
-    console.log(arguments.length);
 
     if(arguments.length === 2) {
 

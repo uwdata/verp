@@ -21,6 +21,7 @@ angular.module('verpApp')
             element[0].appendChild(scope.frm);
 
              function sceneUpdate(e,d){
+
                 s.frm.onload  = function() {
 
                     d.data.pos.domainWidth = s.frm.width;
@@ -31,6 +32,7 @@ angular.module('verpApp')
                     s.frm.width =  300;
 
                EventService.broadcastSceneReady(d);
+
             };
 
                  s.frm.src = d.src + '/frm-0.png';

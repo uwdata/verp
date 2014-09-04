@@ -32,6 +32,7 @@
       ctx.clearRect(0, 0, width, height);
       rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
     }
+
     function crp(d, el) {
       canvas = d3.select(el).append("canvas").attr("width", width).attr("height", height).node();
       ctx = canvas.getContext("2d");
@@ -43,6 +44,8 @@
       return crp;
     }
     function update() {
+      ctx.clearRect(0, 0, width, height);
+      rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
       if (rpdataDirty === true) {
         rpdata = rep_rp(rpdata, data, distfn);
         rpdataDirty = false;
@@ -56,6 +59,7 @@
     }
     function updateNoDist() {
       ctx.clearRect(0, 0, width, height);
+      rpimage.data.set(buf8);
       ctx.putImageData(rpimage, 0, 0);
       ctx.imageSmoothingEnabled = false;
       image.src = canvas.toDataURL();
@@ -88,18 +92,13 @@
       for (var j = startY; j < endY; j++) {
         for (var i = startX; i < endX; i++) {
           v = rpdata[imgWidth * j + i];
-          if (v > 0) {
+          if (v <= eps) {
             activeDomain[i] = 1;
             activeDomain[j] = 1;
           }
         }
       }
       return activeDomain;
-    };
-    crp.resetActiveDomain = function() {
-      activeDomain.forEach(function(d, i, a) {
-        a[i] = 0;
-      });
     };
     crp.update = function() {
       if (data !== null) {
@@ -158,21 +157,15 @@
         update();
         return;
       }
-      rpimage = ctx.getImageData(0, 0, imgWidth, imgHeight);
-      var d = rpimage.data, a = [ 255, 0, 0 ], indx1, indx2, s1, s2, f, v;
+      var d = data32, rp = rpdata, b = [ 255, 0, 0 ], s1, s2, f, v;
       for (var i = 0; i < imgHeight; i++) {
         for (var j = i; j < imgWidth; j++) {
           s1 = imgWidth * i + j;
           s2 = imgWidth * j + i;
-          indx1 = 4 * s1;
-          indx2 = 4 * s2;
+          v = rp[s1] <= eps ? 255 : 0;
           f = _[i] === 1 && _[j] === 1;
-          for (var k = 0; k < 3; k++) {
-            v = 255 * rpdata[s1];
-            d[indx1 + k] = f === true ? .5 * (a[k] + v) : v;
-            d[indx2 + k] = d[indx1 + k];
-          }
-          d[indx2 + k] = d[indx1 + k] = 255;
+          d[s1] = f === true ? 255 << 24 | .5 * (v + b[2]) << 16 | .5 * (v + b[1]) << 8 | .5 * (v + b[0]) : 255 << 24 | v << 16 | v << 8 | v;
+          d[s2] = d[s1];
         }
       }
       updateNoDist();

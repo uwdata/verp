@@ -38,7 +38,7 @@ angular.module('verpApp')
             }
 
             function  highlight(e,d){
-               if(rp) rp.highlight(d);
+                if(rp) rp.highlight(d);
             }
 
             function  updateRange(e,d){

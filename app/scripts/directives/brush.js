@@ -13,7 +13,6 @@ angular.module('verpApp')
 
 
            function brushed(){
-//               if(!brush.empty())
                    EventService['broadcast'+(attrs.id.toUpperCase())+'Brush'](brush.extent());
            }
 
