@@ -8,7 +8,7 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-    .controller('RecurrenceCtrl', function ($scope, DataService) {
+    .controller('RecurrenceCtrl', function ($scope, $timeout, EventService) {
         $scope.rpPanelSize = [200, 300];
         $scope.eps = 50;
         $scope.epsmin = 0;
@@ -17,6 +17,17 @@ angular.module('verpApp')
         $scope.distfn = 'l2';
         $scope.brush = {};
         $scope.brush.lock = true;
+        $scope.epsFiltering = false;
+
+        $scope.epsFilteringChange  = function (){
+            EventService.broadcastEpsFilteringChange({eps:parseInt($scope.eps,10), epsFiltering:$scope.epsFiltering});
+        };
+
+        $scope.epsChange  = function (){
+            if($scope.epsFiltering === true) {
+                $timeout(function(){EventService.broadcastEpsChange({eps: parseInt($scope.eps, 10), epsFiltering: $scope.epsFiltering});},50);
+            }
+        };
 
 
     }).directive('xbrush', function($rootScope){

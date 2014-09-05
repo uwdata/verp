@@ -2,13 +2,13 @@
 
     <div class="row clearfix">
 
-        <div class="col-md-7 column">
+        <div class="col-md-8 column" style="padding-left:70px">
             <label class="viewname">RP</label>
-           <rp width="300" height="300" class="stacked"></rp>
-           <brush id="rp" width="300" height="300" class = "stacked"></brush>
+           <rp width="500" height="500" class="stacked"></rp>
+           <brush id="rp" width="500" height="500" class = "stacked"></brush>
         </div>
 
-        <div class="col-md-5 column nopadding" >
+        <div class="col-md-4 column" style="padding-left:30px;padding-right:0px" >
             <form  role="form" class="form" >
                 <div class="form-group slider">
                     <div style="display:block"><label>epsilon</label></div>
@@ -16,8 +16,21 @@
                     <label class="numinput">step:</label><input type="number" id="max-input" value="{{epsstep}}" ng-model="epsstep">
                     <label class="numinput">max:</label><input type="number" id="step-input" value="{{epsmax}}" ng-model="epsmax">
 
-                    <input type="range" min="{{epsmin}}" step="{{epsstep}}" max="{{epsmax}}"  value="{{eps}}" ng-model=eps ng-change="update()"/>
+                    <input type="range"
+                           min="{{epsmin}}"
+                           step="{{epsstep}}"
+                           max="{{epsmax}}"
+                           value="{{eps}}"
+                           ng-model="eps"
+                           ng-change="epsChange()"/>
                     <label style="display:block;text-align:center">{{eps}}</label>
+                       <label class="checkbox">
+                           epsilon filtering
+                           <input type="checkbox"
+                           ng-model="epsFiltering"
+                           ng-change="epsFilteringChange()"/>
+                       </label>
+
                 </div>
                 <label>distance functions</label>
                 <div class="form-group">
@@ -43,7 +56,5 @@
             <xbrush axis="y"></xbrush>
             <label>embedding dimensions</label>
         </div>
-
-
     </div>
 </div>

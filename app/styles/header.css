@@ -1,0 +1,16 @@
+.page-header{
+    padding-bottom: 1px;
+    margin: 5px 0 10px;
+
+}
+
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-top: 5px;
+    margin-bottom:1px;
+}
+
+.nav li:hover{
+    background-color: #ffcfa3;
+    border-radius:10px;
+    transition: background-color 1s linear;
+}

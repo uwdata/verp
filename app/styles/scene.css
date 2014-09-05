@@ -12,10 +12,11 @@
     text-align:left ! important;
 }
 
-.scene-info label{
-    position:absolute;
+.scene-info{
+position:absolute;
+    top:520px;
+    width:150px;
     display:block;
-    top:320px;
 }
 
 .rectbrush .extent {
@@ -35,6 +36,11 @@ circle{
 
 .hidden circle{
     display:none;
+}
+
+
+.ghost circle{
+    opacity:0.05;
 }
 
 .highlight circle{

@@ -15,7 +15,6 @@ angular.module('verpApp')
                 h = attrs.height,
                 rp = null;
 
-
            function  init(){
                rp = rep.crp()
                     .width(w)
@@ -28,10 +27,13 @@ angular.module('verpApp')
 
               var dd= {x: scene.data.value, y: scene.data.value};
 
+
               if(rp === null) {
                   init();
                   rp(dd, element[0]);
                   DataService.service('rpSelection', rp.activeDomain);
+                  DataService.service('rpEpsNet', rp.epsnet)
+
               }else{
                   rp.data(dd).update();
               }
@@ -46,6 +48,7 @@ angular.module('verpApp')
             }
 
             function  updateEps(n,o){
+              n = parseInt(n,10);
               if(rp) rp.eps(n).update();
             }
 
@@ -56,6 +59,7 @@ angular.module('verpApp')
             scope.$on('scene.ready', update);
             scope.$on('sp.selection', highlight);
             scope.$on('range.update', updateRange);
+//            scope.$on('rp.eps', updateEps);
             scope.$watch('eps', updateEps);
             scope.$watch('distfn', updateDistfn);
 

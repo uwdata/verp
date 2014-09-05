@@ -22,8 +22,6 @@ angular.module('verpApp')
         };
 
 
-
-
         $scope.$on('scene.ready', function(e,d){
             var p = $scope.player;
             p.sceneReady = true;

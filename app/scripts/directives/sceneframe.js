@@ -28,8 +28,8 @@ angular.module('verpApp')
                     d.data.pos.domainHeight = s.frm.height;
                     s.imgWidth = s.frm.width;
                     s.imgHeight = s.frm.height;
-                    s.frm.height = 300;
-                    s.frm.width =  300;
+                    s.frm.height = attrs.height;
+                    s.frm.width =  attrs.width;
 
                     EventService.broadcastSceneReady(d);
 

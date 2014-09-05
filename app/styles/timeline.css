@@ -7,10 +7,10 @@
     cursor:pointer;
 }
 .timeline{
-    /*background-color: #fafafa;*/
     padding-top:20px!important;
     padding-bottom:10px!important;
-    margin-top:0px!important;
+    margin-top:10px!important;
+    border-radius:20px;
     opacity:0;
     -webkit-transition: visibility 0.2s linear, opacity 0.2s linear;
 -moz-transition: visibility 0.2s linear, opacity 0.2s linear;

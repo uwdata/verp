@@ -10,7 +10,8 @@
 angular.module('verpApp')
     .factory('EventService', function ($rootScope, DataService) {
 
-        var rpBrush = {},
+        var rp = {},
+            rpBrush = {},
             sceneBrush= {},
             rpSelection  = {},
             sceneSelection = {},
@@ -28,11 +29,38 @@ angular.module('verpApp')
             $rootScope.$broadcast('scene.ready', scene)
         };
 
+        var broadcastEpsChange = function broadcastEpsChange(d) {
+            var func;
+            rp.eps = d.eps;
+            rp.epsFiltering = d.epsFiltering;
+            func = DataService.service('rpEpsNet');
+
+            rp.epsNet = func();
+
+            $rootScope.$broadcast('rp.eps', rp);
+        };
+
+
+        var broadcastEpsFilteringChange = function broadcastEpsFilteringChange(d) {
+            var func;
+            rp.eps = d.eps;
+            rp.epsFiltering = d.epsFiltering;
+
+            if(rp.epsFiltering === true) {
+                func = DataService.service('rpEpsNet');
+
+                rp.epsNet = func();
+
+            }
+            $rootScope.$broadcast('rp.epsfilter', rp);
+
+        };
+
 
         var broadcastRPBrush  = function broadcastRPBrush(d){
             rpBrush.data = d;
-            var f = DataService.service('rpSelection');
-            broadcastRPSelection( f(rpBrush.data) );
+            var func = DataService.service('rpSelection');
+            broadcastRPSelection( func(rpBrush.data) );
         };
 
         var broadcastRPSelection = function broadcastRPSelection(d){
@@ -42,8 +70,8 @@ angular.module('verpApp')
 
         var broadcastSPBrush = function braodcastSPBrush(d){
             sceneBrush.data = d;
-            var f = DataService.service('spSelection');
-            broadcastSPSelection( f(sceneBrush.data) )
+            var func = DataService.service('spSelection');
+            broadcastSPSelection( func(sceneBrush.data) )
         };
 
         var broadcastSPSelection = function braodcastSPSelection(d){
@@ -56,7 +84,9 @@ angular.module('verpApp')
             broadcastRPBrush:broadcastRPBrush,
             broadcastSPBrush: broadcastSPBrush,
             broadcastSceneReady:broadcastSceneReady,
-            broadcastPlayerTimeChange:broadcastPlayerTimeChange
+            broadcastPlayerTimeChange:broadcastPlayerTimeChange,
+            broadcastEpsChange:broadcastEpsChange,
+            broadcastEpsFilteringChange: broadcastEpsFilteringChange
         };
 
 

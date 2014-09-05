@@ -1,9 +1,9 @@
-<div class="col-md-5 column" ng-controller="SceneCtrl">
+<div class="col-md-5 column nopadding" style="padding-left:10px" ng-controller="SceneCtrl">
     <label class="viewname">{{frm.src}}</label>
     <div id="scene" class="img-with-label">
-        <scene-frame class="stacked" ng-style="imgStyle"></scene-frame>
-        <sp width="300" height="300" class="stacked" ng-style="spStyle"></sp>
-        <brush id="sp" width="300" height="300" ng-show="showTracking" class = "stacked"></brush>
+        <scene-frame class="stacked"  width="650" height="500" ng-style="imgStyle"></scene-frame>
+        <sp width="650" height="500" class="stacked" ng-style="spStyle"></sp>
+        <brush id="sp" width="650" height="500" ng-show="showTracking" class = "stacked"></brush>
     </div>
 
     <label ng-show = "!frm.src">Scene</label>
@@ -14,12 +14,12 @@
 
             <input type="range"  min="0" step="0.05" max="1.0"
                    ng-model="imgOpacity"
-                   ng-change="imgStyle={'opacity':imgOpacity}" style="position:absolute;top:350px;width:150px;display:block"/>
+                   ng-change="imgStyle={'opacity':imgOpacity}"/>
 
             <input type="range"  min="0" step="0.05" max="1.0"
                    ng-model="spOpacity"
                    ng-init="spOpacity=1.0"
-                   ng-change="spStyle={'opacity':spOpacity}" style="position:absolute;top:375px;width:150px;display:block"/>
+                   ng-change="spStyle={'opacity':spOpacity}"/>
 
         </div>
     </div>

@@ -3,7 +3,7 @@
     version: "1.0.0"
   };
   rep.crp = function() {
-    var data = null, rpdata = null, rpdataDirty = true, rpimage = null, buf = null, buf8 = null, data32 = null, image = null, canvas = null, canvasOffScreen = null, offScreenDirty = true, ctx = null, ctxOffScreen = null, svgCanvas = {}, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
+    var data = null, rpdata = null, rpdataDirty = true, rpimage = null, buf = null, buf8 = null, data32 = null, canvas = null, canvasOffScreen = null, offScreenDirty = true, ctx = null, ctxOffScreen = null, svgCanvas = {}, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
       xs: 0,
       xe: 1,
       ys: 0,
@@ -13,16 +13,17 @@
       xe: width,
       ys: 0,
       ye: height
-    }, activeDomain, scaleX, scaleY;
-    function initArray(a, v) {
+    }, activeDomain, epsnet, scaleX, scaleY;
+    function initArray(a, val) {
       var n = a.length, i = 0;
-      for (;i < n; ++i) a[i] = v;
+      for (;i < n; ++i) a[i] = val;
     }
     function initData(d) {
       data = d;
       var s = imgWidth * imgHeight;
       rpdata = new Float32Array(s);
-      activeDomain = new Uint8Array(s);
+      activeDomain = new Uint8Array(imgWidth);
+      epsnet = new Uint8Array(imgWidth);
       rpdataDirty = true;
       buf = new ArrayBuffer(s * 4);
       buf8 = new Uint8ClampedArray(buf);
@@ -54,7 +55,8 @@
     }
     function updateRP() {
       rpdata = rep_rp(rpdata, data, distfn);
-      rep.toimg(rpdata, data32, imgWidth, imgHeight, eps);
+      initArray(epsnet, 0);
+      rep.toimg(rpdata, data32, imgWidth, imgHeight, eps, epsnet);
       rpdataDirty = false;
       offScreenDirty = true;
     }
@@ -84,8 +86,11 @@
       svgCanvas.ysLabel = s.append("text").attr("class", "rplabel").attr("dy", "1em").attr("dx", "-0.25em").attr("text-anchor", "end").text("0");
       svgCanvas.yeLabel = s.append("text").attr("class", "rplabel").attr("dx", "-0.25em").attr("dy", height).attr("text-anchor", "end").text("300");
     }
+    crp.epsnet = function() {
+      return epsnet;
+    };
     crp.activeDomain = function(e) {
-      if (!arguments) return activeDomain;
+      if (!arguments.length) return activeDomain;
       var startX = Math.round(scaleX.invert(e[0][0])), endX = Math.round(scaleX.invert(e[1][0])), startY = Math.round(scaleY.invert(e[0][1])), endY = Math.round(scaleY.invert(e[1][1])), v;
       initArray(activeDomain, 0);
       for (var j = startY; j < endY; j++) {
@@ -123,6 +128,7 @@
     crp.eps = function(_) {
       if (!arguments.length) return eps;
       eps = +_;
+      rpdataDirty = true;
       return crp;
     };
     crp.width = function(_) {
@@ -173,53 +179,65 @@
     };
     return crp;
   };
-  function rep_rp(a, d, fn) {
-    console.log("computing the distance matrix");
+  function rep_rp(a, d, func) {
     var x = d.x, y = d.y, n = x.length, m = y.length, i, j;
-    for (i = 0; i < m; i++) for (j = 0; j < n; j++) a[n * i + j] = fn(x[i], y[j]);
+    for (i = 0; i < m; i++) for (j = 0; j < n; j++) a[n * i + j] = func(x[i], y[j]);
     return a;
   }
-  rep.toimg = function(data, img, w, h, eps) {
+  rep.toimg = function(data, img, w, h, eps, epsnet) {
+    console.log(eps);
     var i, j, k, k2, v;
-    for (i = 0; i < h; i++) {
-      for (j = i; j < w; j++) {
+    for (i = 0; i < h - 1; i++) {
+      img[i * w + i] = 255 << 24 | 255 << 16 | 255 << 8 | 255;
+      for (j = i + 1; j < w; j++) {
         k = i * w + j;
         v = data[k] <= eps ? 255 : 0;
+        if (v > 0) {
+          epsnet[i] = 1;
+          epsnet[j] = 1;
+        }
         img[k] = 255 << 24 | v << 16 | v << 8 | v;
         k2 = j * w + i;
         img[k2] = img[k];
       }
     }
+    img[i * w + i] = 255 << 24 | 255 << 16 | 255 << 8 | 255;
   };
   rep.norms = {
     l1: rep_dist_l1,
     l2: rep_dist_l2,
     max: rep_dist_max,
-    min: rep_dist_min
+    min: rep_dist_min,
+    edit: rep_dist_edit
   };
-  function rep_dist_l2(a, b) {
-    if (typeof a === "number") return Math.abs(a - b);
-    var n = a.length, s = 0, i;
-    for (i = 0; i < n; s += (a[i] - b[i]) * (a[i] - b[i]), i++) ;
-    return Math.sqrt(s);
-  }
   function rep_dist_l1(a, b) {
     if (typeof a === "number") return Math.abs(a - b);
     var n = a.length, s = 0, i;
-    for (i = 0; i < n; s += Math.abs(a[i] - b[i]), i++) ;
+    for (i = 0; i < n; i++) s += Math.abs(a[i] - b[i]);
     return s;
+  }
+  function rep_dist_l2(a, b) {
+    if (typeof a === "number") return Math.abs(a - b);
+    var n = a.length, s = 0, i;
+    for (i = 0; i < n; i++) s += (a[i] - b[i]) * (a[i] - b[i]);
+    return Math.sqrt(s);
   }
   function rep_dist_max(a, b) {
     if (typeof a === "number") return Math.abs(a - b);
     var n = a.length, s = [], i;
-    for (i = 0; i < n; s.push(Math.abs(a[i] - b[i])), i++) ;
+    for (i = 0; i < n; i++) s.push(Math.abs(a[i] - b[i]));
     return Math.max.apply(null, s);
   }
   function rep_dist_min(a, b) {
     if (typeof a === "number") return Math.abs(a - b);
     var n = a.length, s = [], i;
-    for (i = 0; i < n; s.push(Math.abs(a[i] - b[i])), i++) ;
+    for (i = 0; i < n; i++) s.push(Math.abs(a[i] - b[i]));
     return Math.min.apply(null, s);
+  }
+  function rep_dist_edit(a, b) {
+    var n = a.length, s = 0, i;
+    for (i = 0; i < n; i++) s += a[i] === b[i] ? 0 : 1;
+    return s;
   }
   if (typeof define === "function" && define.amd) {
     define(rep);
