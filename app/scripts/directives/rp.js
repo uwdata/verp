@@ -59,7 +59,6 @@ angular.module('verpApp')
             scope.$on('scene.ready', update);
             scope.$on('sp.selection', highlight);
             scope.$on('range.update', updateRange);
-//            scope.$on('rp.eps', updateEps);
             scope.$watch('eps', updateEps);
             scope.$watch('distfn', updateDistfn);
 

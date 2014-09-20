@@ -82,8 +82,8 @@ angular.module('verpApp')
 
 
                 function brushed() {
+
                     var e = brush.extent(),
-                    //TODO: remove the constants
                     start = e[0],
                     end = e[1];
                     $rootScope.$broadcast('range.update',{xs:start, xe:end, ys:start, ye:end});
@@ -91,6 +91,7 @@ angular.module('verpApp')
                         scope.brush.y.extent([e[0], e[1]]);
                         d3.select('#ybrush').call(scope.brush.y);
                     }
+
                 }
             }
         };

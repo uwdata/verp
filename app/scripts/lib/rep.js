@@ -2,6 +2,7 @@
   var rep = {
     version: "1.0.0"
   };
+  "use strict";
   rep.crp = function() {
     var data = null, rpdata = null, rpdataDirty = true, rpimage = null, buf = null, buf8 = null, data32 = null, canvas = null, canvasOffScreen = null, offScreenDirty = true, ctx = null, ctxOffScreen = null, svgCanvas = {}, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
       xs: 0,

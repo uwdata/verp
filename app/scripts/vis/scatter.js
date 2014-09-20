@@ -13,6 +13,7 @@
 function Scatter(data, div, cp) {
     this.init(div,cp);
     this.update(data, cp.k);
+
 }
 
 Scatter.prototype.init = function(div, cp){
@@ -62,6 +63,7 @@ Scatter.prototype.updateScale = function(data, key) {
     }
 };
 
+
 Scatter.prototype.update = function(data, key){
 
     var k = key || this.p_.k;
@@ -106,11 +108,23 @@ Scatter.prototype.update = function(data, key){
         .remove();
 
     function appendShape(d,i){
-        return drawfn(d3.select(this),i);
+        return drawfn(d3.select(this),p).attr('class', 'circle');
     }
 
 };
 
+Scatter.prototype.markerSize = function(s){
+
+    if(!arguments.length) return this.p_.markerSize;
+
+    console.log('updating the marker size to ', s)
+    if(this.p_.markerSize!==s){
+        this.p_.markerSize = s;
+
+        d3.selectAll('.circle').attr('r',s);
+    }
+
+};
 
 Scatter.prototype.defaults = function(){
     return {
@@ -118,11 +132,17 @@ Scatter.prototype.defaults = function(){
         height:128,
         margin: {top:0, bottom:0, left:0, right:0},
         axis:{x:null, y:null, type:'fixed'},
-        scale:{x:18, y:18},
-        drawfn:function(s){return s.append('circle').attr('r',7);},
+        scale:{x:1, y:1},
+        markerSize:10,
+        drawfn:function(s,p){
+            return s.append('circle')
+                .attr('r', p.markerSize);
+        },
         k:{x:'X', y:'Y'}
     };
+
 };
+
 
 Scatter.prototype.interaction = function(e, f, frevert){
     var interacts = this.interacts_;

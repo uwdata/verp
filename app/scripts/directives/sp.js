@@ -14,6 +14,11 @@ angular.module('verpApp')
                 h = attrs.height,
                 sp = null;
 
+            function markerSize(s){
+                if(sp === null) return;
+                if(!arguments.length) return sp.markerSize();
+                sp.markerSize(s);
+            }
 
             function filter(e, d){
 
@@ -63,7 +68,7 @@ angular.module('verpApp')
                         element[0],
                         {width: w,
                             height: h,
-                            scale: {x: 0.5, y: 0.5},
+                            scale: {x:0.5, y:0.5},
                             k: {x:0, y:1}
                         });
 
@@ -81,6 +86,11 @@ angular.module('verpApp')
             scope.$on('player.time', hide);
             scope.$on('rp.epsfilter', filter);
             scope.$on('rp.eps', filter);
+
+            scope.$watch('sp.markerSize', function(val) {
+               console.log('new marker size',val);
+                markerSize(val);
+            });
 
         };
 

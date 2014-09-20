@@ -28,10 +28,11 @@ position:absolute;
 
 
 circle{
-    fill:orange;
+    /*vector-effect:non-scaling-stroke;*/
+    fill:coral;
     opacity:0.8;
-    stroke:darkgray;
-    stroke-width:2;
+    stroke: #696969;
+    stroke-width:3;
 }
 
 .hidden circle{

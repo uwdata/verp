@@ -8,9 +8,9 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-  .controller('TimelineCtrl', function ($scope, $timeout, EventService) {
+    .controller('TimelineCtrl', function ($scope, $timeout, EventService) {
 
-         $scope.player = {
+        $scope.player = {
             currentTime:0,
             sceneReady:false,
             playing: false,
@@ -30,7 +30,7 @@ angular.module('verpApp')
         });
 
         $scope.player.stepTime = function(step){
-           var p = $scope.player;
+            var p = $scope.player;
             p.currentTime = parseInt(p.currentTime) + step;
 
             EventService.broadcastPlayerTimeChange(p);
@@ -121,7 +121,7 @@ angular.module('verpApp')
 
             var p = $scope.player;
 
-             if (p.currentTime === 0.0) return;
+            if (p.currentTime === 0.0) return;
 
             if(p.playing === false) p.playing = true;
 
@@ -129,4 +129,4 @@ angular.module('verpApp')
         };
 
 
-  });
+    });

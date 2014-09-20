@@ -1,25 +1,33 @@
 <div class="col-md-5 column nopadding" style="padding-left:10px" ng-controller="SceneCtrl">
-    <label class="viewname">{{frm.src}}</label>
+    <label class="viewname" ng-show="frm.src">{{frm.src}}</label>
     <div id="scene" class="img-with-label">
         <scene-frame class="stacked"  width="650" height="500" ng-style="imgStyle"></scene-frame>
         <sp width="650" height="500" class="stacked" ng-style="spStyle"></sp>
         <brush id="sp" width="650" height="500" ng-show="showTracking" class = "stacked"></brush>
     </div>
-
     <label ng-show = "!frm.src">Scene</label>
     <div class="scene-info">
-        <div class="form-group" ng-show="frm.src">
-            <label class="checkbox">
-                <input type="checkbox" ng-model="showTracking" ng-change="imgStyle={'opacity':0.5}"/>show tracking positions</label>
-
-            <input type="range"  min="0" step="0.05" max="1.0"
-                   ng-model="imgOpacity"
-                   ng-change="imgStyle={'opacity':imgOpacity}"/>
-
+        <div style="float:left" ng-show="frm.src">
+            <label>show tracking positions
+                <input type="checkbox" ng-model="showTracking" ng-change="imgStyle={'opacity':0.5}"/></label>
+             <label> glyph size<input type="range"  min="0" step="0.25" max="50"
+                   ng-model="sp.markerSize"
+                   ng-init="s.markerSize=7"/>
+             </label>
+            <label>glyph  opacity
             <input type="range"  min="0" step="0.05" max="1.0"
                    ng-model="spOpacity"
                    ng-init="spOpacity=1.0"
-                   ng-change="spStyle={'opacity':spOpacity}"/>
+                   ng-change="spStyle={'opacity':spOpacity}"/></label>
+            <label>scene opacity
+            <input type="range"  min="0" step="0.05" max="1.0"
+                   ng-model="imgOpacity"
+                   ng-init="imgOpacity=0.5"
+                   ng-change="imgStyle={'opacity':imgOpacity}"/></label>
+             <label>blur<input type="range"  min="0" step="0.25" max="10"
+                   ng-model="spBlur"
+                   ng-init="spBlur=0"
+                   ng-change="imgStyle={'filter':'blur('+spBlur+')', '-webkit-filter': 'blur('+spBlur+'px)'}"/></label>
 
         </div>
     </div>
