@@ -5,44 +5,31 @@
                 <ul class="nav navbar-nav">
                     <li>
                         <button type="button" class="navbar-toggle"></button>
-                <a class="navbar-bran"
-                   href="#"
-                   onclick="document.getElementById('file-selector').click()">Data</a>
+                <a  href="#"
+                    onclick="document.getElementById('img-selector').click()">
+                    <span class="glyphicon glyphicon-picture"></span></a>
                 <input ng-controller="UploadCtrl"
+                       id="img-selector"
+                       type="file"
+                       accept="image/png"
+                       img-select="onImgSelect($files)"
+                       style="display:none">
+                    </li>
+                    <li>
+                        <a href="#" onclick="document.getElementById('file-selector').click()">
+                            <span class="glyphicon glyphicon-eye-open"></span></a>
+                        <input ng-controller="UploadCtrl"
                        id="file-selector"
                        type="file"
+                       accept="text/idf"
                        file-select="onFileSelect($files)"
                        style="display:none">
                     </li>
                     <li>
-                        <a href="#">Save</a>
+                        <a href="#"><span class="glyphicon glyphicon-save"></span></a>
                     </li>
                     <li>
-                        <a href="#">RQA</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<strong class="caret"></strong></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="#">Action</a>
-                            </li>
-                            <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                <a href="#">Separated link</a>
-                            </li>
-                            <li class="divider">
-                            </li>
-                            <li>
-                                <a href="#">One more separated link</a>
-                            </li>
-                        </ul>
+                        <a href="#"><span class="glyphicon glyphicon-stats"></span></a>
                     </li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
@@ -54,6 +41,7 @@
                     <li>
                         <a href="#">Link</a>
                     </li>
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<strong class="caret"></strong></a>
                         <ul class="dropdown-menu">
@@ -73,6 +61,7 @@
                             </li>
                         </ul>
                     </li>
+
                 </ul>
             </div>
         </nav>

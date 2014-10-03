@@ -26,15 +26,6 @@ angular.module('verpApp')
             };
         };
 
-//        var onProgress = function(reader, scope) {
-//            return function (event) {
-//                scope.$broadcast('fileProgress',
-//                    {
-//                        total: event.total,
-//                        loaded: event.loaded
-//                    });
-//            };
-//        };
 
         var getReader = function(deferred, scope) {
             var reader = new FileReader();
@@ -51,6 +42,7 @@ angular.module('verpApp')
 
             return deferred.promise;
         };
+
         var readAsDataURL = function (file, scope) {
             var deferred = $q.defer();
 
@@ -61,7 +53,7 @@ angular.module('verpApp')
         };
 
         return {
-            readAsDataUrl: readAsDataURL,
+            readAsDataURL: readAsDataURL,
             readAsText: readAsText
         };
 

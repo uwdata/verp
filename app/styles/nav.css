@@ -4,3 +4,7 @@
     margin-bottom: 5px;
     border: 1px solid rgba(0, 0, 0, 0);
 }
+
+.navbar-nav .glyphicon{
+    font-size:20px;
+}

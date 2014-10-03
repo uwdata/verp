@@ -11,8 +11,6 @@ angular.module('verpApp')
 
         var postLink = function postLink(scope, element, attrs) {
 
-
-
             var w = attrs.width,
                 h = attrs.height,
                 sx = d3.scale.ordinal().range([0, w]),
