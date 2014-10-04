@@ -105,7 +105,7 @@ angular.module('verpApp')
 
                 el.bind("change", function(e){
                     scope.imgFile = (e.srcElement || e.target).files[0];
-                    scope.getImg();
+                    if(scope.imgFile) scope.getImg();
                 });
 
             }

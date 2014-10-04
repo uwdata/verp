@@ -19,16 +19,15 @@ angular.module('verpApp')
         $scope.brush.lock = true;
         $scope.epsFiltering = false;
 
-        $scope.epsFilteringChange  = function (){
-            EventService.broadcastEpsFilteringChange({eps:parseInt($scope.eps,10), epsFiltering:$scope.epsFiltering});
+        $scope.epsFilteringUpdate= function (){
+            EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
+                epsFiltering:$scope.epsFiltering});
         };
 
-        $scope.epsChange  = function (){
-            if($scope.epsFiltering === true) {
-                $timeout(function(){EventService.broadcastEpsChange({eps: parseInt($scope.eps, 10), epsFiltering: $scope.epsFiltering});},50);
-            }
+        $scope.epsUpdate= function (){
+            EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
+                                             epsFiltering:$scope.epsFiltering});
         };
-
 
     }).directive('xbrush', function($rootScope){
 
@@ -54,38 +53,38 @@ angular.module('verpApp')
                     .attr('width',w+10)
                     .attr('height', 10);
 
-                    brushsvg.append('g')
-                        .attr('transform', 'translate(10,0)')
+                brushsvg.append('g')
+                    .attr('transform', 'translate(10,0)')
                     .attr('width', w)
                     .attr('height',10)
-                        .attr('id', attrs.axis+'brush')
+                    .attr('id', attrs.axis+'brush')
                     .attr('class', 'x brush')
                     .call(brush)
                     .selectAll('rect')
                     .attr('height',10);
 
                 var xx= d3.scale.identity()
-                    .domain([0, w]),
-                axisfn = d3.svg.axis()
-                    .scale(xx)
-                    .outerTickSize(0)
-                    .ticks(0),
-                brushaxis = brushsvg.append('g')
-                    .attr('class', 'x axis')
-                    .attr('transform', 'translate(10,'+5+')')
-                    .call(axisfn)
-                    .append('text')
-                    .attr('class', 'x label')
-                    .attr('dx','-0.75em')
-                    .attr('dy','0.25em')
-                    .text(axis);
+                        .domain([0, w]),
+                    axisfn = d3.svg.axis()
+                        .scale(xx)
+                        .outerTickSize(0)
+                        .ticks(0),
+                    brushaxis = brushsvg.append('g')
+                        .attr('class', 'x axis')
+                        .attr('transform', 'translate(10,'+5+')')
+                        .call(axisfn)
+                        .append('text')
+                        .attr('class', 'x label')
+                        .attr('dx','-0.75em')
+                        .attr('dy','0.25em')
+                        .text(axis);
 
 
                 function brushed() {
 
                     var e = brush.extent(),
-                    start = e[0],
-                    end = e[1];
+                        start = e[0],
+                        end = e[1];
                     $rootScope.$broadcast('range.update',{xs:start, xe:end, ys:start, ye:end});
                     if(axis === 'x' && scope.brush.lock === true) {
                         scope.brush.y.extent([e[0], e[1]]);

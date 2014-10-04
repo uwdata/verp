@@ -47,9 +47,11 @@ angular.module('verpApp')
               if(rp) rp.range(d).update();
             }
 
-            function  updateEps(n,o){
-              n = parseInt(n,10);
-              if(rp) rp.eps(n).update();
+            function  updateEps(e,d){
+              if(rp) {
+                  rp.eps(d.eps).update();
+                  if(d.epsFiltering===true) $rootScope.$broadcast('rp.epsFilter.update', d);
+              }
             }
 
             function  updateDistfn(n,o){
@@ -59,7 +61,7 @@ angular.module('verpApp')
             scope.$on('scene.ready', update);
             scope.$on('sp.selection', highlight);
             scope.$on('range.update', updateRange);
-            scope.$watch('eps', updateEps);
+            scope.$on('rp.eps.update', updateEps);
             scope.$watch('distfn', updateDistfn);
 
         };
@@ -67,6 +69,7 @@ angular.module('verpApp')
         return {
             template: '<div></div>',
             restrict: 'E',
+            priority: 1,
             replace: true,
             link: postLink
         }

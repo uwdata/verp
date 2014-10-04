@@ -4,7 +4,7 @@
   };
   "use strict";
   rep.crp = function() {
-    var data = null, rpdata = null, rpdataDirty = true, rpimage = null, buf = null, buf8 = null, data32 = null, canvas = null, canvasOffScreen = null, offScreenDirty = true, ctx = null, ctxOffScreen = null, svgCanvas = {}, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
+    var data = null, rpdata = null, rpdataDirty = true, rpimage = null, buf = null, buf8 = null, data32 = null, canvas = null, canvasOffScreen = null, offScreenDirty = true, ctx = null, ctxOffScreen = null, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
       xs: 0,
       xe: 1,
       ys: 0,
@@ -45,7 +45,6 @@
       ctx = canvas.getContext("2d");
       initData(d);
       updateScale();
-      initSvgCanvas(el);
       update();
       return crp;
     }
@@ -148,14 +147,15 @@
       var xs = ~~(range.xs * imgWidth), ys = ~~(range.ys * imgHeight), xe = ~~(range.xe * imgWidth), ye = ~~(range.ye * imgHeight);
       scaleX.domain([ xs, xe ]);
       scaleY.domain([ ys, ye ]);
-      svgCanvas.xsLabel.text(xs + "");
-      svgCanvas.xeLabel.text(xe + "");
-      svgCanvas.ysLabel.text(ys + "");
-      svgCanvas.yeLabel.text(ye + "");
       return crp;
     };
     crp.data = function(_) {
       if (!arguments.length) return data;
+      imgWidth = _.x.length;
+      imgHeight = _.y.length;
+      ctxOffScreen.clearRect(0, 0, canvasOffScreen.width, canvasOffScreen.height);
+      canvasOffScreen.width = imgWidth;
+      canvasOffScreen.height = imgHeight;
       initData(_);
       return crp;
     };
@@ -186,7 +186,6 @@
     return a;
   }
   rep.toimg = function(data, img, w, h, eps, epsnet) {
-    console.log(eps);
     var i, j, k, k2, v;
     for (i = 0; i < h - 1; i++) {
       img[i * w + i] = 255 << 24 | 255 << 16 | 255 << 8 | 255;

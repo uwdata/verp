@@ -29,31 +29,30 @@ angular.module('verpApp')
             $rootScope.$broadcast('scene.ready', scene)
         };
 
-        var broadcastEpsChange = function broadcastEpsChange(d) {
-            var func;
+        var broadcastEpsUpdate= function broadcastEpsUpdate(d) {
+
             rp.eps = d.eps;
             rp.epsFiltering = d.epsFiltering;
-            func = DataService.service('rpEpsNet');
+            if(rp.epsFiltering === true)
+                rp.epsNet = DataService.service('rpEpsNet');
 
-            rp.epsNet = func();
+            $rootScope.$broadcast('rp.eps.update', rp);
 
-            $rootScope.$broadcast('rp.eps', rp);
         };
 
 
         var broadcastEpsFilteringChange = function broadcastEpsFilteringChange(d) {
+
             var func;
             rp.eps = d.eps;
             rp.epsFiltering = d.epsFiltering;
 
             if(rp.epsFiltering === true) {
                 func = DataService.service('rpEpsNet');
-
                 rp.epsNet = func();
-
             }
-            $rootScope.$broadcast('rp.epsfilter', rp);
 
+            $rootScope.$broadcast('rp.epsfilter', rp);
         };
 
 
@@ -85,8 +84,8 @@ angular.module('verpApp')
             broadcastSPBrush: broadcastSPBrush,
             broadcastSceneReady:broadcastSceneReady,
             broadcastPlayerTimeChange:broadcastPlayerTimeChange,
-            broadcastEpsChange:broadcastEpsChange,
-            broadcastEpsFilteringChange: broadcastEpsFilteringChange
+            broadcastEpsUpdate:broadcastEpsUpdate
+//            broadcastEpsFilteringChange: broadcastEpsFilteringChange
         };
 
 

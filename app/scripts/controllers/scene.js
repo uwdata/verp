@@ -15,5 +15,9 @@ angular.module('verpApp')
         $scope.frmScaleY = 1;
         $scope.frm  = {};
         $scope.sp = {};
+        $scope.mode = 'selection';
+        $scope.setMode = function(m){
+            console.log('setting interaction mode to:'+m);
+            $scope.mode = m;};
 
     });

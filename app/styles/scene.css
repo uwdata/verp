@@ -52,6 +52,17 @@ circle{
 }
 
 
+.tracking {
+   opacity:0.5;
+}
 
+.notracking{
+   opacity:1.0;
+}
 
+/*.scene .glyphicon:hover {*/
+    /*background-color: #ffcfa3;*/
+    /*border-radius:1px;*/
+    /*transition: background-color 0.25s linear;*/
+/*}*/
 

@@ -31,6 +31,9 @@ Scatter.prototype.init = function(div, cp){
 };
 
 Scatter.prototype.updateScale = function(data, key) {
+
+    console.log('updating scatter plot scale');
+
     var k = key || this.p_.k,
         p = this.p_,
         w = p.width -  (p.margin.right + p.margin.left),
@@ -61,6 +64,10 @@ Scatter.prototype.updateScale = function(data, key) {
         p.axis.y = d3.scale.linear().domain(ry).range([p.margin.top, h + p.margin.top]);
 
     }
+
+    console.log(p.axis.x.domain());
+    console.log(p.axis.y.domain());
+
 };
 
 
@@ -117,7 +124,7 @@ Scatter.prototype.markerSize = function(s){
 
     if(!arguments.length) return this.p_.markerSize;
 
-    console.log('updating the marker size to ', s)
+	//     console.log('updating the marker size to ', s)
     if(this.p_.markerSize!==s){
         this.p_.markerSize = s;
 

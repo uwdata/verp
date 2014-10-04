@@ -4,6 +4,7 @@
 
         <div class="col-md-8 column" style="padding-left:70px">
             <label class="viewname">RP</label>
+            <span class="glyphicon glyphicon-zoom-in" style="margin-left:45%"></span>
            <rp width="500" height="500" class="stacked"></rp>
            <brush id="rp" width="500" height="500" class = "stacked"></brush>
         </div>
@@ -22,13 +23,13 @@
                            max="{{epsmax}}"
                            value="{{eps}}"
                            ng-model="eps"
-                           ng-change="epsChange()"/>
+                           ng-change="epsUpdate()"/>
                     <label style="display:block;text-align:center">{{eps}}</label>
                        <label class="checkbox">
                            epsilon filtering
                            <input type="checkbox"
                            ng-model="epsFiltering"
-                           ng-change="epsFilteringChange()"/>
+                           ng-change="epsFilteringUpdate()"/>
                        </label>
 
                 </div>

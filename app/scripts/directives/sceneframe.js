@@ -12,49 +12,56 @@ angular.module('verpApp')
         var sceneFrameLink= function(scope, element, attrs){
 
             var s = scope;
+
             s.frm = new Image();
             s.frmScaleX = 1;
             s.frmScaleY = 1;
-
-            element[0].appendChild(scope.frm);
+            element[0].appendChild(s.frm);
 
             function sceneImgUpdate(e,d){
-              s.frm.onload = function(){
-                                s.imgWidth = s.frm.width;
-                s.imgHeight = s.frm.height;
-                s.frm.height = attrs.height;
-                s.frm.width =  attrs.width;
 
-                if(typeof(s.tracking) !== 'undefined' &&
-                   s.tracking !== null){
-                    console.log(s.tracking);
-                  s.tracking.pos.domainWidth = s.frm.width;
-                  s.tracking.pos.domainHeight = s.frm.height;
-                  console.log('scene is ready'); 
-	 	                 //EventService.broadcastSceneReady(d);
-                }
-              };
-              s.frm.src = d;
+                s.frm.onload = function(){
+
+                    s.imgWidth = s.frm.naturalWidth;
+                    s.imgHeight = s.frm.naturalHeight;
+                    s.frm.height = attrs.height;
+                    s.frm.width = attrs.width;
+
+                    s.frm.srcName = 'Scene';
+
+                    if(typeof(s.tracking) !== 'undefined' && s.tracking !== null){
+
+                        s.tracking.pos.domainWidth = s.imgWidth;
+                        s.tracking.pos.domainHeight = s.imgHeight;
+
+                        EventService.broadcastSceneReady({data: s.tracking, src: s.frm.src});
+
+                    }
+                };
+
+                s.frm.src = d;
+
             }
+
             function sceneTrackingUpdate(e,d){
-               s.tracking = d; 
-               if(s.frm.src !== '') 
-                 s.tracking.pos.domainWidth = s.frm.width;
-                 s.tracking.pos.domainHeight = s.frm.height;
-                 console.log('scene is ready'); 
-            //     EventService.broadcastSceneReady(d);
+                s.tracking = d;
+                if(s.frm.src !== '')
+
+                    console.log('updating the scale of track points') ;
+                console.log(s.imgWidth, s.imgHeight);
+                s.tracking.pos.domainWidth = s.imgWidth;
+                s.tracking.pos.domainHeight = s.imgHeight;
+                EventService.broadcastSceneReady({data: s.tracking, src: s.frm.src});
             }
 
             scope.$on('scene.img.update', sceneImgUpdate);
             scope.$on('scene.tracking.update', sceneTrackingUpdate);
 
-
-
         };
 
         return {
-            template: '<div></div>',
-            restrict: 'E',
+            template:'<div></div>',
+            restrict:'E',
             replace:true,
             link:sceneFrameLink
         }

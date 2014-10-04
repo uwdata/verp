@@ -44,9 +44,10 @@ angular.module('verpApp')
         };
 
         var readAsDataURL = function (file, scope) {
-            var deferred = $q.defer();
 
-            var reader = getReader(deferred, scope);
+            var deferred = $q.defer(),
+                reader = getReader(deferred, scope);
+
             reader.readAsDataURL(file);
 
             return deferred.promise;

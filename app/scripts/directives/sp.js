@@ -24,7 +24,7 @@ angular.module('verpApp')
 
                 if(sp === null) return;
 
-                var  indx = d.epsNet, f = d.epsFiltering, cond;
+                var  indx = d.epsNet(), f = d.epsFiltering, cond;
 
                 if(f)
                     cond = function(indx, i){return !(indx[i] === 1);};
@@ -84,11 +84,8 @@ angular.module('verpApp')
             scope.$on('scene.ready', update);
             scope.$on('rp.selection', highlight);
             scope.$on('player.time', hide);
-            scope.$on('rp.epsfilter', filter);
-            scope.$on('rp.eps', filter);
-
+            scope.$on('rp.epsFilter.update', filter);
             scope.$watch('sp.markerSize', function(val) {
-               console.log('new marker size',val);
                 markerSize(val);
             });
 
