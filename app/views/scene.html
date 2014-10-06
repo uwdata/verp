@@ -1,17 +1,24 @@
 <div class="scene col-md-5 column nopadding" style="padding-left:10px" ng-controller="SceneCtrl">
     <label class="viewname">{{frm.srcName || 'Scene'}}</label>
-    <span class="glyphicon glyphicon-zoom-in"
+
+    <span class="glyphicon glyphicon-search"
           ng-model="mode"
           ng-style="zoomStyle"
-          ng-click="zoomStyle={'color':mode==='selection' ? 'red' : 'blue'}; setMode('viewing')"
-          style="margin-left:45%">{{mode}}</span>
+          ng-click="setMode('view'); brushStyle={'color':'gray'}; zoomStyle={'color': 'orange'};"
+          style="margin-left:45%"></span>
+     <span class="fa fa-paint-brush"
+          ng-model="mode"
+          ng-style="brushStyle"
+          ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'}; "
+          style=""></span>
+
     <div id="scene" class="img-with-label">
         <scene-frame class="stacked"  width="650" height="500" ng-style="imgStyle"></scene-frame>
         <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
         <brush id="sp" class="stacked" width="650" height="500" ng-show="showTracking"></brush>
-        <zoom class="stacked" width="650" height="500" ng-show="mode==='viewing'"></zoom>
+        <zoom class="stacked" width="650" height="500" ng-show="mode==='view'"></zoom>
     </div>
-    <!--<label ng-show = "!frm.src">Scene</label>-->
+
     <div class="scene-info">
         <div style="float:left" ng-show="frm.src">
             <label>show tracking positions

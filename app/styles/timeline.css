@@ -1,7 +1,7 @@
 
 .player .glyphicon{
     font-size:25px;
-/*!important;*/
+    /*!important;*/
 }
 .player .glyphicon:hover {
     cursor:pointer;
@@ -11,10 +11,9 @@
     padding-bottom:10px!important;
     margin-top:40px!important;
     border-radius:20px;
-    /*opacity:0;*/
     -webkit-transition: visibility 0.2s linear, opacity 0.2s linear;
--moz-transition: visibility 0.2s linear, opacity 0.2s linear;
--o-transition: visibility 0.2s linear, opacity 0.2s linear;
+    -moz-transition: visibility 0.2s linear, opacity 0.2s linear;
+    -o-transition: visibility 0.2s linear, opacity 0.2s linear;
 }
 
 

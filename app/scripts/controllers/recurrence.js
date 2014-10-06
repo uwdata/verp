@@ -18,6 +18,20 @@ angular.module('verpApp')
         $scope.brush = {};
         $scope.brush.lock = true;
         $scope.epsFiltering = false;
+        $scope.interaction = {mode:'selection'};
+        $scope.setMode= function(m){
+            $scope.interaction.mode = m;
+            console.log('toggling the interaction mode to '+ $scope.interaction.mode);
+        };
+//        $scope.toggleMode = function(){
+//
+//            var  interaction= $scope.interaction;
+//            console.log(interaction.mode);
+//            interaction.mode = interaction.mode === 'selection' ? 'view' : 'selection';
+//            console.log('setting mode to '+ interaction.mode);
+//
+//        };
+
 
         $scope.epsFilteringUpdate= function (){
             EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),

@@ -16,8 +16,8 @@ angular.module('verpApp')
         $scope.frm  = {};
         $scope.sp = {};
         $scope.mode = 'selection';
-        $scope.setMode = function(m){
-            console.log('setting interaction mode to:'+m);
-            $scope.mode = m;};
-
+        $scope.setMode= function(m){
+            $scope.mode = m;
+            console.log('toggling the interaction mode to '+ $scope.mode);
+        };
     });

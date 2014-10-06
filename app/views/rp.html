@@ -1,12 +1,21 @@
 <div class="col-md-7 column" ng-controller="RecurrenceCtrl">
 
     <div class="row clearfix">
-
         <div class="col-md-8 column" style="padding-left:70px">
             <label class="viewname">RP</label>
-            <span class="glyphicon glyphicon-zoom-in" style="margin-left:45%"></span>
-           <rp width="500" height="500" class="stacked"></rp>
-           <brush id="rp" width="500" height="500" class = "stacked"></brush>
+    <span class="glyphicon glyphicon-search"
+          ng-model="interaction.mode"
+          ng-style="zoomStyle"
+          ng-click="setMode('view'); brushStyle={'color':'gray'}; zoomStyle={'color': 'orange'};"
+          style="margin-left:45%"></span>
+     <span class="fa fa-paint-brush"
+          ng-model="interaction.mode"
+          ng-style="brushStyle"
+          ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'}; "
+          style=""></span>
+           <rp class="stacked" width="500" height="500"></rp>
+           <brush id="rp"  class="stacked" width="500" height="500"></brush>
+           <zoom class="stacked" width="500" height="500" ng-show="interaction.mode==='view'"></zoom>
         </div>
 
         <div class="col-md-4 column" style="padding-left:30px;padding-right:0px" >

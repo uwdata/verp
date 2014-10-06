@@ -10,8 +10,10 @@ angular.module('verpApp')
   .directive('zoom', function () {
         var postLink = function (scope, element, attrs) {
 
+//           console.log('creating zoom behavior...');
 
-         var w = parseInt(attrs.width), h = parseInt(attrs.height);
+         var w = parseInt(attrs.width),
+             h = parseInt(attrs.height);
 
           var x = d3.scale.linear()
               .domain([0, w])
@@ -21,16 +23,15 @@ angular.module('verpApp')
               .domain([0, h])
               .range([0, h]);
 
-          var zoomer  = d3.behavior.zoom()
+          var zoomer = d3.behavior.zoom()
               .x(x)
               .y(y)
-              .scaleExtent([1, 8])
+              .scaleExtent([1, 10])
               .on("zoom", zoom);
 
           var svg = d3.select(element[0]).append("svg")
               .attr("width", w)
               .attr("height", h)
-              .append("g")
               .call(zoomer);
 
             function zoom(){
@@ -38,13 +39,11 @@ angular.module('verpApp')
             }
 
       };
-
     return {
       template: '<div></div>',
       restrict: 'E',
       replace: true,
       link: postLink
-
     };
 
   });
