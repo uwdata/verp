@@ -60,9 +60,8 @@ circle{
    opacity:1.0;
 }
 
-/*.scene .glyphicon:hover {*/
-    /*background-color: #ffcfa3;*/
-    /*border-radius:1px;*/
-    /*transition: background-color 0.25s linear;*/
-/*}*/
+.scene .glyphicon:hover {
+    color: orange;
+    transition: color 0.25s linear;
+}
 

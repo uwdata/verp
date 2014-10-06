@@ -26,7 +26,7 @@ angular.module('verpApp')
           var zoomer = d3.behavior.zoom()
               .x(x)
               .y(y)
-              .scaleExtent([1, 10])
+              .scaleExtent([1, 8])
               .on("zoom", zoom);
 
           var svg = d3.select(element[0]).append("svg")
@@ -36,6 +36,8 @@ angular.module('verpApp')
 
             function zoom(){
                 console.log('zooming...');
+                console.log(zoomer.x().domain());
+                console.log(zoomer.y().domain());
             }
 
       };

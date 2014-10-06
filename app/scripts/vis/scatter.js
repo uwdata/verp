@@ -30,6 +30,12 @@ Scatter.prototype.init = function(div, cp){
         .attr('height',cp.height);
 };
 
+Scatter.prototype.updateAxes = function(x,y){
+var p = this.p_;
+p.axis.x.domain(x.domain());
+p.axis.y.domain(y.domain());
+};
+
 Scatter.prototype.updateScale = function(data, key) {
 
     console.log('updating scatter plot scale');
@@ -64,9 +70,9 @@ Scatter.prototype.updateScale = function(data, key) {
         p.axis.y = d3.scale.linear().domain(ry).range([p.margin.top, h + p.margin.top]);
 
     }
-
-    console.log(p.axis.x.domain());
-    console.log(p.axis.y.domain());
+//
+//    console.log(p.axis.x.domain());
+//    console.log(p.axis.y.domain());
 
 };
 
