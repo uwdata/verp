@@ -12,8 +12,12 @@ angular.module('verpApp')
 
         var coordXform = function (d) {
 
-            var cw = 1680, ch = 1050, w = d.domainWidth, h = d.domainHeight,
-                tx = -(cw - w) * 0.5, ty = -(ch - h) * 0.5, i;
+            var cw = 1680,
+                ch = 1050,
+                w  = d.domainWidth,
+                h  = d.domainHeight,
+                tx = -(cw - w) * 0.5,
+                ty = -(ch - h) * 0.5, i;
 
             for (i = 0; i < d.length; i++) {
                 if (!(Math.abs(d[i][0]) < 0.001 && Math.abs(d[i][1]) < 0.001)) {

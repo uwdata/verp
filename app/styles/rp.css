@@ -86,4 +86,9 @@ left:48%
    font-size:12px;
 }
 
+.recurrence .glyphicon:hover {
+    color: orange;
+    transition: color 0.25s linear;
+}
+
 

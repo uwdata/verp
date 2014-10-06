@@ -1,9 +1,12 @@
-function alpha(v){
+function alpha(v) {
+
 
     var vertices = v,
         triangles = Delaunay.triangulate(vertices),
         width = 960,
         height = 500,
+        xScale,
+        yScale,
         svg,
         edges,
         alphaKey,
@@ -19,6 +22,7 @@ function alpha(v){
 
         };
 
+    console.log(triangles);
 
     function alphaPath(el){
 
@@ -65,26 +69,36 @@ function alpha(v){
     };
 
 
+    alphaPath.xScale = function(_){
+
+      if(!arguments.length) return xScale;
+
+     xScale = _;
+
+     return alphaPath;
+    };
+
+    alphaPath.yScale = function(_){
+
+      if(!arguments.length) return xScale;
+
+     yScale = _;
+
+     return alphaPath;
+    };
+
+
    //draws the boundary of the
    //current alpha complex
     function drawPath(v, b) {
-//
-//        var w = 960,
-//            h = 500,
-//            svg = d3.select("svg")
-//                .attr("width", w)
-//                .attr("height", h)
-//                .attr("class", "Blues");
 
         var lf = d3.svg.line()
             .x(function (d) {
-                return v[d][0];
+                return xScale(v[d][0]);
             })
             .y(function (d) {
-                return v[d][1];
+                return yScale(v[d][1]);
             }).interpolate('cardinal');
-
-//        var g = svg.select('.boundary');
 
         //join
         var paths = svg.selectAll(".boundary-path")
@@ -106,7 +120,6 @@ function alpha(v){
             .attr('d', function (d) {
                 return lf(d);
             });
-
 
         //remove
         paths.exit()

@@ -33,6 +33,7 @@ angular.module('verpApp')
 
             rp.eps = d.eps;
             rp.epsFiltering = d.epsFiltering;
+            rp.partition = d.partition;
             if(rp.epsFiltering === true)
                 rp.epsNet = DataService.service('rpEpsNet');
 

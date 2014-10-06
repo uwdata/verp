@@ -23,9 +23,7 @@ angular.module('verpApp')
             function filter(e, d){
 
                 if(sp === null) return;
-
                 var  indx = d.epsNet(), f = d.epsFiltering, cond;
-
                 if(f)
                     cond = function(indx, i){return !(indx[i] === 1);};
                 else
@@ -62,7 +60,7 @@ angular.module('verpApp')
 
                 if(sp === null) {
 
-                    if(typeof(p.coordXform) !== 'undefined') p.coordXform(p);
+                    if(p.coordXform) p.coordXform(p);
 
                     sp = new Scatter(d.data.pos,
                         element[0],
@@ -74,7 +72,7 @@ angular.module('verpApp')
 
                     DataService.service('spSelection', condHighlight);
 
-                }else {
+                }else{
                     sp.update(p);
                 }
 
@@ -90,7 +88,6 @@ angular.module('verpApp')
             });
 
         };
-
 
         return {
             template: '<div id="tracking-sp" ng-show="showTracking"></div>',

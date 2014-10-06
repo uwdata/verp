@@ -18,6 +18,7 @@ angular.module('verpApp')
         $scope.brush = {};
         $scope.brush.lock = true;
         $scope.epsFiltering = false;
+        $scope.partition = false;
         $scope.interaction = {mode:'selection'};
         $scope.setMode= function(m){
             $scope.interaction.mode = m;
@@ -35,12 +36,16 @@ angular.module('verpApp')
 
         $scope.epsFilteringUpdate= function (){
             EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
-                epsFiltering:$scope.epsFiltering});
+                epsFiltering:$scope.epsFiltering,
+                partition: $scope.partition
+            });
         };
 
         $scope.epsUpdate= function (){
             EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
-                                             epsFiltering:$scope.epsFiltering});
+                                             epsFiltering:$scope.epsFiltering,
+                                             partition: $scope.partition
+            });
         };
 
     }).directive('xbrush', function($rootScope){

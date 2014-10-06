@@ -48,10 +48,12 @@ angular.module('verpApp')
             }
 
             function  updateEps(e,d){
-              if(rp) {
+
+              if(rp){
                   rp.eps(d.eps).update();
                   if(d.epsFiltering===true) $rootScope.$broadcast('rp.epsFilter.update', d);
               }
+
             }
 
             function  updateDistfn(n,o){

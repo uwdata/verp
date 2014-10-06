@@ -1,4 +1,4 @@
-<div class="col-md-7 column" ng-controller="RecurrenceCtrl">
+<div class="col-md-7 column recurrence" ng-controller="RecurrenceCtrl">
 
     <div class="row clearfix">
         <div class="col-md-8 column" style="padding-left:70px">
@@ -40,6 +40,12 @@
                            epsilon filtering
                            <input type="checkbox"
                            ng-model="epsFiltering"
+                           ng-change="epsFilteringUpdate()"/>
+                       </label>
+                     <label class="checkbox">
+                          partition
+                           <input type="checkbox"
+                           ng-model="partition"
                            ng-change="epsFilteringUpdate()"/>
                        </label>
 
