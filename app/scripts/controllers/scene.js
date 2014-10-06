@@ -15,6 +15,7 @@ angular.module('verpApp')
         $scope.frmScaleY = 1;
         $scope.frm  = {};
         $scope.sp = {};
+        $scope.partition = false;
         $scope.mode = 'selection';
         $scope.setMode= function(m){
             $scope.mode = m;

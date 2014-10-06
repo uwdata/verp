@@ -34,7 +34,13 @@ angular.module('verpApp')
 
         //then extracts alpha complexes as needed
         function alphaUpdate(e,d){
-            if(ac && d.partition)  ac.update(d.eps);
+            if(ac && d.partition) {
+                ac.update(d.eps);
+                scope.partition = true;
+            }else{
+                scope.partition = false;
+            }
+
         }
 
          scope.$on('scene.ready', alphaComplex);

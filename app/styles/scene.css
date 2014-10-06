@@ -15,7 +15,7 @@
 .scene-info{
 position:absolute;
     top:520px;
-    width:150px;
+    width:100%;
     display:block;
 }
 
@@ -63,5 +63,21 @@ circle{
 .scene .glyphicon:hover {
     color: orange;
     transition: color 0.25s linear;
+}
+.scene-info .controlgrp  {
+    margin-top:1%;
+   margin-left:1%;
+   margin-right:auto;
+}
+.scene-info .controlgrp div{
+    display:inline-block;
+}
+.scene-info .controlgrp label{
+   display:block;
+}
+
+.scene-info .controlgrp  input[type=range]{
+   width:90%;
+   display:inline-block;
 }
 

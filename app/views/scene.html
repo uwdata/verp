@@ -7,43 +7,55 @@
           ng-click="setMode('view'); brushStyle={'color':'gray'}; zoomStyle={'color': 'orange'};"
           style="margin-left:45%"></span>
      <span class="fa fa-paint-brush"
-          ng-model="mode"
-          ng-style="brushStyle"
-          ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'}; "
-          style=""></span>
+           ng-model="mode"
+           ng-style="brushStyle"
+           ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'}; "
+           style=""></span>
 
-<span class="glyphicon glyphicon-repeat"></span>
+    <span class="glyphicon glyphicon-repeat"></span>
+
 
     <div id="scene" class="img-with-label">
         <scene-frame class="stacked"  width="650" height="500" ng-style="imgStyle"></scene-frame>
         <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
-        <alphapart class="stacked" width="650" height="500"></alphapart>
+        <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
         <brush id="sp" class="stacked" width="650" height="500" ng-show="showTracking"></brush>
         <zoom class="stacked" width="650" height="500" ng-show="mode==='view'"></zoom>
     </div>
 
     <div class="scene-info">
-        <div style="float:left" ng-show="frm.src">
-            <label>show tracking positions
-                <input type="checkbox" ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"/></label>
-             <label> circle size<input type="range"  min="0" step="0.25" max="50"
-                   ng-model="sp.markerSize"
-                   ng-init="s.markerSize=7"/>
-             </label>
-            <label>circle opacity
-            <input type="range"  min="0" step="0.05" max="1.0"
-                   ng-model="spOpacity"
-                   ng-init="spOpacity=1.0"
-                   ng-change="spStyle={'opacity':spOpacity}"/></label>
-            <label>scene opacity
-            <input type="range"  min="0" step="0.05" max="1.0"
-                   ng-model="imgOpacity"
-                   ng-init="imgOpacity=0.5"
-                   ng-change="imgStyle={'opacity':imgOpacity}"/></label>
-             <label>blur<input type="range"  min="0" step="0.25" max="10"
-                   ng-model="spBlur" ng-init="spBlur=0" ng-change="imgStyle={'filter':'blur('+spBlur+')', '-webkit-filter': 'blur('+spBlur+'px)'}"/></label>
+        <div ng-show="frm.src">
+            <div class="controlgrp">
+                <label>
+                <input type="checkbox" ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"/>
+                show tracking
+               </label>
+                <div>
+                    <label>circle size</label><input type="range" min="0" step="0.25" max="50"
+                                                     ng-model="sp.markerSize"
+                                                     ng-init="s.markerSize=7"/>
 
+                    <label>circle opacity</label>
+                    <input type="range"  min="0" step="0.05" max="1.0"
+                           ng-model="spOpacity"
+                           ng-init="spOpacity=1.0"
+                           ng-change="spStyle={'opacity':spOpacity}"/>
+                </div>
+
+                <div>
+                    <label>scene opacity</label>
+                    <input type="range"  min="0" step="0.05" max="1.0"
+                           ng-model="imgOpacity"
+                           ng-init="imgOpacity=0.5"
+                           ng-change="imgStyle={'opacity':imgOpacity}"/>
+
+                    <label>blur</label>
+                    <input type="range"  min="0" step="0.25" max="10"
+                           ng-model="spBlur" ng-init="spBlur=0"
+                           ng-change="imgStyle={'filter':'blur('+spBlur+')', '-webkit-filter': 'blur('+spBlur+'px)'}"/>
+
+                </div>
+            </div>
         </div>
-    </div>
 
-</div>
+    </div>
