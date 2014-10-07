@@ -64,14 +64,17 @@ circle{
     color: orange;
     transition: color 0.25s linear;
 }
+
 .scene-info .controlgrp  {
     margin-top:1%;
    margin-left:1%;
    margin-right:auto;
 }
+
 .scene-info .controlgrp div{
     display:inline-block;
 }
+
 .scene-info .controlgrp label{
    display:block;
 }
@@ -80,4 +83,5 @@ circle{
    width:90%;
    display:inline-block;
 }
+
 

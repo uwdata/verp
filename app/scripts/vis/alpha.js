@@ -22,16 +22,14 @@ function alpha(v) {
 
         };
 
-    console.log(triangles);
 
     function alphaPath(el){
-
-       svg =  d3.select(el)
-           .append('svg')
-           .attr('width', width)
-           .attr('height', height)
-           .append('g')
-           .attr('class', 'boundary');
+            svg = d3.select(el)
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height)
+                .append('g')
+                .attr('class', 'boundary');
 
        return alphaPath;
     }
