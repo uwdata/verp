@@ -38,20 +38,16 @@ angular.module('verpApp')
 
                     }
                 };
-
                 s.frm.src = d;
-
             }
 
             function sceneTrackingUpdate(e,d){
                 s.tracking = d;
-                if(s.frm.src !== '')
-
-                    console.log('updating the scale of track points') ;
-                console.log(s.imgWidth, s.imgHeight);
-                s.tracking.pos.domainWidth = s.imgWidth;
-                s.tracking.pos.domainHeight = s.imgHeight;
-                EventService.broadcastSceneReady({data: s.tracking, src: s.frm.src});
+                if(s.frm.src) {
+                    s.tracking.pos.domainWidth = s.imgWidth;
+                    s.tracking.pos.domainHeight = s.imgHeight;
+                    EventService.broadcastSceneReady({data: s.tracking, src: s.frm.src});
+                }
             }
 
             scope.$on('scene.img.update', sceneImgUpdate);
