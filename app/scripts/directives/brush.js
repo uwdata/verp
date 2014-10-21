@@ -63,9 +63,6 @@ angular.module('verpApp')
             function handleKeydown(){
                 var key = d3.event.keyCode, meta = d3.event.metaKey, step = 2;
 
-//              console.log(key);
-//               console.log(d3.event);
-
                 if(key >= 37 && key <= 40) { //up and down arrow
                     if(brush.empty()) return;
 

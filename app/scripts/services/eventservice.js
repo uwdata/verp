@@ -16,7 +16,8 @@ angular.module('verpApp')
             rpSelection  = {},
             sceneSelection = {},
             scene   = null,
-            player = null;
+            player = null,
+            tracking = {};
 
 
         var broadcastPlayerTimeChange = function broadcastPlayerTimeChange(d){
@@ -38,6 +39,28 @@ angular.module('verpApp')
                 rp.epsNet = DataService.service('rpEpsNet');
 
             $rootScope.$broadcast('rp.eps.update', rp);
+
+        };
+
+        var broadcastSaccadeUpdate= function broadcastSaccadeUpdate(d) {
+
+            if(!d.epsTimeFiltering) return;
+
+            tracking.epsTime = d.epsTime;
+            tracking.epsTimeFiltering = d.epsTimeFiltering;
+
+            var deltaTime = DataService.tracking().deltaTime,
+                distMatrix = DataService.service('rpDistanceMatrix')();
+
+
+            tracking.indx = deltaTime.map(function(t,i){
+
+               if(i === deltaTime.length)
+                   return 1;
+               else
+                   return  ((t < d.epsTime  &&  distMatrix[i,i+1] < d.eps) ? 1 : 0); });
+
+            $rootScope.$broadcast('saccade.update', tracking);
 
         };
 
@@ -70,6 +93,12 @@ angular.module('verpApp')
 
         var broadcastSPBrush = function braodcastSPBrush(d){
             sceneBrush.data = d;
+
+            console.log('-->');
+            console.log('x0:'+d[0][0]+',x1:'+d[1][0]);
+            console.log('y0:'+d[0][1]+',y1:'+d[1][1]);
+            console.log('<--');
+
             var func = DataService.service('spSelection');
             broadcastSPSelection( func(sceneBrush.data) )
         };
@@ -85,9 +114,8 @@ angular.module('verpApp')
             broadcastSPBrush: broadcastSPBrush,
             broadcastSceneReady:broadcastSceneReady,
             broadcastPlayerTimeChange:broadcastPlayerTimeChange,
-            broadcastEpsUpdate:broadcastEpsUpdate
-//            broadcastEpsFilteringChange: broadcastEpsFilteringChange
+            broadcastEpsUpdate:broadcastEpsUpdate,
+            broadcastSaccadeUpdate:broadcastSaccadeUpdate
         };
-
 
     });

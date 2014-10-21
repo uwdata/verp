@@ -12,21 +12,49 @@ angular.module('verpApp')
 
         var coordXform = function (d) {
 
+
+            console.log("coordXform()");
+            console.log(arguments);
+
             var cw = 1680,
                 ch = 1050,
                 w  = d.domainWidth,
                 h  = d.domainHeight,
-                tx = -(cw - w) * 0.5,
-                ty = -(ch - h) * 0.5, i;
+                tx = (w-cw) * 0.5,
+                ty = (h-ch) * 0.5, i;
+
 
             for (i = 0; i < d.length; i++) {
-                if (!(Math.abs(d[i][0]) < 0.001 && Math.abs(d[i][1]) < 0.001)) {
+
+                if (!(Math.abs(d[i][0]) < 0.001 &&
+                      Math.abs(d[i][1]) < 0.001)){
+
                     d[i][0] += tx;
                     d[i][1] += ty;
+
                 }
+
             }
 
         };
+
+        var delta = function(x, dx){
+
+            if(!x) {
+                console.warn('No data to take delta of');
+                return;
+            }
+
+            var n = x.length, i;
+
+            for(i = 0; i < n-1; i++){
+                dx.push(x[i+1]-x[i]);
+            }
+
+            dx.push(x[i]-x[0]);
+
+        };
+
 
         var parseIDF = function (txt) {
 
@@ -35,12 +63,12 @@ angular.module('verpApp')
                 rest = (txt.substring(indx + 1)),
                 indx2 = rest.indexOf('\n'),
                 tracking = rest.substring(indx2 + 1).split('\n'),
-                verp = {pos: [], value: [], time: [], frmid: []},
+                verp = {pos: [], value: [], time: [], deltaTime: [], frmid: []},
                 n = tracking.length, j = 0, i, row, p;
 
             verp.info = header;
 
-            for (i = 0; i < n; i++) {
+            for (i = 0; i < n-1; i++) {
 
                 row = tracking[i].split('\t');
 
@@ -58,7 +86,8 @@ angular.module('verpApp')
 
             }
 
-            verp.pos = verp.pos.splice(0, verp.pos.length - 1);
+            // we'll use delta time to filter out saccadic  movements
+            delta(verp.time, verp.deltaTime);
 
             verp.pos.coordXform = coordXform;
 
@@ -78,15 +107,19 @@ angular.module('verpApp')
 
             FileReader.readAsText($scope.file, $scope)
                 .then(function(result) {
+                    var t = $scope.file.name.split('.'), verp;
 
-                    var t = $scope.file.name.split('.');
+                    if(t[t.length - 1] === 'json'){
+                        verp = JSON.parse(result);
+                        verp.deltaTime  = [];
+                        delta(verp.time, verp.deltaTime);
+                        DataService.tracking(verp);
 
-                    if(t[t.length - 1] === 'json')
-                        DataService.tracking(JSON.parse(result));
-                    else if(t[t.length-1] === 'idf')
+                    }else if(t[t.length-1] === 'idf') {
                         DataService.tracking(parseIDF(result));
-                    else
+                    }else {
                         console.error('Unknown tracking file format!');
+                    }
                 });
 
         };

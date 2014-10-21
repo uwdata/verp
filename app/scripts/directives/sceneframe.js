@@ -9,7 +9,7 @@
 angular.module('verpApp')
     .directive('sceneFrame', function (EventService) {
 
-        var sceneFrameLink= function(scope, element, attrs){
+        var sceneFrameLink = function(scope, element, attrs){
 
             var s = scope;
 
@@ -17,6 +17,7 @@ angular.module('verpApp')
             s.frmScaleX = 1;
             s.frmScaleY = 1;
             element[0].appendChild(s.frm);
+
 
             function sceneImgUpdate(e,d){
 
@@ -29,7 +30,7 @@ angular.module('verpApp')
 
                     s.frm.srcName = 'Scene';
 
-                    if(typeof(s.tracking) !== 'undefined' && s.tracking !== null){
+                    if(s.tracking){
 
                         s.tracking.pos.domainWidth = s.imgWidth;
                         s.tracking.pos.domainHeight = s.imgHeight;
@@ -38,20 +39,29 @@ angular.module('verpApp')
 
                     }
                 };
+
                 s.frm.src = d;
             }
 
+
+
             function sceneTrackingUpdate(e,d){
+
                 s.tracking = d;
+
                 if(s.frm.src) {
+
                     s.tracking.pos.domainWidth = s.imgWidth;
                     s.tracking.pos.domainHeight = s.imgHeight;
                     EventService.broadcastSceneReady({data: s.tracking, src: s.frm.src});
+
                 }
+
             }
 
             scope.$on('scene.img.update', sceneImgUpdate);
             scope.$on('scene.tracking.update', sceneTrackingUpdate);
+
 
         };
 
@@ -61,5 +71,6 @@ angular.module('verpApp')
             replace:true,
             link:sceneFrameLink
         }
+
 
     });

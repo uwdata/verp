@@ -10,14 +10,22 @@
 angular.module('verpApp')
     .controller('RecurrenceCtrl', function ($scope, $timeout, EventService) {
         $scope.rpPanelSize = [200, 300];
+
         $scope.eps = 50;
         $scope.epsmin = 0;
         $scope.epsmax = 100;
         $scope.epsstep= 1;
+        $scope.epsTime = 50;
+        $scope.epsTimeMin = 0;
+        $scope.epsTimeMax= 100;
+        $scope.epsTimeStep = 1;
+
         $scope.distfn = 'l2';
         $scope.brush = {};
         $scope.brush.lock = true;
         $scope.epsFiltering = false;
+        $scope.epsTimeFiltering = false;
+
         $scope.partition = false;
         $scope.interaction = {mode:'selection'};
         $scope.setMode= function(m){
@@ -47,6 +55,21 @@ angular.module('verpApp')
                                              partition: $scope.partition
             });
         };
+        $scope.epsTimeUpdate = function (){
+            EventService.broadcastSaccadeUpdate({epsTime:parseInt($scope.epsTime, 10),
+                epsTimeFiltering:$scope.epsTimeFiltering,
+                eps:$scope.eps
+            });
+        };
+
+//        $scope.epsTimeUpdate= function (){
+//            EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
+//                                             epsFiltering:$scope.epsFiltering,
+//                                             partition: $scope.partition
+//            });
+//        };
+
+
 
     }).directive('xbrush', function($rootScope){
 

@@ -23,6 +23,7 @@ angular.module('verpApp')
             function filter(e, d){
 
                 if(sp === null) return;
+
                 var  indx = d.epsNet(), f = d.epsFiltering, cond;
                 if(f)
                     cond = function(indx, i){return !(indx[i] === 1);};
@@ -30,13 +31,15 @@ angular.module('verpApp')
                     cond = function(){return false;};
 
                 sp.ghost(indx, cond);
-
             }
+
 
             function hide(e,d){
                 var indx = d.currentTime,
                     cond = function(indx, i){return i>indx;};
+
                 if(sp!==null) sp.hide(indx, cond);
+
             }
 
             function cond(e,d,x,y){
@@ -54,18 +57,18 @@ angular.module('verpApp')
             }
 
 
-            function update(e, d){
+            function update(e, d) {
 
                 var p = d.data.pos;
 
                 if(sp === null) {
 
-                    if(p.coordXform) p.coordXform(p);
+                    if(p.coordXform)  p.coordXform(p);
 
                     sp = new Scatter(d.data.pos,
                         element[0],
                         {width: w,
-                            height: h,
+                         height: h,
                             scale: {x:0.5, y:0.5},
                             k: {x:0, y:1}
                         });
@@ -78,16 +81,24 @@ angular.module('verpApp')
 
             }
 
-
             scope.$on('scene.ready', update);
             scope.$on('rp.selection', highlight);
             scope.$on('player.time', hide);
             scope.$on('rp.epsFilter.update', filter);
+
+            //TODO refactor this
+            scope.$on('saccade.update', function(e, d){
+              console.log(d);
+              if(sp) sp.hide(d.indx, function(indx,i){return indx[i];});
+            });
+
             scope.$watch('sp.markerSize', function(val) {
                 markerSize(val);
             });
 
+
         };
+
 
         return {
             template: '<div id="tracking-sp" ng-show="showTracking"></div>',

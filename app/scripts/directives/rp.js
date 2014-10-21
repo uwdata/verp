@@ -32,7 +32,8 @@ angular.module('verpApp')
                   init();
                   rp(dd, element[0]);
                   DataService.service('rpSelection', rp.activeDomain);
-                  DataService.service('rpEpsNet', rp.epsnet)
+                  DataService.service('rpEpsNet', rp.epsnet);
+                  DataService.service('rpDistanceMatrix', rp.distanceMatrix);
 
               }else{
                   rp.data(dd).update();
@@ -69,10 +70,11 @@ angular.module('verpApp')
         };
 
         return {
-            template: '<div></div>',
-            restrict: 'E',
+            template:'<div></div>',
+            restrict:'E',
             priority: 1,
             replace: true,
             link: postLink
         }
+
     });

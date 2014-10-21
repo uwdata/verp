@@ -18,7 +18,7 @@ angular.module('verpApp')
         //creates the maximal complex once
         function alphaComplex(e, d){
 
-          console.log('creating the alpha complex');
+	  console.log('creating the alpha complex');
 
           var v = d.data.pos,
                x = d3.scale.linear()
@@ -28,9 +28,11 @@ angular.module('verpApp')
                 .domain([0, v.domainHeight])
                 .range([0, h]);
 
-          if(v.coordXform) v.coordXform(v);
+	// if(v.coordXform) v.coordXform(v);
+          
           ac = alpha(v).xScale(x).yScale(y);
           ac(element[0]);
+
         }
 
         //then extracts alpha complexes as needed

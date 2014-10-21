@@ -42,11 +42,13 @@ Scatter.prototype.updateScale = function(data, key) {
 
     var k = key || this.p_.k,
         p = this.p_,
-        w = p.width -  (p.margin.right + p.margin.left),
+        w = p.width  - (p.margin.right + p.margin.left),
         h = p.height - (p.margin.bottom + p.margin.top),
         dw = data.domainWidth || w,
         dh = data.domainHeight || h,
-        rx, ry, ar;
+        rx,
+        ry,
+        ar;
 
 
     if(p.axis.type === 'identity') {
@@ -59,6 +61,7 @@ Scatter.prototype.updateScale = function(data, key) {
         p.axis.x = d3.scale.linear().domain([0, dw]).range([p.margin.left, p.margin.left + w]);
         p.axis.y = d3.scale.linear().domain([0, dh]).range([p.margin.top, p.margin.top + h]);
 
+
     } else { //adaptive
         rx = utils.minmax(data, k.x);
         ry = utils.minmax(data, k.y);
@@ -70,9 +73,11 @@ Scatter.prototype.updateScale = function(data, key) {
         p.axis.y = d3.scale.linear().domain(ry).range([p.margin.top, h + p.margin.top]);
 
     }
-//
-//    console.log(p.axis.x.domain());
-//    console.log(p.axis.y.domain());
+
+    console.log(p.axis.x.domain());
+    console.log(p.axis.x.range());
+    console.log(p.axis.y.domain());
+    console.log(p.axis.y.range());
 
 };
 
@@ -188,12 +193,12 @@ Scatter.prototype.hide = function(indx,f){
    var shapes = this.svg_.selectAll('.shape');
 
      if(arguments.length === 2){
-            shapes.classed('hidden',
+            shapes.classed('gray',
                 function (d, i){
                 return f(indx,i);
             });
      } else {
-         shapes.classed('hidden',
+         shapes.classed('gray',
                 function (d, i){
                 return indx !== i ;
             });
@@ -204,7 +209,8 @@ Scatter.prototype.hide = function(indx,f){
 Scatter.prototype.highlight = function(a, f){
 
     var h = this.highlighted_,
-        p = this.p_, v;
+        p = this.p_,
+        v;
 
 
     if(arguments.length === 2) {
@@ -213,10 +219,15 @@ Scatter.prototype.highlight = function(a, f){
             .selectAll('.shape')
             .classed('highlight',
             function (d, i) {
-                var dd = [ p.axis.x(d[0]), p.axis.y(d[1])];
+
+               var dd = [p.axis.x(d[0]), p.axis.y(d[1])];
+
                 v  = f(a, dd, 0, 1);
+
                 h[i] = v === true ? 1 : 0;
+
                 return v;
+
             });
     }else{
         this.svg_

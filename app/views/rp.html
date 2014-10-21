@@ -13,15 +13,16 @@
           ng-style="brushStyle"
           ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'}; "
           style=""></span>
-<span class="glyphicon glyphicon-repeat"></span>
-
+            <span class="glyphicon glyphicon-repeat"></span>
            <rp class="stacked" width="500" height="500"></rp>
            <brush id="rp"  class="stacked" width="500" height="500"></brush>
            <zoom class="stacked" width="500" height="500" ng-show="interaction.mode==='view'"></zoom>
         </div>
 
         <div class="col-md-4 column" style="padding-left:30px;padding-right:0px" >
+
             <form  role="form" class="form" >
+
                 <div class="form-group slider">
                     <div style="display:block"><label>epsilon</label></div>
                     <label class="numinput">min:</label><input type="number"  id="min-input" value="{{epsmin}}" ng-model="epsmin">
@@ -50,6 +51,7 @@
                        </label>
 
                 </div>
+
                 <label>distance functions</label>
                 <div class="form-group">
                     <label class="radio-inline">
@@ -63,6 +65,28 @@
                      <label class="radio-inline">
                         <input type="radio" name="norms" value="edit" ng-model="distfn" ng-change="update()" />edit</label>
                 </div>
+
+                <div class="form-group slider">
+                    <div style="display:block"><label>epsilon time</label></div>
+                    <label class="numinput">min:</label><input type="number"   value="{{epsTimeMin}}" ng-model="epsTimeMin">
+                    <label class="numinput">step:</label><input type="number"  value="{{epsTimeStep}}" ng-model="epsTimeStep">
+                    <label class="numinput">max:</label><input type="number"   value="{{epsTimeMax}}" ng-model="epsTimeMax">
+                    <input type="range"
+                           min="{{epsTimeMin}}"
+                           step="{{epsTimeStep}}"
+                           max="{{epsTimeMax}}"
+                           value="{{epsTime}}"
+                           ng-model="epsTime"
+                           ng-change="epsTimeUpdate()"/>
+                    <label style="display:block;text-align:center">{{epsTime}}</label>
+                       <label class="checkbox">
+                           saccadicity
+                           <input type="checkbox"
+                           ng-model="epsTimeFiltering"
+                           ng-change="epsTimeUpdate()"/>
+                       </label>
+                </div>
+
             </form>
             <label>time interval</label>
             <xbrush axis="x"></xbrush>

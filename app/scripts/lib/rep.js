@@ -149,6 +149,9 @@
       scaleY.domain([ ys, ye ]);
       return crp;
     };
+    crp.distanceMatrix = function() {
+      return rpdata;
+    };
     crp.data = function(_) {
       if (!arguments.length) return data;
       imgWidth = _.x.length;

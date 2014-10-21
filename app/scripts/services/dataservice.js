@@ -37,9 +37,9 @@ angular.module('verpApp')
         };
         var service = function(name, fn){
             if(arguments.length === 1)  return services[name];
-            console.log('adding new service:'+name);
             services[name] = fn;
         };
+
 
         // Public API here
         return {

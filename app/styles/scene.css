@@ -30,13 +30,20 @@ position:absolute;
 circle{
     /*vector-effect:non-scaling-stroke;*/
     fill:coral;
-    opacity:0.8;
+    opacity:1;
     stroke: #696969;
     stroke-width:3;
 }
 
+
 .hidden circle{
-    display:none;
+    opacity:0.3;
+}
+
+.gray circle{
+    opacity:0.25;
+    fill: #9bc398;
+    stroke: none;
 }
 
 
