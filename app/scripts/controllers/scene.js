@@ -10,7 +10,7 @@
 angular.module('verpApp')
     .controller('SceneCtrl', function ($scope, $timeout) {
 
-        $scope.showTracking=false;
+        $scope.showTracking = true;
         $scope.frmScaleX = 1;
         $scope.frmScaleY = 1;
         $scope.frm  = {};

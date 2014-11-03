@@ -30,15 +30,31 @@ Scatter.prototype.init = function(div, cp){
         .attr('height',cp.height);
 };
 
-Scatter.prototype.updateAxes = function(x,y){
-var p = this.p_;
-p.axis.x.domain(x.domain());
-p.axis.y.domain(y.domain());
+
+Scatter.prototype.updateAxes = function(xs, ys){
+
+
+    console.log(xs().domain(), xs().range());
+    console.log(ys().domain(), ys().range());
+
+    var p = this.p_,
+        x = xs(),
+        y = ys(),
+        sx = p.scale.x,
+        sy = p.scale.y,
+        k = this.p_.k;
+
+
+    this.svg_.selectAll('.shape')
+       .attr('transform', function(d,i){
+           return 'translate('+x(d[k.x]) + ',' + y(d[k.y]) + ')' +
+              'scale(' + sx + ',' + sy + ')';
+        })
 };
+
 
 Scatter.prototype.updateScale = function(data, key) {
 
-    console.log('updating scatter plot scale');
 
     var k = key || this.p_.k,
         p = this.p_,
@@ -50,7 +66,6 @@ Scatter.prototype.updateScale = function(data, key) {
         ry,
         ar;
 
-
     if(p.axis.type === 'identity') {
 
         p.axis.x = d3.scale.identity();
@@ -58,11 +73,18 @@ Scatter.prototype.updateScale = function(data, key) {
 
     }else if(p.axis.type === 'fixed') {
 
-        p.axis.x = d3.scale.linear().domain([0, dw]).range([p.margin.left, p.margin.left + w]);
-        p.axis.y = d3.scale.linear().domain([0, dh]).range([p.margin.top, p.margin.top + h]);
+        p.axis.x = d3.scale
+            .linear()
+            .domain([0, dw])
+            .range([p.margin.left, p.margin.left + w]);
 
+        p.axis.y = d3.scale
+            .linear()
+            .domain([0, dh])
+            .range([p.margin.top, p.margin.top + h]);
 
     } else { //adaptive
+
         rx = utils.minmax(data, k.x);
         ry = utils.minmax(data, k.y);
         ar = (rx[1] - rx[0]) / (ry[1] - ry[0]);
@@ -73,11 +95,6 @@ Scatter.prototype.updateScale = function(data, key) {
         p.axis.y = d3.scale.linear().domain(ry).range([p.margin.top, h + p.margin.top]);
 
     }
-
-    console.log(p.axis.x.domain());
-    console.log(p.axis.x.range());
-    console.log(p.axis.y.domain());
-    console.log(p.axis.y.range());
 
 };
 
@@ -100,6 +117,8 @@ Scatter.prototype.update = function(data, key){
         c = this.svg_.selectAll('.shape')
             .data(data); //join
 
+
+
     //update
     c.transition().duration(1000)
         .attr('transform', function(d,i){
@@ -119,8 +138,8 @@ Scatter.prototype.update = function(data, key){
         .transition()
         .duration(1000)
         .style('opacity',1);
-
-    c.exit() //delete
+    //delete
+    c.exit()
         .transition()
         .style('opacity',0.2)
         .remove();
@@ -204,6 +223,7 @@ Scatter.prototype.hide = function(indx,f){
             });
      }
 };
+
 
 
 Scatter.prototype.highlight = function(a, f){

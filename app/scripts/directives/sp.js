@@ -52,10 +52,17 @@ angular.module('verpApp')
             }
 
 
-            function highlight(e,d){
+            function highlight(e, d){
                 if(sp) sp.highlight(d);
             }
 
+
+            function updateScale(e, d){
+
+               console.log('updating scale...');
+
+               if(sp) sp.updateAxes(d.xs, d.ys);
+            }
 
             function update(e, d) {
 
@@ -82,6 +89,7 @@ angular.module('verpApp')
             }
 
             scope.$on('scene.ready', update);
+            scope.$on('scene.zoom', updateScale);
             scope.$on('rp.selection', highlight);
             scope.$on('player.time', hide);
             scope.$on('rp.epsFilter.update', filter);
@@ -96,9 +104,7 @@ angular.module('verpApp')
                 markerSize(val);
             });
 
-
         };
-
 
         return {
             template: '<div id="tracking-sp" ng-show="showTracking"></div>',
@@ -106,7 +112,6 @@ angular.module('verpApp')
             replace: true,
             link: postLink
         }
-
 
     });
 

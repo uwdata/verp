@@ -7,26 +7,24 @@
  * # zoom
  */
 angular.module('verpApp')
-  .directive('zoom', function () {
+  .directive('zoom', function (EventService) {
         var postLink = function (scope, element, attrs) {
-
-//           console.log('creating zoom behavior...');
 
          var w = parseInt(attrs.width),
              h = parseInt(attrs.height);
 
           var x = d3.scale.linear()
-              .domain([0, w])
+              .domain([0, 300])
               .range([0, w]);
 
           var y = d3.scale.linear()
-              .domain([0, h])
+              .domain([0, 300])
               .range([0, h]);
 
           var zoomer = d3.behavior.zoom()
               .x(x)
               .y(y)
-              .scaleExtent([1, 8])
+              .scaleExtent([1,8])
               .on("zoom", zoom);
 
           var svg = d3.select(element[0]).append("svg")
@@ -35,9 +33,11 @@ angular.module('verpApp')
               .call(zoomer);
 
             function zoom(){
-                console.log('zooming...');
-                console.log(zoomer.x().domain());
-                console.log(zoomer.y().domain());
+
+                EventService.broadcastSceneZoom({
+                  xs:zoomer.x,
+                  ys:zoomer.y});
+
             }
 
       };

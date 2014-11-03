@@ -8,7 +8,7 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-    .controller('RecurrenceCtrl', function ($scope, $timeout, EventService) {
+    .controller('RecurrenceCtrl', function ($scope,  EventService) {
         $scope.rpPanelSize = [200, 300];
 
         $scope.eps = 50;
