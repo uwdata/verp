@@ -11,57 +11,91 @@ angular.module('verpApp')
 
         var sceneFrameLink = function(scope, element, attrs){
 
-            var s = scope;
+            var s = scope,
+                frm = s.frm;
+                frm.xScale = d3.scale.linear().range([0, +attrs.width]);
+                frm.yScale = d3.scale.linear().range([0, +attrs.height]);
 
-            s.frm = new Image();
-            s.frmScaleX = 1;
-            s.frmScaleY = 1;
-            element[0].appendChild(s.frm);
+            s.canvas = document.createElement('canvas');
+            s.canvas.width = +attrs.width;
+            s.canvas.height = +attrs.height;
+            s.ctx = s.canvas.getContext('2d');
+            s.ctx.imageSmoothingEnabled = false;
+            frm.img = new Image();
 
+            element[0].appendChild(s.canvas);
 
-            function sceneImgUpdate(e,d){
+            function sceneImgUpdate(e, d){
 
-                s.frm.onload = function(){
+                frm.img.onload = function(){
 
-                    s.imgWidth = s.frm.naturalWidth;
-                    s.imgHeight = s.frm.naturalHeight;
-                    s.frm.height = attrs.height;
-                    s.frm.width = attrs.width;
+                    frm.name = 'Scene';
+                    frm.xScale.domain([0,frm.img.naturalWidth]);
+                    frm.yScale.domain([0,frm.img.naturalHeight]);
 
-                    s.frm.srcName = 'Scene';
+                    drawSceneImg();
 
                     if(s.tracking){
-
-                        s.tracking.pos.domainWidth = s.imgWidth;
-                        s.tracking.pos.domainHeight = s.imgHeight;
-
-                        EventService.broadcastSceneReady({data: s.tracking, src: s.frm.src});
-
+                        s.tracking.pos.domainWidth = frm.img.naturalWidth;
+                        s.tracking.pos.domainHeight = frm.img.naturalHeight;
+                        EventService.broadcastSceneReady({data: s.tracking, src:frm.img.src});
                     }
                 };
 
-                s.frm.src = d;
+                frm.img.src = d;
+
             }
 
 
+            function drawSceneImg(){
 
-            function sceneTrackingUpdate(e,d){
+                var dx = frm.xScale.domain(),
+                    rx = frm.xScale.range(),
+                    dy = frm.yScale.domain(),
+                    ry = frm.yScale.range();
+
+                s.ctx.drawImage(frm.img,
+                    (dx[0]),
+                    (dy[0]),
+                    (dx[1] - dx[0]),
+                    (dy[1] - dy[0]),
+                    (rx[0]),
+                    (ry[0]),
+                    (rx[1] - rx[0]),
+                    (ry[1] - ry[0]));
+
+            }
+
+
+            function sceneImgScaleUpdate(e, d){
+
+                frm.xScale = d.xs();
+                frm.yScale = d.ys();
+
+                drawSceneImg();
+            }
+
+            function sceneImgScaleReset(){
+                // frm.xScale = ;
+                // frm.yScale = ;
+                // drawSceneImg();
+            }
+
+            function sceneTrackingUpdate(e, d){
 
                 s.tracking = d;
 
-                if(s.frm.src) {
-
-                    s.tracking.pos.domainWidth = s.imgWidth;
-                    s.tracking.pos.domainHeight = s.imgHeight;
-                    EventService.broadcastSceneReady({data: s.tracking, src: s.frm.src});
-
+                if(frm.img.src) {
+                    s.tracking.pos.domainWidth = frm.img.naturalWidth;
+                    s.tracking.pos.domainHeight = frm.img.naturalHeight;
+                    EventService.broadcastSceneReady({data: s.tracking, src: frm.img.src});
                 }
 
             }
 
+            scope.$on('scene.zoom', sceneImgScaleUpdate);
             scope.$on('scene.img.update', sceneImgUpdate);
             scope.$on('scene.tracking.update', sceneTrackingUpdate);
-
 
         };
 

@@ -20,11 +20,11 @@
         <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
         <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
         <brush id="sp" class="stacked" width="650" height="500" ng-show="showTracking"></brush>
-        <zoom class="stacked" width="650" height="500" ng-show="mode==='view'"></zoom>
+        <zoom id="scene-zoom" class="stacked" width="650" height="500" ng-show="mode==='view'"></zoom>
     </div>
 
     <div class="scene-info">
-        <div ng-show="frm.src">
+        <div ng-show="frm.img.src">
             <div class="controlgrp">
                 <label>
                 <input type="checkbox" ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"/>
@@ -34,7 +34,6 @@
                     <label>circle size</label><input type="range" min="0" step="0.25" max="50"
                                                      ng-model="sp.markerSize"
                                                      ng-init="s.markerSize=7"/>
-
                     <label>circle opacity</label>
                     <input type="range"  min="0" step="0.05" max="1.0"
                            ng-model="spOpacity"
@@ -44,11 +43,10 @@
 
                 <div>
                     <label>scene opacity</label>
-                    <input type="range"  min="0" step="0.05" max="1.0"
+                    <input type="range" min="0" step="0.05" max="1.0"
                            ng-model="imgOpacity"
                            ng-init="imgOpacity=0.5"
                            ng-change="imgStyle={'opacity':imgOpacity}"/>
-
                     <label>blur</label>
                     <input type="range"  min="0" step="0.25" max="10"
                            ng-model="spBlur" ng-init="spBlur=0"

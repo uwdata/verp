@@ -6,12 +6,14 @@
  * @description
  * # zoom
  */
+
 angular.module('verpApp')
   .directive('zoom', function (EventService) {
         var postLink = function (scope, element, attrs) {
 
-         var w = parseInt(attrs.width),
-             h = parseInt(attrs.height);
+         var w = +attrs.width,
+             h = +attrs.height,
+             view = attrs.id;
 
           var x = d3.scale.linear()
               .domain([0, 300])
@@ -34,13 +36,18 @@ angular.module('verpApp')
 
             function zoom(){
 
-                EventService.broadcastSceneZoom({
+                if(view === 'scene-zoom')
+                    EventService.broadcastSceneZoom({
+                  xs:zoomer.x,
+                  ys:zoomer.y});
+                else if(view == 'rp-zoom')
+                     EventService.broadcastRPZoom({
                   xs:zoomer.x,
                   ys:zoomer.y});
 
             }
-
       };
+
     return {
       template: '<div></div>',
       restrict: 'E',

@@ -29,8 +29,10 @@ angular.module('verpApp')
 
             if(!arguments.length) return  scene.img;
 
-            if(scene.img!== _){
-                scene.img= _;
+
+            if(scene.img !== _){
+                scene.img = _;
+                console.log(_); 
                 $rootScope.$broadcast('scene.img.update', scene.img);
             }
 

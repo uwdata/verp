@@ -27,8 +27,6 @@ angular.module('verpApp')
             p.sceneReady = true;
             p.max = d.data.pos.length-1;
 
-//            $scope.$apply();
-
         });
 
         $scope.player.stepTime = function(step){

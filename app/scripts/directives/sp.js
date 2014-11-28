@@ -58,9 +58,7 @@ angular.module('verpApp')
 
 
             function updateScale(e, d){
-
                console.log('updating scale...');
-
                if(sp) sp.updateAxes(d.xs, d.ys);
             }
 
