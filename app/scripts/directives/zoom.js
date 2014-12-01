@@ -9,11 +9,13 @@
 
 angular.module('verpApp')
   .directive('zoom', function (EventService) {
+
         var postLink = function (scope, element, attrs) {
 
          var w = +attrs.width,
              h = +attrs.height,
              view = attrs.id;
+
 
           var x = d3.scale.linear()
               .domain([0, 300])
@@ -34,25 +36,37 @@ angular.module('verpApp')
               .attr("height", h)
               .call(zoomer);
 
+
+            function zoomReset(){
+                zoomer.x(x.domain([0,300])).y(y.domain([0,300]));
+                zoom();
+            }
+
+
             function zoom(){
 
-                if(view === 'scene-zoom')
+                if(view === 'scene-zoom') {
                     EventService.broadcastSceneZoom({
-                  xs:zoomer.x,
-                  ys:zoomer.y});
-                else if(view == 'rp-zoom')
-                     EventService.broadcastRPZoom({
-                  xs:zoomer.x,
-                  ys:zoomer.y});
-
+                        xs: zoomer.x,
+                        ys: zoomer.y
+                    });
+                }else if(view === 'rp-zoom') {
+                    //EventService.broadcastRPZoom({
+                    // xs: zoomer.x,
+                    // ys: zoomer.y
+                    //});
+                }
             }
+
+            scope.$on('scene.reset', zoomReset);
+
       };
 
     return {
-      template: '<div></div>',
-      restrict: 'E',
-      replace: true,
-      link: postLink
+        template: '<div></div>',
+        restrict: 'E',
+        replace: true,
+        link: postLink
     };
 
   });

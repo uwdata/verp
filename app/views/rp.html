@@ -1,22 +1,22 @@
 <div class="col-md-7 column recurrence" ng-controller="RecurrenceCtrl">
-
     <div class="row clearfix">
-        <div class="col-md-8 column" style="padding-left:70px">
+        <div class="col-md-8 column" style="padding-left:70px" ng-controller="RecurrenceCtrl">
             <label class="viewname">RP</label>
-    <span class="glyphicon glyphicon-search"
-          ng-model="interaction.mode"
-          ng-style="zoomStyle"
-          ng-click="setMode('view'); brushStyle={'color':'gray'}; zoomStyle={'color': 'orange'};"
-          style="margin-left:45%"></span>
-     <span class="fa fa-paint-brush"
-          ng-model="interaction.mode"
-          ng-style="brushStyle"
-          ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'}; "
-          style=""></span>
+            <span class="glyphicon glyphicon-search"
+                  ng-model="interaction.mode"
+                  ng-style="zoomStyle"
+                  ng-click="setMode('view'); brushStyle={'color':'gray'}; zoomStyle={'color': 'orange'};"
+                  style="margin-left:45%">
+                  </span>
+            <span class="fa fa-paint-brush"
+                  ng-model="interaction.mode"
+                  ng-style="brushStyle"
+                  ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'};">
+            </span>
             <span class="glyphicon glyphicon-repeat"></span>
-           <rp class="stacked" width="500" height="500"></rp>
-           <brush id="rp"  class="stacked" width="500" height="500"></brush>
-           <zoom class="stacked" width="500" height="500" ng-show="interaction.mode==='view'"></zoom>
+            <rp class="stacked" width="500" height="500"></rp>
+            <brush id="rp"  class="stacked" width="500" height="500"></brush>
+            <zoom id="rp-zoom" class="stacked" width="500" height="500" ng-show="interaction.mode==='view'"></zoom>
         </div>
 
         <div class="col-md-4 column" style="padding-left:30px;padding-right:0px" >
@@ -37,18 +37,18 @@
                            ng-model="eps"
                            ng-change="epsUpdate()"/>
                     <label style="display:block;text-align:center">{{eps}}</label>
-                       <label class="checkbox">
-                           epsilon filtering
-                           <input type="checkbox"
-                           ng-model="epsFiltering"
-                           ng-change="epsFilteringUpdate()"/>
-                       </label>
-                     <label class="checkbox">
-                          partition
-                           <input type="checkbox"
-                           ng-model="partition"
-                           ng-change="epsFilteringUpdate()"/>
-                       </label>
+                    <label class="checkbox">
+                        epsilon filtering
+                        <input type="checkbox"
+                               ng-model="epsFiltering"
+                               ng-change="epsFilteringUpdate()"/>
+                    </label>
+                    <label class="checkbox">
+                        partition
+                        <input type="checkbox"
+                               ng-model="partition"
+                               ng-change="epsFilteringUpdate()"/>
+                    </label>
 
                 </div>
 
@@ -62,7 +62,7 @@
                         <input type="radio" name="norms" value="max" ng-model="distfn" ng-change="update()" />max</label>
                     <label class="radio-inline">
                         <input type="radio" name="norms" value="min" ng-model="distfn" ng-change="update()" />min</label>
-                     <label class="radio-inline">
+                    <label class="radio-inline">
                         <input type="radio" name="norms" value="edit" ng-model="distfn" ng-change="update()" />edit</label>
                 </div>
 
@@ -79,23 +79,24 @@
                            ng-model="epsTime"
                            ng-change="epsTimeUpdate()"/>
                     <label style="display:block;text-align:center">{{epsTime}}</label>
-                       <label class="checkbox">
-                           saccadicity
-                           <input type="checkbox"
-                           ng-model="epsTimeFiltering"
-                           ng-change="epsTimeUpdate()"/>
-                       </label>
+                    <label class="checkbox">
+                        saccadicity
+                        <input type="checkbox"
+                               ng-model="epsTimeFiltering"
+                               ng-change="epsTimeUpdate()"/>
+                    </label>
                 </div>
 
             </form>
             <label>time interval</label>
             <xbrush axis="x"></xbrush>
             <div id="time-lock">
-            <input type="checkbox" ng-model="brush.lock" checked>
+                <input type="checkbox" ng-model="brush.lock" checked>
                 <span class="glyphicon glyphicon-lock"></span>
-            </input>
+                </input>
             </div>
             <xbrush axis="y"></xbrush>
+            <!--<label>embedding dimensions</label>-->
         </div>
     </div>
 </div>

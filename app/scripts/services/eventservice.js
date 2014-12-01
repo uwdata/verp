@@ -31,10 +31,16 @@ angular.module('verpApp')
             $rootScope.$broadcast('scene.ready', scene)
         };
 
-        var broadcastSceneZoom = function broadcastSceneReady(d){
+        var broadcastSceneZoom = function broadcastSceneZoom(d){
             sceneScale = d;
             $rootScope.$broadcast('scene.zoom', sceneScale)
         };
+
+        var broadcastSceneReset= function broadcastSceneReset(){
+            $rootScope.$broadcast('scene.reset',null)
+        };
+
+
 
         var broadcastEpsUpdate= function broadcastEpsUpdate(d) {
             rp.eps = d.eps;
@@ -85,7 +91,7 @@ angular.module('verpApp')
         };
 
 
-        var broadcastRPBrush  = function broadcastRPBrush(d){
+        var broadcastRPBrush = function broadcastRPBrush(d){
             rpBrush.data = d;
             var func = DataService.service('rpSelection');
             broadcastRPSelection( func(rpBrush.data) );
@@ -119,6 +125,7 @@ angular.module('verpApp')
             broadcastSPBrush: broadcastSPBrush,
             broadcastSceneReady:broadcastSceneReady,
             broadcastSceneZoom:broadcastSceneZoom,
+            broadcastSceneReset:broadcastSceneReset,
             broadcastPlayerTimeChange:broadcastPlayerTimeChange,
             broadcastEpsUpdate:broadcastEpsUpdate,
             broadcastSaccadeUpdate:broadcastSaccadeUpdate
