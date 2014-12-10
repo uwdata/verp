@@ -13,7 +13,8 @@
                   ng-style="brushStyle"
                   ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'};">
             </span>
-            <span class="glyphicon glyphicon-repeat"></span>
+            <span class="glyphicon glyphicon-repeat"
+                    ng-click="resetView()"></span>
             <rp class="stacked" width="500" height="500"></rp>
             <brush id="rp"  class="stacked" width="500" height="500"></brush>
             <zoom id="rp-zoom" class="stacked" width="500" height="500" ng-show="interaction.mode==='view'"></zoom>

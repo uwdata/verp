@@ -1,14 +1,10 @@
-Update brush selections when rp controls change
 
-Fix the scale of real life images
+* Scale reset for the RP view  
+* Implement zoom for the RP view 
+* Box selection under viewing interactions  
+* New file format reading 
 
-RQA Analysis 
+* Tooltips 
+* RQA Analysis 
 
-Double-click zoom in
-
-Create an VisService to reach visualizations  
-
-Column data  drag & drop -- should use datatables library?  
-
-Let users define custom functions and see explore corresponding RPs. 
 

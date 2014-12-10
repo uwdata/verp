@@ -44,26 +44,25 @@ angular.module('verpApp')
                 if(rp) rp.highlight(d);
             }
 
-            function  updateRange(e,d){
-              if(rp) rp.range(d).update();
+            function  updateScale(e,d){
+              if(rp) rp.scale(d).update();
             }
 
-            function  updateEps(e,d){
+            function  updateEps(e,d) {
 
-              if(rp){
-                  rp.eps(d.eps).update();
-                  if(d.epsFiltering===true) $rootScope.$broadcast('rp.epsFilter.update', d);
-              }
-
+                if (rp) {
+                    rp.eps(d.eps).update();
+                    if (d.epsFiltering === true) $rootScope.$broadcast('rp.epsFilter.update', d);
+                }
             }
 
             function  updateDistfn(n,o){
               if(rp) rp.distfn(n).update();
             }
 
+            scope.$on('rp.zoom', updateScale);
             scope.$on('scene.ready', update);
             scope.$on('sp.selection', highlight);
-            scope.$on('range.update', updateRange);
             scope.$on('rp.eps.update', updateEps);
             scope.$watch('distfn', updateDistfn);
 

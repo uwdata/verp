@@ -4,24 +4,14 @@
   };
   "use strict";
   rep.crp = function() {
-    var data = null, rpdata = null, rpdataDirty = true, rpimage = null, buf = null, buf8 = null, data32 = null, canvas = null, canvasOffScreen = null, offScreenDirty = true, ctx = null, ctxOffScreen = null, eps = .5, distfn = rep.norms.l2, imgWidth, imgHeight, width = 100, height = 100, range = {
-      xs: 0,
-      xe: 1,
-      ys: 0,
-      ye: 1
-    }, domain = {
-      xs: 0,
-      xe: width,
-      ys: 0,
-      ye: height
-    }, activeDomain, epsnet, scaleX, scaleY;
+    var data = null, rpdata = null, rpdataDirty = true, rpimage = null, buf = null, buf8 = null, data32 = null, canvas = null, canvasOffScreen = null, offScreenDirty = true, ctx = null, ctxOffScreen = null, eps = .5, distfn = rep.norms.l2, width = 100, height = 100, xScale, yScale, imgWidth, imgHeight, activeDomain, epsnet;
     function initArray(a, val) {
       var n = a.length, i = 0;
       for (;i < n; ++i) a[i] = val;
     }
     function initData(d) {
-      data = d;
       var s = imgWidth * imgHeight;
+      data = d;
       rpdata = new Float32Array(s);
       activeDomain = new Uint8Array(imgWidth);
       epsnet = new Uint8Array(imgWidth);
@@ -44,7 +34,7 @@
       canvas = d3.select(el).append("canvas").attr("width", width).attr("height", height).node();
       ctx = canvas.getContext("2d");
       initData(d);
-      updateScale();
+      initScale();
       update();
       return crp;
     }
@@ -63,35 +53,20 @@
     function update() {
       if (rpdataDirty === true) updateRP();
       if (offScreenDirty === true) renderOffScreen();
-      var dx = scaleX.domain(), dy = scaleY.domain();
-      ctx.drawImage(canvasOffScreen, dx[0], dy[0], dx[1] - dx[0], dy[1] - dy[0], 0, 0, width, height);
+      var dx = xScale.domain(), rx = xScale.range(), dy = yScale.domain(), ry = yScale.range();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(canvasOffScreen, dx[0], dy[0], dx[1] - dx[0], dy[1] - dy[0], rx[0], ry[0], rx[1] - rx[0], ry[1] - ry[0]);
     }
-    function updateScale() {
-      imgWidth = data.x.length;
-      imgHeight = data.y.length;
-      domain = {
-        xs: 0,
-        xe: imgWidth,
-        ys: 0,
-        ye: imgHeight
-      };
-      scaleX = d3.scale.linear().domain([ domain.xs, domain.xe ]).range([ 0, width ]);
-      scaleY = d3.scale.linear().domain([ domain.ys, domain.ye ]).range([ 0, height ]);
-    }
-    function initSvgCanvas(el) {
-      svgCanvas.s = d3.select(el).append("svg").attr("id", "canvas-svg").attr("width", width).attr("height", height);
-      var s = svgCanvas.s;
-      svgCanvas.xsLabel = s.append("text").attr("class", "rplabel").attr("dy", "-0.25em").text("0");
-      svgCanvas.xeLabel = s.append("text").attr("class", "rplabel").attr("dy", "-0.25em").attr("dx", width).attr("text-anchor", "end").text("300");
-      svgCanvas.ysLabel = s.append("text").attr("class", "rplabel").attr("dy", "1em").attr("dx", "-0.25em").attr("text-anchor", "end").text("0");
-      svgCanvas.yeLabel = s.append("text").attr("class", "rplabel").attr("dx", "-0.25em").attr("dy", height).attr("text-anchor", "end").text("300");
+    function initScale() {
+      xScale = d3.scale.linear().domain([ 0, imgWidth ]).range([ 0, width ]);
+      yScale = d3.scale.linear().domain([ 0, imgHeight ]).range([ 0, height ]);
     }
     crp.epsnet = function() {
       return epsnet;
     };
     crp.activeDomain = function(e) {
       if (!arguments.length) return activeDomain;
-      var startX = Math.round(scaleX.invert(e[0][0])), endX = Math.round(scaleX.invert(e[1][0])), startY = Math.round(scaleY.invert(e[0][1])), endY = Math.round(scaleY.invert(e[1][1])), v;
+      var startX = Math.round(e[0][0]), endX = Math.round(e[1][0]), startY = Math.round(e[0][1]), endY = Math.round(e[1][1]), v;
       initArray(activeDomain, 0);
       for (var j = startY; j < endY; j++) {
         for (var i = startX; i < endX; i++) {
@@ -141,12 +116,13 @@
       height = +_;
       return crp;
     };
-    crp.range = function(_) {
-      if (!arguments.length) return range;
-      range = _;
-      var xs = ~~(range.xs * imgWidth), ys = ~~(range.ys * imgHeight), xe = ~~(range.xe * imgWidth), ye = ~~(range.ye * imgHeight);
-      scaleX.domain([ xs, xe ]);
-      scaleY.domain([ ys, ye ]);
+    crp.scale = function(_) {
+      if (!arguments.length) return {
+        xs: xScale,
+        ys: yScale
+      };
+      xScale = _.xs();
+      yScale = _.ys();
       return crp;
     };
     crp.distanceMatrix = function() {

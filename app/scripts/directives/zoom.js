@@ -8,7 +8,7 @@
  */
 
 angular.module('verpApp')
-  .directive('zoom', function (EventService) {
+  .directive('zoom', function (EventService){
 
         var postLink = function (scope, element, attrs) {
 
@@ -42,7 +42,6 @@ angular.module('verpApp')
                 zoom();
             }
 
-
             function zoom(){
 
                 if(view === 'scene-zoom') {
@@ -51,15 +50,13 @@ angular.module('verpApp')
                         ys: zoomer.y
                     });
                 }else if(view === 'rp-zoom') {
-                    //EventService.broadcastRPZoom({
-                    // xs: zoomer.x,
-                    // ys: zoomer.y
-                    //});
+                    EventService.broadcastRPZoom({
+                     xs: zoomer.x,
+                     ys: zoomer.y
+                    });
                 }
             }
-
             scope.$on('scene.reset', zoomReset);
-
       };
 
     return {
