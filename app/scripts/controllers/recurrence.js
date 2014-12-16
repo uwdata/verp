@@ -20,6 +20,7 @@ angular.module('verpApp')
         $scope.epsTimeMax= 100;
         $scope.epsTimeStep = 1;
 
+        $scope.name = 'RecurrenceCtrl';
         $scope.distfn = 'l2';
         $scope.brush = {};
         $scope.brush.lock = true;
@@ -28,18 +29,34 @@ angular.module('verpApp')
 
         $scope.partition = false;
         $scope.interaction = {mode:'selection'};
+
+
         $scope.setMode= function(m){
             $scope.interaction.mode = m;
-            console.log('toggling the interaction mode to '+ $scope.interaction.mode);
         };
-//        $scope.toggleMode = function(){
-//
-//            var  interaction= $scope.interaction;
-//            console.log(interaction.mode);
-//            interaction.mode = interaction.mode === 'selection' ? 'view' : 'selection';
-//            console.log('setting mode to '+ interaction.mode);
-//
-//        };
+
+
+
+        $scope.eventBroadcast = function(msg,data){
+
+            $scope.$broadcast(msg,data);
+
+        };
+
+
+        $scope.resetView = function(){
+            EventService.broadcastRPReset();
+            $scope.$broadcast('view.reset');
+        };
+
+
+
+        $scope.domain = function(){
+            if($scope.xDomain && $scope.yDomain)
+            return {dx: $scope.xDomain,
+                    dy: $scope.yDomain};
+
+        };
 
 
         $scope.epsFilteringUpdate= function (){
@@ -55,6 +72,7 @@ angular.module('verpApp')
                                              partition: $scope.partition
             });
         };
+
         $scope.epsTimeUpdate = function (){
             EventService.broadcastSaccadeUpdate({epsTime:parseInt($scope.epsTime, 10),
                 epsTimeFiltering:$scope.epsTimeFiltering,
@@ -62,79 +80,32 @@ angular.module('verpApp')
             });
         };
 
-//        $scope.epsTimeUpdate= function (){
-//            EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
-//                                             epsFiltering:$scope.epsFiltering,
-//                                             partition: $scope.partition
-//            });
-//        };
+         function updateScale(e,d){
+
+            $scope.xScale.domain(d.xs().domain()).range(d.xs().range());
+            $scope.yScale.domain(d.ys().domain()).range(d.ys().range());
+        }
 
 
+        function init(e,d){
 
-    }).directive('xbrush', function($rootScope){
+                var n = d.data.value.length,
+                    dx = [0, n],
+                    dy = [0, n];
 
-        return{
-            restrict: 'E',
-            replace: true,
-            template: '<div></div>',
-            link: function (scope, element, attrs) {
+                $scope.xScale = d3.scale.linear().domain(dx);
+                $scope.yScale = d3.scale.linear().domain(dy);
 
-                var w = scope.rpPanelSize[0],
-                    h = scope.rpPanelSize[1],
-                    axis = attrs.axis,
-                    brushScaleX = d3.scale.linear().range([0, w]),
-                    brush = d3.svg.brush()
-                        .x(brushScaleX)
-                        .extent([0,1])
-                        .on('brush', brushed);
+                // default data scale
+                $scope.xDomain = dx;
+                $scope.yDomain = dy;
 
-                scope.brush[axis] = brush;
+             $scope.$broadcast('domain.ready');
 
-                var brushsvg = d3.select(element[0])
-                    .append('svg')
-                    .attr('width',w+10)
-                    .attr('height', 10);
+        }
 
-                brushsvg.append('g')
-                    .attr('transform', 'translate(10,0)')
-                    .attr('width', w)
-                    .attr('height',10)
-                    .attr('id', attrs.axis+'brush')
-                    .attr('class', 'x brush')
-                    .call(brush)
-                    .selectAll('rect')
-                    .attr('height',10);
+        $scope.$on('scene.ready', init);
+        $scope.$on('view.zoom', updateScale);
 
-                var xx= d3.scale.identity()
-                        .domain([0, w]),
-                    axisfn = d3.svg.axis()
-                        .scale(xx)
-                        .outerTickSize(0)
-                        .ticks(0),
-                    brushaxis = brushsvg.append('g')
-                        .attr('class', 'x axis')
-                        .attr('transform', 'translate(10,'+5+')')
-                        .call(axisfn)
-                        .append('text')
-                        .attr('class', 'x label')
-                        .attr('dx','-0.75em')
-                        .attr('dy','0.25em')
-                        .text(axis);
-
-
-                function brushed() {
-
-                    var e = brush.extent(),
-                        start = e[0],
-                        end = e[1];
-                    $rootScope.$broadcast('range.update',{xs:start, xe:end, ys:start, ye:end});
-                    if(axis === 'x' && scope.brush.lock === true) {
-                        scope.brush.y.extent([e[0], e[1]]);
-                        d3.select('#ybrush').call(scope.brush.y);
-                    }
-
-                }
-            }
-        };
     });
 

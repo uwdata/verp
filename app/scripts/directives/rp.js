@@ -23,10 +23,10 @@ angular.module('verpApp')
                     .eps(scope.eps);
            }
 
+
             function update(e,scene) {
 
-              var dd= {x: scene.data.value, y: scene.data.value};
-
+              var dd = {x: scene.data.value, y: scene.data.value};
 
               if(rp === null) {
                   init();
@@ -38,6 +38,8 @@ angular.module('verpApp')
               }else{
                   rp.data(dd).update();
               }
+
+                
             }
 
             function  highlight(e,d){
@@ -60,7 +62,8 @@ angular.module('verpApp')
               if(rp) rp.distfn(n).update();
             }
 
-            scope.$on('rp.zoom', updateScale);
+
+            scope.$on('view.zoom', updateScale);
             scope.$on('scene.ready', update);
             scope.$on('sp.selection', highlight);
             scope.$on('rp.eps.update', updateEps);

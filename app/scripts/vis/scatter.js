@@ -33,10 +33,6 @@ Scatter.prototype.init = function(div, cp){
 
 Scatter.prototype.updateAxes = function(xs, ys){
 
-
-    console.log(xs().domain(), xs().range());
-    console.log(ys().domain(), ys().range());
-
     var p = this.p_,
         x = xs(),
         y = ys(),
@@ -241,11 +237,8 @@ Scatter.prototype.highlight = function(a, f){
             function (d, i) {
 
                var dd = [p.axis.x(d[0]), p.axis.y(d[1])];
-
                 v  = f(a, dd, 0, 1);
-
                 h[i] = v === true ? 1 : 0;
-
                 return v;
 
             });

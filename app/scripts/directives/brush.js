@@ -13,39 +13,44 @@ angular.module('verpApp')
 
             var w = attrs.width,
                 h = attrs.height,
-                sx = d3.scale.ordinal().range([0, w]),
-                sy = d3.scale.ordinal().range([0, h]),
-                brush = d3.svg.brush()
-                    .x(sx)
-                    .y(sy)
-                    .on('brush', brushed),
+            brush = d3.svg.brush(),
                 brushsvg = d3.select(element[0])
                     .append('svg')
                     .attr('width', w)
                     .attr('height', h)
                     .append('g')
-                    .attr("class", "rectbrush")
-                    .call(brush);
+                    .attr("class", "rectbrush");
 
             d3.select(element[0])
                 .on('mouseover', function(){d3.select(this).node().focus();})
                 .on('keydown', handleKeydown);
 
+            function init(){
+                brush.x(scope.xScale)
+                     .y(scope.yScale)
+                     .on('brush', brushed);
+
+                brushsvg.call(brush);
+            }
+
+
+
             function brushed(){
+                var e = brush.extent();
+                console.log(e[0][0],e[1][0], e[0][1], e[1][1]);
                 EventService['broadcast'+(attrs.id.toUpperCase())+'Brush'](brush.extent());
             }
+
 
             function left(e,step){
                 e[0][0] -= step;
                 e[1][0] -= step;
             }
 
-
             function right(e,step){
                 e[0][0] += step;
                 e[1][0] += step;
             }
-
 
             //in screen coords of y
             function up(e,step){
@@ -68,7 +73,6 @@ angular.module('verpApp')
 
                     d3.event.preventDefault();
 
-
                     var e = brush.extent();
 
                     if(meta) {//diagonal moves
@@ -86,6 +90,7 @@ angular.module('verpApp')
                             right(e,step);
                         }
                     }else{
+
                         if (key === 37) { //left
                             left(e,step);
                         } else if (key === 39) { //right
@@ -102,8 +107,7 @@ angular.module('verpApp')
 
             }
 
-
-
+            scope.$on('scene.ready', init)
         };
 
         return {

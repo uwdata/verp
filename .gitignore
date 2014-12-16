@@ -9,5 +9,6 @@ dist
 .gitattributes
 *~
 /*~
-app/todo.txt/*
+./todo.txt
+app/todo.txt
 bower_components

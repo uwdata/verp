@@ -14,22 +14,14 @@ angular.module('verpApp')
 
          var w = +attrs.width,
              h = +attrs.height,
-             view = attrs.id;
+             x = d3.scale.linear(),//.domain ([0,w]).range([0,w]),
+             y = d3.scale.linear();//.domain ([0,h]).range([0,h]);
 
-
-          var x = d3.scale.linear()
-              .domain([0, 300])
-              .range([0, w]);
-
-          var y = d3.scale.linear()
-              .domain([0, 300])
-              .range([0, h]);
 
           var zoomer = d3.behavior.zoom()
               .x(x)
               .y(y)
-              .scaleExtent([1,8])
-              .on("zoom", zoom);
+              .scaleExtent([1,8]);
 
           var svg = d3.select(element[0]).append("svg")
               .attr("width", w)
@@ -37,26 +29,40 @@ angular.module('verpApp')
               .call(zoomer);
 
 
-            function zoomReset(){
-                zoomer.x(x.domain([0,300])).y(y.domain([0,300]));
+            function reset(){
+                init();
                 zoom();
             }
 
-            function zoom(){
+            function init(){
+                var dom = scope.domain();
+                zoomer.x(x.domain(dom.dx).range([0,w]))
+                      .y(y.domain(dom.dy).range([0,h]))
+                    .on('zoom', zoom);
 
-                if(view === 'scene-zoom') {
-                    EventService.broadcastSceneZoom({
+            }
+
+
+            function zoom(){
+                scope.eventBroadcast('view.zoom', {
                         xs: zoomer.x,
                         ys: zoomer.y
                     });
-                }else if(view === 'rp-zoom') {
-                    EventService.broadcastRPZoom({
-                     xs: zoomer.x,
-                     ys: zoomer.y
-                    });
-                }
+                //
+                //if(attrs.id === 'scene-zoom') {
+                //    EventService.broadcastSceneZoom();
+                //}else if(attrs.id === 'rp-zoom') {
+                //
+                //    EventService.broadcastRPZoom({
+                //     xs: zoomer.x,
+                //     ys: zoomer.y
+                //    });
+                //}
+
             }
-            scope.$on('scene.reset', zoomReset);
+            scope.$on('domain.ready', init);
+            scope.$on('view.reset', reset);
+
       };
 
     return {

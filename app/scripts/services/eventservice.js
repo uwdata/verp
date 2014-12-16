@@ -47,6 +47,9 @@ angular.module('verpApp')
         };
 
 
+        var broadcastRPReset= function broadcastRPReset(){
+            $rootScope.$broadcast('rp.reset',null)
+        };
 
         var broadcastEpsUpdate= function broadcastEpsUpdate(d) {
             rp.eps = d.eps;
@@ -110,12 +113,10 @@ angular.module('verpApp')
 
         var broadcastSPBrush = function braodcastSPBrush(d){
             sceneBrush.data = d;
-
-            console.log('-->');
-            console.log('x0:'+d[0][0]+',x1:'+d[1][0]);
-            console.log('y0:'+d[0][1]+',y1:'+d[1][1]);
-            console.log('<--');
-
+            //console.log('-->');
+            //console.log('x0:'+d[0][0]+',x1:'+d[1][0]);
+            //console.log('y0:'+d[0][1]+',y1:'+d[1][1]);
+            //console.log('<--');
             var func = DataService.service('spSelection');
             broadcastSPSelection( func(sceneBrush.data) )
         };
@@ -133,6 +134,7 @@ angular.module('verpApp')
             broadcastSceneZoom:broadcastSceneZoom,
             broadcastRPZoom:broadcastRPZoom,
             broadcastSceneReset:broadcastSceneReset,
+            broadcastRPReset:broadcastRPReset,
             broadcastPlayerTimeChange:broadcastPlayerTimeChange,
             broadcastEpsUpdate:broadcastEpsUpdate,
             broadcastSaccadeUpdate:broadcastSaccadeUpdate

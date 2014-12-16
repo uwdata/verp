@@ -58,8 +58,8 @@ angular.module('verpApp')
                     dy = frm.yScale.domain(),
                     ry = frm.yScale.range();
 
-                console.log(dx, rx, dy, ry);
-
+                //console.log(dx, rx, dy, ry);
+                s.ctx.clearRect(0, 0, s.canvas.width, s.canvas.height);
                 s.ctx.drawImage(frm.img,
                     (dx[0]),
                     (dy[0]),
@@ -99,8 +99,7 @@ angular.module('verpApp')
 
             }
 
-            //scope.$on('scene.reset', sceneImgScaleReset);
-            scope.$on('scene.zoom', sceneImgScaleUpdate);
+            scope.$on('view.zoom', sceneImgScaleUpdate);
             scope.$on('scene.img.update', sceneImgUpdate);
             scope.$on('scene.tracking.update', sceneTrackingUpdate);
 

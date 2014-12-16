@@ -87,7 +87,7 @@ angular.module('verpApp')
             }
 
             scope.$on('scene.ready', update);
-            scope.$on('scene.zoom', updateScale);
+            scope.$on('view.zoom', updateScale);
             scope.$on('rp.selection', highlight);
             scope.$on('player.time', hide);
             scope.$on('rp.epsFilter.update', filter);
