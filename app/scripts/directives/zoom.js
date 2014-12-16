@@ -39,7 +39,6 @@ angular.module('verpApp')
                 zoomer.x(x.domain(dom.dx).range([0,w]))
                       .y(y.domain(dom.dy).range([0,h]))
                     .on('zoom', zoom);
-
             }
 
 
@@ -48,18 +47,9 @@ angular.module('verpApp')
                         xs: zoomer.x,
                         ys: zoomer.y
                     });
-                //
-                //if(attrs.id === 'scene-zoom') {
-                //    EventService.broadcastSceneZoom();
-                //}else if(attrs.id === 'rp-zoom') {
-                //
-                //    EventService.broadcastRPZoom({
-                //     xs: zoomer.x,
-                //     ys: zoomer.y
-                //    });
-                //}
 
             }
+
             scope.$on('domain.ready', init);
             scope.$on('view.reset', reset);
 

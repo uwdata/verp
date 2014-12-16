@@ -13,7 +13,9 @@ angular.module('verpApp')
 
             var w = attrs.width,
                 h = attrs.height,
-            brush = d3.svg.brush(),
+                x = d3.scale.linear(),
+                y = d3.scale.linear(),
+                brush = d3.svg.brush(),
                 brushsvg = d3.select(element[0])
                     .append('svg')
                     .attr('width', w)
@@ -25,15 +27,21 @@ angular.module('verpApp')
                 .on('mouseover', function(){d3.select(this).node().focus();})
                 .on('keydown', handleKeydown);
 
-            function init(){
-                brush.x(scope.xScale)
-                     .y(scope.yScale)
-                     .on('brush', brushed);
 
+            function init(){
+                var dom = scope.domain();
+                brush.x(x.domain(dom.dx).range([0, w]))
+                     .y(y.domain(dom.dy).range([0, h]))
+                     .on('brush', brushed);
                 brushsvg.call(brush);
             }
 
+            function updateScale(e, d){
 
+                x.domain(d.xs().domain()).range(d.xs().range());
+                y.domain(d.ys().domain()).range(d.ys().range());
+
+            }
 
             function brushed(){
                 var e = brush.extent();
@@ -107,7 +115,9 @@ angular.module('verpApp')
 
             }
 
-            scope.$on('scene.ready', init)
+            scope.$on('domain.ready', init);
+            scope.$on('view.zoom', updateScale);
+
         };
 
         return {
