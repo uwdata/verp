@@ -65,7 +65,7 @@ angular.module('verpApp')
                 $scope.xDomain = dx;
                 $scope.yDomain = dy;
 
-             $scope.$broadcast('domain.ready');
+             $scope.$broadcast('domain.ready', d);
 
         }
 

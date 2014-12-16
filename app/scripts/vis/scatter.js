@@ -1,6 +1,6 @@
 /*
  *
- * File  : nodevis.js
+ * File  : scatter.js
  * Author: Cagatay Demiralp (cagatay)
  * Desc  : Scatter plot.
  *

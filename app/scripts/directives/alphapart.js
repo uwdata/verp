@@ -7,55 +7,59 @@
  * # alpha
  */
 angular.module('verpApp')
-  .directive('alphapart', function () {
+    .directive('alphapart', function () {
 
-       var postLink = function(scope, element, attrs) {
+        var postLink = function(scope, element, attrs) {
 
-        var w = +attrs.width,
-            h = +attrs.height,
-            ac;
+            var w = +attrs.width,
+                h = +attrs.height,
+                x = d3.scale.linear(),
+                y = d3.scale.linear(),
+                ac;
 
-        //creates the maximal complex once
-        function alphaComplex(e, d){
+            //creates the maximal complex once
+            function init(e, d){
 
-	  console.log('creating the alpha complex');
+                var v = d.data.pos,
+                    dom = scope.domain();
 
-          var v = d.data.pos,
-               x = d3.scale.linear()
-                .domain([0, v.domainWidth])
-                .range([0, w]),
-               y = d3.scale.linear()
-                .domain([0, v.domainHeight])
-                .range([0, h]);
+                x.domain(dom.dx).range([0, w]);
+                y.domain(dom.dy).range([0, h]);
 
-	// if(v.coordXform) v.coordXform(v);
-          
-          ac = alpha(v).xScale(x).yScale(y);
-          ac(element[0]);
-
-        }
-
-        //then extracts alpha complexes as needed
-        function alphaUpdate(e,d){
-            if(ac && d.partition) {
-                ac.update(d.eps);
-                scope.partition = true;
-            }else{
-                scope.partition = false;
+                ac = alpha(v).xScale(x).yScale(y);
+                ac(element[0]);
             }
 
-        }
 
-         scope.$on('scene.ready', alphaComplex);
-         scope.$on('rp.epsFilter.update', alphaUpdate);
+            //then extracts alpha complexes as needed
+            function alphaUpdate(e,d){
+                if(ac && d.partition) {
+                    ac.update(d.eps);
+                    scope.partition = true;
+                }else{
+                    scope.partition = false;
+                }
 
-       };
+            }
 
-    return{
-      template: '<div></div>',
-      restrict: 'E',
-      replace: true,
-      link: postLink
-    };
+            function updateScale(e, d){
+                x.domain(d.xs().domain()).range(d.xs().range());
+                y.domain(d.ys().domain()).range(d.ys().range());
+                ac.update();
+            }
 
-  });
+
+            scope.$on('domain.ready', init);
+            scope.$on('view.zoom', updateScale);
+            scope.$on('rp.epsFilter.update', alphaUpdate);
+
+        };
+
+        return{
+            template: '<div></div>',
+            restrict: 'E',
+            replace: true,
+            link: postLink
+        };
+
+    });

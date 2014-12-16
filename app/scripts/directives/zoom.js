@@ -8,7 +8,7 @@
  */
 
 angular.module('verpApp')
-  .directive('zoom', function (EventService){
+  .directive('zoom', function (){
 
         var postLink = function (scope, element, attrs) {
 
@@ -40,7 +40,6 @@ angular.module('verpApp')
                       .y(y.domain(dom.dy).range([0,h]))
                     .on('zoom', zoom);
             }
-
 
             function zoom(){
                 scope.eventBroadcast('view.zoom', {

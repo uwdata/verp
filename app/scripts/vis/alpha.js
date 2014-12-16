@@ -1,3 +1,13 @@
+/*
+ *
+ * File  : alpha.js
+ * Author: Cagatay Demiralp (cagatay)
+ * Desc  : Alpha partitioner.
+ *
+ * Date    : Sat Sep 4 23:13:43 2014
+ * Modified: $Id$
+ *
+ */
 function alpha(v) {
 
 
@@ -9,6 +19,7 @@ function alpha(v) {
         yScale,
         svg,
         edges,
+        bPolyline,
         alphaKey,
         alpha,
         dsq = function (a, b) {
@@ -36,32 +47,39 @@ function alpha(v) {
 
     alphaPath.update = function(a) {
 
-        alpha = a;
+        if(!arguments.length){
+            drawPath(vertices, bPolyline);
+        } else {
 
-        var asq = alpha * alpha,
-            v = vertices,
-            m = triangles,
-            n = m.length,
-            alphaComplex = [], i;
+            alpha = a;
 
-        for (i = 0; i < n; i += 3) {
-            if (withinAlpha(v,m,i,asq))
-                alphaComplex.push([ m[i + 0], m[i + 1], m[i + 2] ]);
-        }
+            var asq = alpha * alpha,
+                v = vertices,
+                m = triangles,
+                n = m.length,
+                alphaComplex = [], i;
+
+            for (i = 0; i < n; i += 3) {
+                if (withinAlpha(v, m, i, asq))
+                    alphaComplex.push([m[i + 0], m[i + 1], m[i + 2]]);
+            }
 
 
-        var e = extractEdges(alphaComplex),
-            b = boundary(e),
+            var e = extractEdges(alphaComplex),
+                b = boundary(e);
+
             bPolyline = orderIndexedLines(b);
 
 
-        var k = [];
-        for (i = 0; i < bPolyline.length; i++) {
-            k[i] = v + '-' + i;
-        }
-        alphaKey = k;
+            var k = [];
+            for (i = 0; i < bPolyline.length; i++) {
+                k[i] = v + '-' + i;
+            }
 
-        drawPath(v, bPolyline);
+            alphaKey = k;
+
+            drawPath(v, bPolyline);
+        }
 
         return alphaPath;
     };
