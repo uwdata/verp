@@ -37,7 +37,7 @@ angular.module('verpApp')
 
 
 
-        $scope.eventBroadcast = function(msg,data){
+        $scope.broadcastEvent = function(msg,data){
 
             $scope.$broadcast(msg,data);
 
@@ -52,18 +52,21 @@ angular.module('verpApp')
 
 
         $scope.domain = function(){
+
             if($scope.xDomain && $scope.yDomain)
+
             return {dx: $scope.xDomain,
                     dy: $scope.yDomain};
-
         };
 
 
         $scope.epsFilteringUpdate= function (){
+
             EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
                 epsFiltering:$scope.epsFiltering,
                 partition: $scope.partition
             });
+
         };
 
         $scope.epsUpdate= function (){

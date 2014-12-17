@@ -38,13 +38,19 @@ angular.module('verpApp')
               }else{
                   rp.data(dd).update();
               }
-
-                
             }
+
+
 
             function  highlight(e,d){
                 if(rp) rp.highlight(d);
+
             }
+
+            //
+            //function brush(e,d){
+            //    if(rp) rp.boxHighlight(d);
+            //}
 
             function  updateScale(e,d){
               if(rp) rp.scale(d).update();
@@ -63,8 +69,11 @@ angular.module('verpApp')
             }
 
 
-            scope.$on('view.zoom', updateScale);
             scope.$on('scene.ready', update);
+
+            scope.$on('view.zoom', updateScale);
+            //scope.$on('view.brush', brush);
+
             scope.$on('sp.selection', highlight);
             scope.$on('rp.eps.update', updateEps);
             scope.$watch('distfn', updateDistfn);
@@ -78,5 +87,6 @@ angular.module('verpApp')
             replace: true,
             link: postLink
         }
+
 
     });

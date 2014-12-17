@@ -20,6 +20,7 @@ angular.module('verpApp')
             //creates the maximal complex once
             function init(e, d){
 
+                //console.log('creating the alpha complex!');
                 var v = d.data.pos,
                     dom = scope.domain();
 

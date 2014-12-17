@@ -23,32 +23,35 @@ function alpha(v) {
         alphaKey,
         alpha,
         dsq = function (a, b) {
-                var dx = a[0] - b[0], dy = a[1] - b[1];
-                return dx * dx + dy * dy;
+            var dx = a[0] - b[0], dy = a[1] - b[1];
+            return dx * dx + dy * dy;
         },
         withinAlpha = function(v,m, i, asq){
-           return (dsq(v[m[i + 0]], v[m[i + 1]]) < asq &&
-                   dsq(v[m[i + 0]], v[m[i + 2]]) < asq &&
-                   dsq(v[m[i + 1]], v[m[i + 2]]) < asq);
+            return (dsq(v[m[i + 0]], v[m[i + 1]]) < asq &&
+            dsq(v[m[i + 0]], v[m[i + 2]]) < asq &&
+            dsq(v[m[i + 1]], v[m[i + 2]]) < asq);
 
         };
 
 
     function alphaPath(el){
-            svg = d3.select(el)
-                .append('svg')
-                .attr('width', width)
-                .attr('height', height)
-                .append('g')
-                .attr('class', 'boundary');
+        svg = d3.select(el)
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height)
+            .append('g')
+            .attr('class', 'boundary');
 
-       return alphaPath;
+        return alphaPath;
     }
 
     alphaPath.update = function(a) {
 
-        if(!arguments.length){
-            drawPath(vertices, bPolyline);
+
+        if (!arguments.length){
+
+            if(bPolyline) drawPath(vertices, bPolyline);
+
         } else {
 
             alpha = a;
@@ -87,25 +90,25 @@ function alpha(v) {
 
     alphaPath.xScale = function(_){
 
-      if(!arguments.length) return xScale;
+        if(!arguments.length) return xScale;
 
-     xScale = _;
+        xScale = _;
 
-     return alphaPath;
+        return alphaPath;
     };
 
     alphaPath.yScale = function(_){
 
-      if(!arguments.length) return xScale;
+        if(!arguments.length) return xScale;
 
-     yScale = _;
+        yScale = _;
 
-     return alphaPath;
+        return alphaPath;
     };
 
 
-   //draws the boundary of the
-   //current alpha complex
+    //draws the boundary of the
+    //current alpha complex
     function drawPath(v, b) {
 
         var lf = d3.svg.line()

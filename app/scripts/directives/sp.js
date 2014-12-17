@@ -42,13 +42,14 @@ angular.module('verpApp')
 
             }
 
+
             function cond(e,d,x,y){
                 return !(e[0][0] > d[x] || d[x] > e[1][0]
                     || e[0][1] > d[y] || d[y] > e[1][1]);
             }
 
             function condHighlight(d){
-                return (sp===null) ? null : sp.highlight(d, cond);
+                if(sp) sp.highlight(d, cond);
             }
 
 
@@ -57,8 +58,11 @@ angular.module('verpApp')
             }
 
 
+            function brush(e, d){
+               condHighlight(d);
+            }
+
             function updateScale(e, d){
-               console.log('updating scale...');
                if(sp) sp.updateAxes(d.xs, d.ys);
             }
 
@@ -88,13 +92,15 @@ angular.module('verpApp')
 
             scope.$on('scene.ready', update);
             scope.$on('view.zoom', updateScale);
+            scope.$on('view.brush', brush);
+
             scope.$on('rp.selection', highlight);
-            scope.$on('player.time', hide);
             scope.$on('rp.epsFilter.update', filter);
+
+            scope.$on('player.time', hide);
 
             //TODO refactor this
             scope.$on('saccade.update', function(e, d){
-              console.log(d);
               if(sp) sp.hide(d.indx, function(indx,i){return indx[i];});
             });
 

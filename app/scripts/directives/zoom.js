@@ -42,7 +42,7 @@ angular.module('verpApp')
             }
 
             function zoom(){
-                scope.eventBroadcast('view.zoom', {
+                scope.broadcastEvent('view.zoom', {
                         xs: zoomer.x,
                         ys: zoomer.y
                     });

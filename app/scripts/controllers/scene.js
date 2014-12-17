@@ -27,7 +27,7 @@ angular.module('verpApp')
 
         };
 
-        $scope.eventBroadcast = function(msg,data){
+        $scope.broadcastEvent = function(msg,data){
 
             $scope.$broadcast(msg,data);
 
@@ -44,9 +44,6 @@ angular.module('verpApp')
 
 
        function updateScale(e,d){
-
-           console.log('catching view.zoom...');
-
             $scope.xScale.domain(d.xs().domain()).range(d.xs().range());
             $scope.yScale.domain(d.ys().domain()).range(d.ys().range());
 
@@ -61,7 +58,7 @@ angular.module('verpApp')
                 $scope.xScale = d3.scale.linear().domain(dx);
                 $scope.yScale = d3.scale.linear().domain(dy);
 
-                // default data scale
+                //default data scale
                 $scope.xDomain = dx;
                 $scope.yDomain = dy;
 

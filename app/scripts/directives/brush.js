@@ -45,8 +45,7 @@ angular.module('verpApp')
 
             function brushed(){
                 var e = brush.extent();
-                console.log(e[0][0],e[1][0], e[0][1], e[1][1]);
-                EventService['broadcast'+(attrs.id.toUpperCase())+'Brush'](brush.extent());
+                scope.broadcastEvent('view.brush', e);
             }
 
 

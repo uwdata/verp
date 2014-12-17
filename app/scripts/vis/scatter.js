@@ -236,7 +236,7 @@ Scatter.prototype.highlight = function(a, f){
             .classed('highlight',
             function (d, i) {
 
-               var dd = [p.axis.x(d[0]), p.axis.y(d[1])];
+               var dd = [d[0], d[1]];
                 v  = f(a, dd, 0, 1);
                 h[i] = v === true ? 1 : 0;
                 return v;

@@ -25,7 +25,7 @@ angular.module('verpApp')
 
             element[0].appendChild(s.canvas);
 
-            function sceneImgUpdate(e, d){
+            function updateImg(e, d){
 
                 frm.img.onload = function(){
 
@@ -34,9 +34,6 @@ angular.module('verpApp')
                     frm.xScale.domain([0,frm.img.naturalWidth]);
                     frm.yScale.domain([0,frm.img.naturalHeight]);
 
-                    frm.xScaleDefault = frm.xScale;
-                    frm.yScaleDefault = frm.yScale;
-
                     drawSceneImg();
 
                     if(s.tracking){
@@ -44,6 +41,8 @@ angular.module('verpApp')
                         s.tracking.pos.domainHeight = frm.img.naturalHeight;
                         EventService.broadcastSceneReady({data: s.tracking, src:frm.img.src});
                     }
+
+
                 };
 
                 frm.img.src = d;
@@ -58,7 +57,6 @@ angular.module('verpApp')
                     dy = frm.yScale.domain(),
                     ry = frm.yScale.range();
 
-                //console.log(dx, rx, dy, ry);
                 s.ctx.clearRect(0, 0, s.canvas.width, s.canvas.height);
                 s.ctx.drawImage(frm.img,
                     (dx[0]),
@@ -73,7 +71,7 @@ angular.module('verpApp')
             }
 
 
-            function sceneImgScaleUpdate(e, d){
+            function updateScale(e, d){
 
                 frm.xScale = d.xs();
                 frm.yScale = d.ys();
@@ -81,13 +79,8 @@ angular.module('verpApp')
                 drawSceneImg();
             }
 
-            function sceneImgScaleReset(){
-                 frm.xScale = frm.xScaleDefault;
-                 frm.yScale = frm.yScaleDefault;
-                 drawSceneImg();
-            }
 
-            function sceneTrackingUpdate(e, d){
+            function updateTracking(e, d){
 
                 s.tracking = d;
 
@@ -99,9 +92,9 @@ angular.module('verpApp')
 
             }
 
-            scope.$on('view.zoom', sceneImgScaleUpdate);
-            scope.$on('scene.img.update', sceneImgUpdate);
-            scope.$on('scene.tracking.update', sceneTrackingUpdate);
+            scope.$on('view.zoom', updateScale);
+            scope.$on('scene.img.update', updateImg);
+            scope.$on('scene.tracking.update', updateTracking);
 
         };
 
