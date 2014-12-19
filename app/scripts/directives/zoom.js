@@ -14,8 +14,8 @@ angular.module('verpApp')
 
          var w = +attrs.width,
              h = +attrs.height,
-             x = d3.scale.linear(),//.domain ([0,w]).range([0,w]),
-             y = d3.scale.linear();//.domain ([0,h]).range([0,h]);
+             x = d3.scale.linear(),
+             y = d3.scale.linear();
 
 
           var zoomer = d3.behavior.zoom()
@@ -41,12 +41,12 @@ angular.module('verpApp')
                     .on('zoom', zoom);
             }
 
+
             function zoom(){
                 scope.broadcastEvent('view.zoom', {
                         xs: zoomer.x,
                         ys: zoomer.y
                     });
-
             }
 
             scope.$on('domain.ready', init);
@@ -60,5 +60,6 @@ angular.module('verpApp')
         replace: true,
         link: postLink
     };
+
 
   });

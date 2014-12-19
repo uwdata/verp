@@ -7,7 +7,7 @@
  * # sp creates a scatter plot
  */
 angular.module('verpApp')
-    .directive('sp',function(DataService) {
+    .directive('sp',function(EventService) {
 
         var postLink = function(scope, element, attrs) {
             var w = attrs.width,
@@ -24,13 +24,15 @@ angular.module('verpApp')
 
                 if(sp === null) return;
 
-                var  indx = d.epsNet(), f = d.epsFiltering, cond;
+                var indx = d.epsNet(), f = d.epsFiltering, cond;
+
                 if(f)
                     cond = function(indx, i){return !(indx[i] === 1);};
                 else
                     cond = function(){return false;};
 
                 sp.ghost(indx, cond);
+
             }
 
 
@@ -49,18 +51,17 @@ angular.module('verpApp')
             }
 
             function condHighlight(d){
-                if(sp) sp.highlight(d, cond);
+                return sp.highlight(d, cond);
             }
-
 
             function highlight(e, d){
                 if(sp) sp.highlight(d);
             }
 
-
             function brush(e, d){
-               condHighlight(d);
+                if(sp) EventService.broadcastSPSelection(condHighlight(d));
             }
+
 
             function updateScale(e, d){
                if(sp) sp.updateAxes(d.xs, d.ys);
@@ -82,12 +83,11 @@ angular.module('verpApp')
                             k: {x:0, y:1}
                         });
 
-                    DataService.service('spSelection', condHighlight);
+                } else {
 
-                }else{
                     sp.update(p);
-                }
 
+                }
             }
 
             scope.$on('scene.ready', update);
@@ -95,9 +95,10 @@ angular.module('verpApp')
             scope.$on('view.brush', brush);
 
             scope.$on('rp.selection', highlight);
-            scope.$on('rp.epsFilter.update', filter);
 
+            scope.$on('rp.epsFilter.update', filter);
             scope.$on('player.time', hide);
+
 
             //TODO refactor this
             scope.$on('saccade.update', function(e, d){

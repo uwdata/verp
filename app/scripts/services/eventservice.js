@@ -11,10 +11,8 @@ angular.module('verpApp')
     .factory('EventService', function ($rootScope, DataService) {
 
         var rp = {},
-            rpBrush = {},
-            sceneBrush= {},
-            rpSelection  = {},
-            sceneSelection = {},
+            rpSelection = {},
+            spSelection = {},
             tracking = {},
             sceneScale = null,
             rpScale = null,
@@ -99,45 +97,29 @@ angular.module('verpApp')
             $rootScope.$broadcast('rp.epsfilter', rp);
         };
 
-
-        var broadcastRPBrush = function broadcastRPBrush(d){
-            rpBrush.data = d;
-            var func = DataService.service('rpSelection');
-            broadcastRPSelection( func(rpBrush.data) );
-        };
-
         var broadcastRPSelection = function broadcastRPSelection(d){
             rpSelection.data = d;
             $rootScope.$broadcast('rp.selection', rpSelection.data);
         };
 
-        var broadcastSPBrush = function braodcastSPBrush(d){
-            sceneBrush.data = d;
-            //console.log('-->');
-            //console.log('x0:'+d[0][0]+',x1:'+d[1][0]);
-            //console.log('y0:'+d[0][1]+',y1:'+d[1][1]);
-            //console.log('<--');
-            var func = DataService.service('spSelection');
-            broadcastSPSelection( func(sceneBrush.data) )
+        var broadcastSPSelection = function braodcastSPSelection(d){
+            spSelection.data = d;
+            $rootScope.$broadcast('sp.selection', spSelection.data);
         };
 
-        var broadcastSPSelection = function braodcastSPSelection(d){
-            sceneSelection.data = d;
-            $rootScope.$broadcast('sp.selection', sceneSelection.data);
-        };
 
         //Public API here
         return {
-            broadcastRPBrush:broadcastRPBrush,
-            broadcastSPBrush: broadcastSPBrush,
-            broadcastSceneReady:broadcastSceneReady,
-            broadcastSceneZoom:broadcastSceneZoom,
-            broadcastRPZoom:broadcastRPZoom,
-            broadcastSceneReset:broadcastSceneReset,
-            broadcastRPReset:broadcastRPReset,
-            broadcastPlayerTimeChange:broadcastPlayerTimeChange,
-            broadcastEpsUpdate:broadcastEpsUpdate,
-            broadcastSaccadeUpdate:broadcastSaccadeUpdate
+            broadcastRPSelection: broadcastRPSelection,
+            broadcastSPSelection: broadcastSPSelection,
+            broadcastSceneReady: broadcastSceneReady,
+            broadcastSceneZoom: broadcastSceneZoom,
+            broadcastRPZoom: broadcastRPZoom,
+            broadcastSceneReset: broadcastSceneReset,
+            broadcastRPReset: broadcastRPReset,
+            broadcastPlayerTimeChange: broadcastPlayerTimeChange,
+            broadcastEpsUpdate: broadcastEpsUpdate,
+            broadcastSaccadeUpdate: broadcastSaccadeUpdate
         };
 
     });

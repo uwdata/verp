@@ -31,22 +31,26 @@ angular.module('verpApp')
         $scope.interaction = {mode:'selection'};
 
 
-        $scope.setMode= function(m){
+        $scope.setMode = function(m){
+
             $scope.interaction.mode = m;
+
         };
 
 
 
         $scope.broadcastEvent = function(msg,data){
 
-            $scope.$broadcast(msg,data);
+            $scope.$broadcast(msg, data);
 
         };
 
 
         $scope.resetView = function(){
+
             EventService.broadcastRPReset();
             $scope.$broadcast('view.reset');
+
         };
 
 
@@ -57,10 +61,11 @@ angular.module('verpApp')
 
             return {dx: $scope.xDomain,
                     dy: $scope.yDomain};
+
         };
 
 
-        $scope.epsFilteringUpdate= function (){
+        $scope.epsFilteringUpdate = function (){
 
             EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
                 epsFiltering:$scope.epsFiltering,
@@ -69,12 +74,15 @@ angular.module('verpApp')
 
         };
 
-        $scope.epsUpdate= function (){
+
+        $scope.epsUpdate = function (){
             EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
                                              epsFiltering:$scope.epsFiltering,
                                              partition: $scope.partition
             });
         };
+
+
 
         $scope.epsTimeUpdate = function (){
             EventService.broadcastSaccadeUpdate({epsTime:parseInt($scope.epsTime, 10),
@@ -83,18 +91,20 @@ angular.module('verpApp')
             });
         };
 
-         function updateScale(e,d){
+
+        function updateScale(e, d){
 
             $scope.xScale.domain(d.xs().domain()).range(d.xs().range());
             $scope.yScale.domain(d.ys().domain()).range(d.ys().range());
+
         }
 
 
-        function init(e,d){
+        function init(e, d){
 
                 var n = d.data.value.length,
-                    dx = [0, n],
-                    dy = [0, n];
+                    dx = [0,n],
+                    dy = [0,n];
 
                 $scope.xScale = d3.scale.linear().domain(dx);
                 $scope.yScale = d3.scale.linear().domain(dy);

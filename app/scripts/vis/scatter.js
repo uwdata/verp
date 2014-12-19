@@ -101,7 +101,8 @@ Scatter.prototype.update = function(data, key){
 
     this.updateScale(data,k);
 
-    this.highlighted_ = Array.apply(null, new Array(data.length))
+    this.highlighted_ =
+        Array.apply(null, new Array(data.length))
         .map(Number.prototype.valueOf,0);
 
     var p = this.p_,
@@ -134,6 +135,7 @@ Scatter.prototype.update = function(data, key){
         .transition()
         .duration(1000)
         .style('opacity',1);
+
     //delete
     c.exit()
         .transition()
@@ -224,10 +226,7 @@ Scatter.prototype.hide = function(indx,f){
 
 Scatter.prototype.highlight = function(a, f){
 
-    var h = this.highlighted_,
-        p = this.p_,
-        v;
-
+    var h = this.highlighted_, v;
 
     if(arguments.length === 2) {
 
@@ -235,14 +234,13 @@ Scatter.prototype.highlight = function(a, f){
             .selectAll('.shape')
             .classed('highlight',
             function (d, i) {
-
                var dd = [d[0], d[1]];
-                v  = f(a, dd, 0, 1);
+                v = f(a, dd, 0, 1);
                 h[i] = v === true ? 1 : 0;
                 return v;
-
             });
     }else{
+
         this.svg_
             .selectAll('.shape')
             .classed('highlight',
@@ -250,8 +248,10 @@ Scatter.prototype.highlight = function(a, f){
                 return (h[i] = a[i]);
             });
     }
+
     return h;
 };
+
 
 Scatter.prototype.on = function(e) {
 

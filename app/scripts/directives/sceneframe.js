@@ -30,16 +30,17 @@ angular.module('verpApp')
                 frm.img.onload = function(){
 
                     frm.name = 'Scene';
-
                     frm.xScale.domain([0,frm.img.naturalWidth]);
                     frm.yScale.domain([0,frm.img.naturalHeight]);
 
                     drawSceneImg();
 
                     if(s.tracking){
+
                         s.tracking.pos.domainWidth = frm.img.naturalWidth;
                         s.tracking.pos.domainHeight = frm.img.naturalHeight;
                         EventService.broadcastSceneReady({data: s.tracking, src:frm.img.src});
+
                     }
 
 

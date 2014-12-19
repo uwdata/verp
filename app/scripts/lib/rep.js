@@ -64,19 +64,25 @@
     crp.epsnet = function() {
       return epsnet;
     };
-    crp.activeDomain = function(e) {
-      if (!arguments.length) return activeDomain;
-      var startX = Math.round(e[0][0]), endX = Math.round(e[1][0]), startY = Math.round(e[0][1]), endY = Math.round(e[1][1]), v;
+    crp.boxHighlight = function(e) {
+      offScreenDirty = true;
+      if (!(arguments.length && e)) {
+        update();
+        return activeDomain;
+      }
       initArray(activeDomain, 0);
-      for (var j = startY; j < endY; j++) {
-        for (var i = startX; i < endX; i++) {
-          v = rpdata[imgWidth * j + i];
-          if (v <= eps) {
-            activeDomain[i] = 1;
-            activeDomain[j] = 1;
-          }
+      var startX = e[0][0] - .5, startY = e[0][1] - .5, endX = e[1][0] - .5, endY = e[1][1] - .5, d = data32, rp = rpdata, b = [ 255, 0, 0 ], s1, s2, f, v, i, j;
+      for (i = 0; i < imgHeight; i++) {
+        for (j = 0; j < imgWidth; j++) {
+          s1 = imgWidth * i + j;
+          s2 = imgWidth * j + i;
+          v = rp[s1] <= eps ? 255 : 0;
+          f = !(i < startY || i > endY || j < startX || j > endX);
+          if (f) activeDomain[j] = activeDomain[i] = 1;
+          d[s1] = f === true ? 255 << 24 | .5 * (v + b[2]) << 16 | .5 * (v + b[1]) << 8 | .5 * (v + b[0]) : 255 << 24 | v << 16 | v << 8 | v;
         }
       }
+      update();
       return activeDomain;
     };
     crp.update = function() {
@@ -87,7 +93,7 @@
     };
     crp.distfn = function(_) {
       if (!arguments.length) return distfn;
-      var old = distfn, t = typeof _;
+      var t = typeof _;
       if (t === "string") {
         distfn = rep.norms[_] !== "undefined" ? rep.norms[_] : rep.norms.l2;
         rpdataDirty = true;
@@ -140,7 +146,7 @@
     };
     crp.highlight = function(_) {
       offScreenDirty = true;
-      if (_ === null || _.length === 0) {
+      if (!(arguments.length && _)) {
         update();
         return;
       }

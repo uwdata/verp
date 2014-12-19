@@ -144,6 +144,7 @@ function alpha(v) {
         paths.exit()
             .transition()
             .style('fill-opacity', 0.05).remove();
+
     }
 
 

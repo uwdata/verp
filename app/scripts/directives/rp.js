@@ -7,7 +7,7 @@
  * # rp  -- recurrence plot directive
  */
 angular.module('verpApp')
-    .directive('rp',function($rootScope, DataService) {
+    .directive('rp',function($rootScope, DataService, EventService) {
 
         var postLink = function(scope, element, attrs) {
 
@@ -31,7 +31,6 @@ angular.module('verpApp')
               if(rp === null) {
                   init();
                   rp(dd, element[0]);
-                  DataService.service('rpSelection', rp.activeDomain);
                   DataService.service('rpEpsNet', rp.epsnet);
                   DataService.service('rpDistanceMatrix', rp.distanceMatrix);
 
@@ -42,43 +41,43 @@ angular.module('verpApp')
 
 
 
-            function  highlight(e,d){
-                if(rp) rp.highlight(d);
-
+            function brush(e,d){
+                if(rp) EventService.broadcastRPSelection(rp.boxHighlight(d));
             }
 
-            //
-            //function brush(e,d){
-            //    if(rp) rp.boxHighlight(d);
-            //}
+            function  highlight(e, d){
+                if(rp) rp.highlight(d);
+            }
 
-            function  updateScale(e,d){
+
+            function  updateScale(e, d){
               if(rp) rp.scale(d).update();
             }
 
-            function  updateEps(e,d) {
 
+            function  updateEps(e,d) {
                 if (rp) {
                     rp.eps(d.eps).update();
-                    if (d.epsFiltering === true) $rootScope.$broadcast('rp.epsFilter.update', d);
+                    if (d.epsFiltering === true)
+                        $rootScope.$broadcast('rp.epsFilter.update', d);
                 }
             }
+
 
             function  updateDistfn(n,o){
               if(rp) rp.distfn(n).update();
             }
 
-
             scope.$on('scene.ready', update);
-
             scope.$on('view.zoom', updateScale);
-            //scope.$on('view.brush', brush);
+            scope.$on('view.brush', brush);
 
             scope.$on('sp.selection', highlight);
             scope.$on('rp.eps.update', updateEps);
             scope.$watch('distfn', updateDistfn);
 
         };
+
 
         return {
             template:'<div></div>',
