@@ -232,20 +232,20 @@ Scatter.prototype.highlight = function(a, f){
 
         this.svg_
             .selectAll('.shape')
-            .classed('highlight',
+            .classed('ghost',
             function (d, i) {
                var dd = [d[0], d[1]];
                 v = f(a, dd, 0, 1);
                 h[i] = v === true ? 1 : 0;
-                return v;
+                return !v;
             });
     }else{
 
         this.svg_
             .selectAll('.shape')
-            .classed('highlight',
+            .classed('ghost',
             function (d, i) {
-                return (h[i] = a[i]);
+                return !(h[i] = a[i]);
             });
     }
 

@@ -66,16 +66,15 @@
     };
     crp.boxHighlight = function(e) {
       offScreenDirty = true;
-      if (!(arguments.length && e)) {
+      if (!arguments.length) {
         update();
         return activeDomain;
       }
       initArray(activeDomain, 0);
-      var startX = e[0][0] - .5, startY = e[0][1] - .5, endX = e[1][0] - .5, endY = e[1][1] - .5, d = data32, rp = rpdata, b = [ 255, 0, 0 ], s1, s2, f, v, i, j;
+      var startX = e[0][0] - .5, startY = e[0][1] - .5, endX = e[1][0] - .5, endY = e[1][1] - .5, d = data32, rp = rpdata, b = [ 255, 0, 0 ], s1, f, v, i, j;
       for (i = 0; i < imgHeight; i++) {
         for (j = 0; j < imgWidth; j++) {
           s1 = imgWidth * i + j;
-          s2 = imgWidth * j + i;
           v = rp[s1] <= eps ? 255 : 0;
           f = !(i < startY || i > endY || j < startX || j > endX);
           if (f) activeDomain[j] = activeDomain[i] = 1;

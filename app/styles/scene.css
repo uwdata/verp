@@ -19,25 +19,35 @@ position:absolute;
     display:block;
 }
 
+
 .rectbrush .extent {
     stroke:#fff;
-    fill-opacity:0.25;
-    fill: coral;
+    fill-opacity:0.4;
+    fill: gray;
     shape-rendering: crispEdges;
 }
 
+#rp .rectbrush .extent {
+    stroke:none;
+    fill: none;
+    shape-rendering: crispEdges;
+}
 
 circle{
     /*vector-effect:non-scaling-stroke;*/
     fill:coral;
     opacity:1;
-    stroke: #696969;
+    /*stroke: #696969;*/
+    stroke:black;
     stroke-width:3;
 }
 
 
-.hidden circle{
+.ghost circle{
     opacity:0.3;
+    fill: gray;
+    stroke:none;
+    stroke-width:3;
 }
 
 .gray circle{
@@ -47,9 +57,9 @@ circle{
 }
 
 
-.ghost circle{
-    opacity:0.05;
-}
+/*.ghost circle{*/
+    /*opacity:0.05;*/
+/*}*/
 
 .highlight circle{
     fill:red;
