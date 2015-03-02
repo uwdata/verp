@@ -1,4 +1,5 @@
-<div class="scene col-md-5 column nopadding" style="padding-left:10px" ng-controller="SceneCtrl">
+<div class="scene col-md-5 column nopadding" style="padding-left:10px" ng-controller="SceneCtrl"
+     xmlns="http://www.w3.org/1999/html">
     <label class="viewname">{{frm.srcName || 'Scene'}}</label>
 
     <span class="glyphicon glyphicon-search"
@@ -17,6 +18,7 @@
 
     <div id="scene" class="img-with-label">
         <scene-frame class="stacked"  width="650" height="500" ng-style="imgStyle"></scene-frame>
+        <heatview  class="stacked" width="650" height="500" ng-show="showHeatmap"></heatview>
         <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
         <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
         <brush id="sp" class="stacked" width="650" height="500" ng-show="showTracking"></brush>
@@ -26,10 +28,10 @@
     <div class="scene-info">
         <div ng-show="frm.img.src">
             <div class="controlgrp">
-                <label>
-                <input type="checkbox" ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"/>
-                show tracking
-               </label>
+                <div class='control-row'>
+                    <input type="checkbox" ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}">tracking</input>
+                    <input type="checkbox" ng-model="showHeatmap">heatmap</input>
+                </div>
                 <div>
                     <label>circle size</label><input type="range" min="0" step="0.25" max="50"
                                                      ng-model="sp.markerSize"

@@ -1,6 +1,6 @@
 {
   "name": "verp",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "dependencies": {
     "angular": "1.2.16",
     "json3": "~3.3.1",

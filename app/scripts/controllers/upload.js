@@ -13,19 +13,15 @@ angular.module('verpApp')
         var coordXform = function (d) {
 
 
-            console.log("coordXform()");
-            console.log(arguments);
-
             var cw = 1680,
                 ch = 1050,
                 w  = d.domainWidth,
                 h  = d.domainHeight,
                 tx = (w-cw) * 0.5,
-                ty = (h-ch) * 0.5, i;
-
+                ty = (h-ch) * 0.5,
+                i;
 
             for (i = 0; i < d.length; i++) {
-
                 if (!(Math.abs(d[i][0]) < 0.001 &&
                       Math.abs(d[i][1]) < 0.001)){
 
@@ -37,6 +33,7 @@ angular.module('verpApp')
             }
 
         };
+
 
         var delta = function(x, dx){
 
@@ -86,13 +83,17 @@ angular.module('verpApp')
 
             }
 
-            // we'll use delta time to filter out saccadic  movements
+            // we'll use delta time to filter out
+            // saccadic  movements
             delta(verp.time, verp.deltaTime);
 
             verp.pos.coordXform = coordXform;
 
             return verp;
+
         };
+
+
 
         $scope.getImg = function () {
 
@@ -103,6 +104,7 @@ angular.module('verpApp')
 
         };
 
+
         $scope.getFile = function () {
 
             FileReader.readAsText($scope.file, $scope)
@@ -110,15 +112,20 @@ angular.module('verpApp')
                     var t = $scope.file.name.split('.'), verp;
 
                     if(t[t.length - 1] === 'json'){
+
                         verp = JSON.parse(result);
                         verp.deltaTime  = [];
                         delta(verp.time, verp.deltaTime);
                         DataService.tracking(verp);
 
-                    }else if(t[t.length-1] === 'idf') {
+                    } else if(t[t.length-1] === 'idf') {
+
                         DataService.tracking(parseIDF(result));
-                    }else {
+
+                    } else {
+
                         console.error('Unknown tracking file format!');
+
                     }
                 });
 
@@ -135,8 +142,10 @@ angular.module('verpApp')
                 });
 
             }
-        }
+        };
+
     }).directive('imgSelect', function(){
+
         return {
             link: function(scope,el){
 
@@ -146,6 +155,7 @@ angular.module('verpApp')
                 });
 
             }
-        }
+        };
+
     });
 

@@ -90,7 +90,16 @@ circle{
 
 .scene-info .controlgrp div{
     display:inline-block;
+    margin-top:1%;
+    margin-bottom:1%;
 }
+
+.scene-info .controlgrp .control-row{
+    margin-top:1%;
+    margin-bottom:1%;
+ display:block;
+}
+
 
 .scene-info .controlgrp label{
    display:block;

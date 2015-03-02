@@ -12,6 +12,7 @@ angular.module('verpApp')
 
         $scope.name = 'SceneCtrl';
         $scope.showTracking = true;
+        $scope.showHeatmap = false;
         $scope.frm  = {};
         $scope.sp = {};
         $scope.partition = false;
@@ -42,13 +43,10 @@ angular.module('verpApp')
         };
 
 
-
        function updateScale(e,d){
             $scope.xScale.domain(d.xs().domain()).range(d.xs().range());
             $scope.yScale.domain(d.ys().domain()).range(d.ys().range());
-
         }
-
 
         function init(e,d){
 
