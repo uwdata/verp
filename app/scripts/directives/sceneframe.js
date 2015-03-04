@@ -84,17 +84,17 @@ angular.module('verpApp')
             function updateTracking(e, d){
 
                 s.tracking = d;
-                var p = s.tracking.pos;
+                var p = d.pos;
 
                 if(frm.img.src) {
                     p.domainWidth = frm.img.naturalWidth;
                     p.domainHeight = frm.img.naturalHeight;
-                    if(p.coordXform)  p.coordXform(p);
+                    if(d.coordXform)  d.coordXform(p);
                     EventService.broadcastSceneReady({data: s.tracking, src: frm.img.src});
+
                 }
 
             }
-
 
             scope.$on('view.zoom', updateScale);
             scope.$on('scene.img.update', updateImg);

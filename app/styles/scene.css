@@ -2,6 +2,11 @@
     position:relative;
 }
 
+.scene div:focus{
+    outline: none;
+}
+
+
 .stacked{
    position:absolute;
 }
@@ -13,7 +18,7 @@
 }
 
 .scene-info{
-position:absolute;
+    position:absolute;
     top:520px;
     width:100%;
     display:block;
@@ -83,31 +88,95 @@ circle{
 }
 
 .scene-info .controlgrp  {
-    margin-top:1%;
+    width:100%;
+   margin-top:1%;
    margin-left:1%;
    margin-right:auto;
 }
 
-.scene-info .controlgrp div{
+
+
+
+.scene-info .controlgrp .grp-0 {
+    /*margin-top:1%;*/
+    /*margin-bottom:1%;*/
+    float: left;
+    display:inline-block;
+    font-size:12px;
+    width:50%;
+}
+
+
+.scene-info .controlgrp .grp-0 .slider{
+    width:95%;
+}
+
+.scene-info .controlgrp .grp-0 .slider input[type=number]:hover>.numinput{
+   color: #232323;
+
+}
+
+.scene-info .controlgrp .grp-0 .slider .numinput{
+   color: #9b9b9b;
+   font-size:12px;
+}
+
+
+.scene-info .controlgrp .grp-0 .slider input[type=number]:hover{
+    color: #232323;
+}
+.scene-info .controlgrp .grp-0 .slider input[type=number]{
+    width:17%;
+    font-size:10px;
+    background-color: rgb(250, 250, 250);
+    border-radius: 2px;
+    border: rgb(238,238,238);
+    text-align:center;
+    color: #9b9b9b;
+    -webkit-border-radius:4px;
+}
+
+.scene-info .controlgrp .grp-0 .slider input[type=range]{
+
+    width:80%
+}
+
+
+.scene-info .controlgrp .grp-0 div{
+    display:inline-block;
+    margin-top:1%;
+    margin-bottom:1%;
+    /*width:%;*/
+}
+
+.scene-info .controlgrp .grp-1 {
+    /*margin-top:1%;*/
+    /*margin-bottom:1%;*/
+    float: left;
+    display:inline-block;
+    font-size:12px;
+}
+
+
+.scene-info .controlgrp .grp-1 div{
     display:inline-block;
     margin-top:1%;
     margin-bottom:1%;
 }
 
-.scene-info .controlgrp .control-row{
-    margin-top:1%;
-    margin-bottom:1%;
- display:block;
-}
 
+/*.scene-info .controlgrp .control-row input[type=range]{*/
+   /*width:50%;*/
+   /*display:inline-block;*/
+/*}*/
 
-.scene-info .controlgrp label{
-   display:block;
-}
+/*.scene-info .controlgrp label{*/
+   /*display:block;*/
+/*}*/
 
-.scene-info .controlgrp  input[type=range]{
-   width:90%;
-   display:inline-block;
-}
+/*.scene-info .controlgrp  input[type=range]{*/
+   /*width:90%;*/
+   /*display:inline-block;*/
+/*}*/
 
 

@@ -10,11 +10,12 @@
 angular.module('verpApp')
     .factory('Parser', function () {
 
+        var calibAreaWidth, calibAreaHeight;
 
         var coordXform = function (d) {
 
-            var cw = 1680,
-                ch = 1050,
+            var cw = calibAreaWidth,
+                ch = calibAreaHeight,
                 eps = 0.1,
                 w  = d.domainWidth,
                 h  = d.domainHeight,
@@ -34,7 +35,6 @@ angular.module('verpApp')
 
 
 
-
         var delta = function(x, dx){
 
             if(!x) {
@@ -51,7 +51,6 @@ angular.module('verpApp')
             dx.push(dx[i-1]);
 
         };
-
 
 
 
@@ -77,7 +76,7 @@ angular.module('verpApp')
 
         };
 
-
+        //
         var getIDFParam = function(header, key, delim){
 
             var n = header.length,
@@ -94,6 +93,7 @@ angular.module('verpApp')
         };
 
 
+        //
         var parseVERP = function (txt){
 
             var verp = JSON.parse(txt);
@@ -106,8 +106,6 @@ angular.module('verpApp')
             return verp;
 
         };
-
-
 
 
         var parseIDF = function (txt) {
@@ -127,8 +125,7 @@ angular.module('verpApp')
                     info: null
                 },
                 n = tracking.length,
-                j = 0,
-                i, row, p;
+                i, j, row, p;
 
 
             p = getIDFParam(header, 'Calibration Area', ':');
@@ -144,6 +141,8 @@ angular.module('verpApp')
 
             verp.info = header;
 
+
+            j = 0;
             for (i = 0; i < n-1; i++) {
 
                 row = tracking[i].split('\t');
@@ -157,19 +156,21 @@ angular.module('verpApp')
                 p[1] = +p[1];
                 verp.pos.push(p);
                 verp.value.push(verp.pos[j++]);
+
             }
 
 
             delta(verp.time, verp.deltaTime);
             velocity(verp.pos, verp.deltaTime, verp.velocity);
 
-            console.log(stat.mean(verp.velocity));
-            console.log(stat.std(verp.velocity));
 
-            verp.pos.coordXform = coordXform;
+            calibAreaWidth = verp.calibArea[0];
+            calibAreaHeight = verp.calibArea[1];
+            verp.coordXform = coordXform;
 
             return verp;
         };
+
 
 
         // Public API here
@@ -177,6 +178,5 @@ angular.module('verpApp')
             VERP: parseVERP,
             IDF: parseIDF
         };
-
 
     });

@@ -1,4 +1,4 @@
-/*
+ /*
  *
  * File  : scatter.js
  * Author: Cagatay Demiralp (cagatay)
@@ -56,7 +56,7 @@ Scatter.prototype.updateScale = function(data, key) {
         p = this.p_,
         w = p.width  - (p.margin.right + p.margin.left),
         h = p.height - (p.margin.bottom + p.margin.top),
-        dw = data.domainWidth || w,
+        dw = data.domainWidth  || w,
         dh = data.domainHeight || h,
         rx,
         ry,
