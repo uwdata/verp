@@ -16,7 +16,7 @@ angular.module('verpApp')
             tracking = {},
             sceneScale = null,
             rpScale = null,
-            scene  = null,
+            scene = null,
             player = null;
 
 

@@ -28,10 +28,14 @@
     <div class="scene-info">
         <div ng-show="frm.img.src">
             <div class="controlgrp">
+
                 <div class='control-row'>
                     <input type="checkbox" ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}">tracking</input>
                     <input type="checkbox" ng-model="showHeatmap">heatmap</input>
+                    <input type="checkbox" ng-model="showFixations">fixations</input>
+                    <input type="checkbox" ng-model="showSaccades">saccades</input>
                 </div>
+
                 <div>
                     <label>circle size</label><input type="range" min="0" step="0.25" max="50"
                                                      ng-model="sp.markerSize"

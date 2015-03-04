@@ -24,7 +24,6 @@ angular.module('verpApp')
 
         };
 
-
         var img = function(_){
 
             if(!arguments.length) return scene.img;
@@ -35,11 +34,11 @@ angular.module('verpApp')
             }
 
         };
+
         var service = function(name, fn){
             if(arguments.length === 1)  return services[name];
             services[name] = fn;
         };
-
 
         // Public API here
         return {

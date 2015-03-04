@@ -73,7 +73,7 @@ angular.module('verpApp')
 
                 if(sp === null) {
 
-                    if(p.coordXform)  p.coordXform(p);
+                    //if(p.coordXform)  p.coordXform(p);
 
                     sp = new Scatter(d.data.pos,
                         element[0],
