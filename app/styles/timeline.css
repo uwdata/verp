@@ -7,13 +7,35 @@
     cursor:pointer;
 }
 .timeline {
+    width:auto;
     padding-top: 0px !important;
     padding-bottom: 0px !important;
-    margin-left: 300px !important;
+    /*margin-left: 300px !important;*/
     margin-top: -90px !important;
-    border-radius: 20px;
-    width:50%;
+    border-radius: 5px;
+    /*width:60%;*/
 }
+
+.timeline .player .controls{
+ margin-left:auto;
+ margin-right:auto;
+ width:40%
+}
+
+.timeline .player .controls .label{
+    font-size:10px"
+ /*margin-left:auto;*/
+ /*margin-right:auto;*/
+ /*width:30%*/
+}
+
+
+.timeline .column{
+
+    padding-left:5%
+
+}
+
 /*{    -webkit-transition: visibility 0.2s linear, opacity 0.2s linear;*/
     /*-moz-transition: visibility 0.2s linear, opacity 0.2s linear;*/
     /*-o-transition: visibility 0.2s linear, opacity 0.2s linear;*/
