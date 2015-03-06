@@ -103,6 +103,8 @@ angular.module('verpApp')
             delta(verp.time, verp.deltaTime);
             velocity(verp.pos, verp.deltaTime, verp.velocity);
 
+            verp.avgVelocity = stat.mean(verp.velocity);
+
             return verp;
 
         };
@@ -163,6 +165,7 @@ angular.module('verpApp')
             delta(verp.time, verp.deltaTime);
             velocity(verp.pos, verp.deltaTime, verp.velocity);
 
+            verp.avgVelocity = stat.mean(verp.velocity);
 
             calibAreaWidth = verp.calibArea[0];
             calibAreaHeight = verp.calibArea[1];

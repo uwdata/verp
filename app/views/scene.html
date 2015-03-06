@@ -17,7 +17,27 @@
 
     <div id="scene" class="img-with-label">
         <scene-frame class="stacked"  width="650" height="500" ng-style="imgStyle"></scene-frame>
-        <heatview  class="stacked" width="650" height="500" ng-show="showHeatmap"></heatview>
+        <heatview  class="stacked"
+                   width="650"
+                   height="500"
+                   colormap="0"
+                   domain='domain()'
+                   points='points'
+                   ng-show="showHeatmap"></heatview>
+        <heatview  class="stacked"
+                   width="650"
+                   height="500"
+                   colormap="0"
+                   domain='domain()'
+                   points='fixations'
+                   ng-show="showFixations"></heatview>
+        <heatview  class="stacked"
+                   width="650"
+                   height="500"
+                   colormap="2"
+                   domain='domain()'
+                   points='saccades'
+                   ng-show="showSaccades"></heatview>
         <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
         <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
         <brush id="sp" class="stacked" width="650" height="500" ng-show="showTracking"></brush>
@@ -47,11 +67,8 @@
                     value="{{eps}}"
                     ng-model="eps"
                     ng-change="epsUpdate()"/>
-                    <!--<label style="display:block;text-align:center">{{eps}}</label>-->
                     </div>
-
                 </div>
-
 
                 <div class="grp-1">
                     <div>

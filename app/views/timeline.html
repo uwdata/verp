@@ -6,7 +6,7 @@
     <div class="col-md-5 column">
 
         <div class="player" ng-show="player.sceneReady" >
-
+            <div class="time">time:{{player.currentTime}}</div>
             <input type="range"  min={{player.min}}
                    step={{player.step}}
                    max={{player.max}}
@@ -19,7 +19,6 @@
                           ng-class="{ 'glyphicon-play': !player.playing, 'glyphicon-pause': player.playing }"
                           ng-click="player.playPause()"></span>
                 <span class="btn-sm glyphicon glyphicon-forward" ng-click="player.forward()" ></span>
-                <label>time:{{player.currentTime}}</label>
             </div>
 
         </div>

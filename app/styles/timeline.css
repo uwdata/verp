@@ -1,6 +1,6 @@
 
 .player .glyphicon{
-    font-size:25px;
+    font-size:20px;
     /*!important;*/
 }
 .player .glyphicon:hover {
@@ -10,24 +10,35 @@
     width:auto;
     padding-top: 0px !important;
     padding-bottom: 0px !important;
-    /*margin-left: 300px !important;*/
-    margin-top: -90px !important;
+    margin-top: -100px !important;
     border-radius: 5px;
-    /*width:60%;*/
+}
+
+.timeline .player .time{
+ margin-left:auto;
+ margin-right:auto;
+ width:10%;
+ font-size:12px;
 }
 
 .timeline .player .controls{
  margin-left:auto;
  margin-right:auto;
- width:40%
+ width:20%
 }
 
-.timeline .player .controls .label{
-    font-size:10px"
- /*margin-left:auto;*/
- /*margin-right:auto;*/
- /*width:30%*/
+
+.timeline .player .controls .glyphicon{
+    padding: 3px 2px 3px 2px;
 }
+
+
+/*.timeline .player .controls .label{*/
+/*font-size:10px;*/
+/*margin-left:auto;*/
+/*margin-right:auto;*/
+/*width:30%*/
+/*}*/
 
 
 .timeline .column{
