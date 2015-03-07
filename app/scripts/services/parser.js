@@ -8,7 +8,7 @@
  * Factory in the verpApp.
  */
 angular.module('verpApp')
-    .factory('Parser', function () {
+    .factory('Parser', function (GazeDetector) {
 
         var calibAreaWidth, calibAreaHeight;
 
@@ -34,19 +34,17 @@ angular.module('verpApp')
         };
 
 
-
-        var delta = function(x, dx){
+        var delta = function(x, dx, s){
 
             if(!x) {
                 console.warn('No data to take delta of');
                 return;
             }
+            var ts =  s || 1,
+                n = x.length, i;
 
-            var n = x.length, i;
+            for(i = 0; i < n-1; i++) dx.push( ts*(x[i+1]-x[i]) );
 
-            for(i = 0; i < n-1; i++){
-                dx.push(x[i+1]-x[i]);
-            }
 
             dx.push(dx[i-1]);
 
@@ -54,11 +52,14 @@ angular.module('verpApp')
 
 
 
-        var velocity = function(x, t, v){
+        var velocity = function(x, t, v, s){
 
             var n = x.length,
                 i = 0,
+                tscale = s || 1,
                 x0, y0, x1, y1, delta;
+
+            console.log('-->tscale:'+tscale);
 
             for(; i < n-1; i++){
 
@@ -69,7 +70,7 @@ angular.module('verpApp')
 
                 delta = Math.sqrt(x0*x0 + y0*y0 - 2*x0*x1 - 2*y0*y1 + y1*y1 + x1*x1);
 
-                v.push(delta/(0.001*t[i]));
+                v.push(delta/(tscale*t[i]));
             }
 
             v.push(v[i-1]);
@@ -103,7 +104,9 @@ angular.module('verpApp')
             delta(verp.time, verp.deltaTime);
             velocity(verp.pos, verp.deltaTime, verp.velocity);
 
-            verp.avgVelocity = stat.mean(verp.velocity);
+           var sigmsqr = stat.var(verp.velocity);
+           verp.avgVelocity = sigmsqr.mean;
+           verp.stdVelocity = Math.sqrt(sigmsqr.val);
 
             return verp;
 
@@ -122,7 +125,6 @@ angular.module('verpApp')
                     value: [],
                     time: [],
                     deltaTime: [],
-                    velocity: [],
                     frmid: [],
                     info: null
                 },
@@ -139,7 +141,7 @@ angular.module('verpApp')
             p = getIDFParam(header, 'Head Distance', ':');
             if(p) verp.headDistance = p.match(/\S+/g).map(function(d){return +d;})[0];
 
-            verp.pixelSize = [verp.stimSize[0]/verp.calibArea[0], verp.stimSize[1]/verp.calibArea[1]]
+            verp.pixelSize = [verp.stimSize[0]/verp.calibArea[0], verp.stimSize[1]/verp.calibArea[1]];
 
             verp.info = header;
 
@@ -162,12 +164,20 @@ angular.module('verpApp')
             }
 
 
-            delta(verp.time, verp.deltaTime);
-            velocity(verp.pos, verp.deltaTime, verp.velocity);
+            delta(verp.time, verp.deltaTime, 0.000001);
 
-            verp.avgVelocity = stat.mean(verp.velocity);
+            verp.velocity = GazeDetector.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize,verp.headDistance);
+            //velocity(verp.pos, verp.deltaTime, verp.velocity, 0.000001);
 
-            calibAreaWidth = verp.calibArea[0];
+            var sigmsqr = stat.var(verp.velocity);
+            verp.avgVelocity = sigmsqr.mean;
+            verp.stdVelocity = Math.sqrt(sigmsqr.val);
+
+            console.log(verp.velocity);
+            console.log(verp.avgVelocity);
+            console.log(verp.stdVelocity);
+
+            calibAreaWidth  = verp.calibArea[0];
             calibAreaHeight = verp.calibArea[1];
             verp.coordXform = coordXform;
 

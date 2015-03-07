@@ -164,6 +164,13 @@ circle{
     margin-bottom:1%;
 }
 
+.scene-info .center {
+    /*text-align:center;*/
+    display:block;
+    width:23%;
+    margin-left:auto;
+    margin-right:auto;
+}
 
 /*.scene-info .controlgrp .control-row input[type=range]{*/
    /*width:50%;*/

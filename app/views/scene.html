@@ -20,7 +20,7 @@
         <heatview  class="stacked"
                    width="650"
                    height="500"
-                   colormap="0"
+                   colormap="1"
                    domain='domain()'
                    points='points'
                    ng-show="showHeatmap"></heatview>
@@ -57,16 +57,18 @@
 
                     <!--<div style="display:inline-block"><label>threshold</label></div>-->
                     <div class="slider">
-                    <label class="numinput">min:</label><input type="number"  id="min-input" value="{{epsmin}}" ng-model="epsmin">
-                    <label class="numinput">step:</label><input type="number" id="max-input" value="{{epsstep}}" ng-model="epsstep">
-                    <label class="numinput">max:</label><input type="number" id="step-input" value="{{epsmax}}" ng-model="epsmax">
+                    <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
+                    <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
+                    <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
+
                     <input type="range"
-                    min="{{epsmin}}"
-                    step="{{epsstep}}"
-                    max="{{epsmax}}"
-                    value="{{eps}}"
-                    ng-model="eps"
-                    ng-change="epsUpdate()"/>
+                           min="{{velocity.min}}"
+                           step="{{velocity.step}}"
+                           max="{{velocity.max}}"
+                           value="{{velocity.threshold}}"
+                           ng-model="velocity.threshold"
+                           ng-change="classify()"/>
+                        <label class="center">{{velocity.threshold}}</label>
                     </div>
                 </div>
 
@@ -92,7 +94,6 @@
                         <input type="range"  min="0" step="0.25" max="10"
                                ng-model="spBlur" ng-init="spBlur=0"
                                ng-change="imgStyle={'filter':'blur('+spBlur+')', '-webkit-filter': 'blur('+spBlur+'px)'}"/>
-
                     </div>
                 </div>
             </div>

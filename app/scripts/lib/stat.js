@@ -227,6 +227,47 @@
     };
     return intensity;
   };
+  stat.vector = {};
+  stat.vector.add = function(v0, v1) {
+    var v = [], n = v0.length, i = 0;
+    for (;i < n; i++) v.push(v0[i] + v1[i]);
+    return v;
+  };
+  stat.vector.subtract = function(v0, v1) {
+    var v = [], n = v0.length, i = 0;
+    for (;i < n; i++) v.push(v0[i] - v1[i]);
+    return v;
+  };
+  stat.vector.normSquared = function(v) {
+    var s = 0, n = v.length, i = 0;
+    for (;i < n; i++) s += v[i] * v[i];
+    return s;
+  };
+  stat.vector.norm = function(v) {
+    return Math.sqrt(stat.vector.normSquared(v));
+  };
+  stat.vector.normalize = function(v0) {
+    var v = [], eps = 1 / 256, r = stat.vector.norm(v0);
+    if (r < eps) {
+      console.error("The vector [" + v0 + "] has almost zero norm!");
+      return;
+    }
+    var n = v0.length, i = 0;
+    for (;i < n; i++) v.push(v0[i] / r);
+    return v;
+  };
+  stat.vector.dot = function(v0, v1) {
+    var n = v0.length, s = 0, i = 0;
+    for (;i < n; i++) s += v0[i] * v1[i];
+    return s;
+  };
+  stat.vector.degree = function(v0, v1) {
+    return 360 * (stat.vector.radian(v0, v1) / (2 * Math.PI));
+  };
+  stat.vector.radian = function(v0, v1) {
+    var normalize = stat.vector.normalize, dot = stat.vector.dot;
+    return Math.acos(dot(normalize(v0), normalize(v1)));
+  };
   if (typeof define === "function" && define.amd) {
     define(stat);
   } else if (typeof module === "object" && module.exports) {
