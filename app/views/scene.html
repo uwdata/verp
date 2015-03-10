@@ -30,7 +30,8 @@
                    colormap="0"
                    domain='domain()'
                    points='fixations'
-                   ng-show="showFixations"></heatview>
+                   ng-show='showFixations'>
+        </heatview>
         <heatview  class="stacked"
                    width="650"
                    height="500"
@@ -51,8 +52,8 @@
                     <div>
                     <input type="checkbox" ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"> tracking</input>
                     <input type="checkbox" ng-model="showHeatmap"> heatmap</input>
-                    <input type="checkbox" ng-model="showFixations"> fixations</input>
-                    <input type="checkbox" ng-model="showSaccades"> saccades</input>
+                    <input type="checkbox" ng-model="showFixations" ng-change="fixationVisibility()"> fixations</input>
+                    <input type="checkbox" ng-model="showSaccades" ng-change="saccadeVisibility()"> saccades</input>
                      </div>
 
                     <!--<div style="display:inline-block"><label>threshold</label></div>-->

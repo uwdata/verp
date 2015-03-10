@@ -83,8 +83,8 @@ angular.module('verpApp')
 
             function updateTracking(e, d){
 
-                s.tracking = d;
                 var p = d.pos;
+                s.tracking = d;
 
                 if(frm.img.src) {
                     p.domainWidth = frm.img.naturalWidth;

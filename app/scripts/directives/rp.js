@@ -40,7 +40,7 @@ angular.module('verpApp')
             }
 
             function brush(e,d){
-                if(rp) EventService.broadcastRPSelection(rp.boxHighlight(d));
+               if(rp) EventService.broadcastRPSelection(rp.boxHighlight(d));
             }
 
             function  highlight(e, d){

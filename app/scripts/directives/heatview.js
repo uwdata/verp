@@ -75,7 +75,6 @@ angular.module('verpApp')
                 for(; i < n; i++)
                     data.push({x: x(pos[i][0]), y: y(pos[i][1]), value: 1});
 
-
                 heatmap.setData({
                     max: 10,
                     data:data});

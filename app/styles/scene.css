@@ -66,6 +66,23 @@ circle{
     /*opacity:0.05;*/
 /*}*/
 
+.hidden circle{
+
+   display: none;
+
+}
+
+/*.selected .highlight circle{*/
+    /**/
+    /*fill:red;*/
+    /*opacity:0.9;*/
+    /*stroke:black;*/
+    /*stroke-width:3;*/
+    /**/
+/*}*/
+
+
+
 .highlight circle{
     fill:red;
     opacity:0.9;

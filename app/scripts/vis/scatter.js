@@ -205,6 +205,18 @@ Scatter.prototype.ghost = function(indx,f){
 };
 
 
+Scatter.prototype.visibility = function(indx){
+
+   this.svg_.selectAll('.shape')
+       .classed('hidden',
+             function (d, i){
+
+                return indx[i] === 0;
+            });
+
+};
+
+
 Scatter.prototype.hide = function(indx,f){
 
    var shapes = this.svg_.selectAll('.shape');
