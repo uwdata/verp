@@ -48,7 +48,7 @@ angular.module('verpApp')
 
             var n = c.length;
 
-            while (c[i] !== id  && i++ < n);
+            while (i < n && c[i] !== id ) ++i;
 
             return i;
 
@@ -60,14 +60,14 @@ angular.module('verpApp')
         var cluster = function(c, p){
 
             var n = p.length,
-                minsize = 5, //minimum fixation cluster size
+                minsize = 20, //minimum fixation cluster size
                 cluster = [],
                 cnt = 0,
                 i = 0,
                 j = 0,
                 m = 0;
 
-            while(i = nextEvent(c, i, 0) < n ) {
+            while((i = nextEvent(c, i, 0)) < n ) {
 
                 j = nextEvent(c, i, 1);
 
@@ -78,12 +78,12 @@ angular.module('verpApp')
                     ++cnt;
                 }
 
-                if (!j < n)  break;
+                if (j >= n )  break;
 
                 i = j;
 
-            }
 
+            }
 
             return cluster;
 
@@ -103,11 +103,9 @@ angular.module('verpApp')
             c[0] /= n;
             c[1] /= n;
 
-
             return c;
 
         };
-
 
 
         var angularVelocity = function(p, t, s, h){
@@ -135,7 +133,7 @@ angular.module('verpApp')
 
                     w.push(2 * (90 - stat.vector.degree(v0, v2)) / t[i]);
 
-                }else{
+                } else {
 
                     w.push(0);
 
@@ -195,6 +193,7 @@ angular.module('verpApp')
                 delta = Math.sqrt(x0*x0 + y0*y0 - 2*x0*x1 - 2*y0*y1 + y1*y1 + x1*x1);
 
                 v.push(delta/t[i]);
+
             }
 
             v.push(v[i-1]);
@@ -206,6 +205,7 @@ angular.module('verpApp')
         // Public API here
         return {
 
+            cluster: cluster,
             classifyIVT: classifyIVT,
             angularVelocity: angularVelocity,
             spatialVelocity: spatialVelocity,

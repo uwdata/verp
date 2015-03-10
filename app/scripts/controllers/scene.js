@@ -81,7 +81,8 @@ angular.module('verpApp')
         $scope.classify = function(){
 
             var e = GazeAnalytics.classifyIVT($scope.velocity.values, $scope.velocity.threshold, $scope.event),
-                n = $scope.points.length,
+                p = $scope.points,
+                n = p.length,
                 f = [],
                 s = [],
                 i = 0;
@@ -89,13 +90,15 @@ angular.module('verpApp')
 
             for(; i < n; i++)
                 if(e[i] === 0) //fixation
-                    f.push($scope.points[i]);
+                    f.push(p[i]);
                  else  //saccade
-                    s.push($scope.points[i]);
+                    s.push(p[i]);
 
 
             $scope.fixations = f;
             $scope.saccades = s;
+
+            console.log(GazeAnalytics.cluster(e, p));
 
         };
 

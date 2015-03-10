@@ -90,7 +90,7 @@ angular.module('verpApp')
 
         $scope.player.manual = function(){
 
-            console.log('manual');
+            //console.log('manual');
 
             var p = $scope.player;
 
@@ -99,25 +99,30 @@ angular.module('verpApp')
             EventService.broadcastPlayerTimeChange(p);
         };
 
+
+
         $scope.player.stop = function(){
-            console.log('stop');
+
+
         };
 
 
+
         $scope.player.forward = function(){
-            console.log('fast-forwarding');
+
             var p = $scope.player;
 
             if (p.currentTime === 1.0) return;
 
             if(p.playing === false) p.playing = true;
+
             p.play(p.speed2X, p.step);
 
         };
 
 
         $scope.player.backward = function(){
-            console.log('fast-backwarding');
+
 
             var p = $scope.player;
 
@@ -126,6 +131,7 @@ angular.module('verpApp')
             if(p.playing === false) p.playing = true;
 
             p.play(p.speed2X, -p.step);
+
         };
 
 
