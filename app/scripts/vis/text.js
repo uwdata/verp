@@ -20,7 +20,7 @@ var text = function(){
         yscale =  d3.scale.linear()
             .domain([0, height])
             .range([0, height]),
-        svg, svgtext;
+        svg;
 
 
     function _text(s, d){
@@ -34,10 +34,9 @@ var text = function(){
 
         draw();
 
-
     }
 
-    function joinAndUpdate(d){
+    function updateBinding(d){
 
         //update selection
         var s = svg.selectAll('text')
@@ -45,13 +44,11 @@ var text = function(){
 
         s.enter()
             .append('text');
+
         s.exit()
             .remove();
 
-
     }
-
-
 
 
     function draw(){
@@ -61,20 +58,18 @@ var text = function(){
             .attr('y', function(d){ return yscale(d.pos[1]);})
             .text(function(d){return d.text;});
 
-
     }
 
     _text.update = function(_){
 
         if(arguments.length) {
-            joinAndUpdate(_);
+            updateBinding(_);
             draw();
         } else {
             draw();
         }
 
     };
-
 
 
     _text.width = function(_){
