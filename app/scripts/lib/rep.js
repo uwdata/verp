@@ -33,6 +33,8 @@
       ctxOffScreen = canvasOffScreen.getContext("2d");
       canvas = d3.select(el).append("canvas").attr("width", width).attr("height", height).node();
       ctx = canvas.getContext("2d");
+      ctx.translate(0, canvas.height);
+      ctx.scale(1, -1);
       initData(d);
       initScale();
       update();
@@ -61,6 +63,12 @@
       xScale = d3.scale.linear().domain([ 0, imgWidth ]).range([ 0, width ]);
       yScale = d3.scale.linear().domain([ 0, imgHeight ]).range([ 0, height ]);
     }
+    function flipY(s) {
+      var rangey = s.range(), domy = s.domain();
+      s.range([ canvas.height - rangey[0], canvas.height - rangey[1] ]);
+      s.domain([ imgHeight - domy[0], imgHeight - domy[1] ]);
+      return s;
+    }
     crp.epsnet = function() {
       return epsnet;
     };
@@ -85,9 +93,7 @@
       return activeDomain;
     };
     crp.update = function() {
-      if (data !== null) {
-        update();
-      }
+      if (data !== null) update();
       return crp;
     };
     crp.distfn = function(_) {

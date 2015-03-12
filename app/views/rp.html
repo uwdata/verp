@@ -15,9 +15,9 @@
             </span>
             <span class="glyphicon glyphicon-repeat"
                     ng-click="resetView()"></span>
-            <rp class="stacked" width="500" height="500"></rp>
-            <brush id="rp"  class="stacked" width="500" height="500"></brush>
-            <zoom id="rp-zoom" class="stacked" width="500" height="500" ng-show="interaction.mode==='view'"></zoom>
+            <rp class="stacked flip-vertical" width="500" height="500"></rp>
+            <brush id="rp"  class="stacked" width="500" height="500" flipy="true"></brush>
+            <zoom id="rp-zoom" class="stacked" width="500" height="500" flipy="true" ng-show="interaction.mode==='view'"></zoom>
         </div>
 
         <div class="col-md-4 column" style="padding-left:30px;padding-right:0px" >

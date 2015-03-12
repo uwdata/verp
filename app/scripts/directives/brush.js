@@ -7,14 +7,15 @@
  * # brush
  */
 angular.module('verpApp')
-    .directive('brush', function (EventService) {
+    .directive('brush', function () {
 
         var postLink = function postLink(scope, element, attrs) {
 
-            var w = attrs.width,
-                h = attrs.height,
-                x = d3.scale.linear(),
-                y = d3.scale.linear(),
+            var w = +attrs.width,
+                h = +attrs.height,
+                f = attrs.flipy,
+                x = d3.scale.linear().range([0,w]),
+                y = d3.scale.linear().range([0,h]),
                 brush = d3.svg.brush(),
                 brushsvg = d3.select(element[0])
                     .append('svg')
@@ -23,6 +24,10 @@ angular.module('verpApp')
                     .append('g')
                     .attr("class", "rectbrush");
 
+            if(f === 'true') y.range([h, 0]);
+
+            console.log(y.range());
+
             d3.select(element[0])
                 .on('mouseover', function(){d3.select(this).node().focus();})
                 .on('keydown', handleKeydown);
@@ -30,8 +35,8 @@ angular.module('verpApp')
 
             function init(){
                 var dom = scope.domain();
-                brush.x(x.domain(dom.dx).range([0, w]))
-                     .y(y.domain(dom.dy).range([0, h]))
+                brush.x(x.domain(dom.dx))
+                     .y(y.domain(dom.dy))
                      .on('brush', brushed);
                 brushsvg.call(brush);
             }

@@ -26,10 +26,10 @@ var arrow = function(){
 
     function _arrow(s, d){
 
+
         svg = s.append('svg')
             .attr('width', width)
             .attr('height', height);
-
 
 
         //define an arrow head  marker

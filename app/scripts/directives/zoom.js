@@ -14,8 +14,13 @@ angular.module('verpApp')
 
          var w = +attrs.width,
              h = +attrs.height,
-             x = d3.scale.linear(),
-             y = d3.scale.linear();
+             f = attrs.flipy,
+             x = d3.scale.linear().range([0, w]),
+             y = d3.scale.linear().range([0, h]);
+
+            if (f === 'true') y.range([h,0]);
+
+           console.log(y.range());
 
 
           var zoomer = d3.behavior.zoom()
@@ -36,8 +41,8 @@ angular.module('verpApp')
 
             function init(){
                 var dom = scope.domain();
-                zoomer.x(x.domain(dom.dx).range([0,w]))
-                      .y(y.domain(dom.dy).range([0,h]))
+                zoomer.x(x.domain(dom.dx))
+                      .y(y.domain(dom.dy))
                     .on('zoom', zoom);
             }
 
