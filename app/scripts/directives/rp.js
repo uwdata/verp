@@ -16,15 +16,17 @@ angular.module('verpApp')
                 rp = null;
 
            function  init(){
+
                rp = rep.crp()
                     .width(w)
                     .height(h)
                     .distfn(scope.distfn)
                     .eps(scope.eps);
+
            }
 
 
-            function update(e,scene) {
+           function update(e,scene) {
 
               var dd = {x: scene.data.value, y: scene.data.value};
 
@@ -37,7 +39,9 @@ angular.module('verpApp')
               }else{
                   rp.data(dd).update();
               }
-            }
+           }
+
+
 
             function brush(e,d){
                if(rp) EventService.broadcastRPSelection(rp.boxHighlight(d));
@@ -51,6 +55,7 @@ angular.module('verpApp')
             function  updateScale(e, d){
               if(rp) rp.scale(d).update();
             }
+
 
 
             function  updateEps(e,d) {

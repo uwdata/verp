@@ -8,7 +8,7 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-    .controller('SceneCtrl', function ($scope, GazeAnalytics) {
+    .controller('SceneCtrl', function ($scope, EventService, GazeAnalytics) {
 
         $scope.name = 'SceneCtrl';
 
@@ -16,6 +16,8 @@ angular.module('verpApp')
         $scope.showHeatmap = false;
         $scope.showFixations = false;
         $scope.showSaccades = false;
+        $scope.showScanPath = false;
+
 
         $scope.frm = {};
         $scope.sp = {};
@@ -98,7 +100,7 @@ angular.module('verpApp')
             $scope.fixations = f;
             $scope.saccades = s;
 
-            console.log(GazeAnalytics.cluster(e, p));
+            $scope.scanPath = GazeAnalytics.cluster(e, p);
 
         };
 

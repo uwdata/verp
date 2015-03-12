@@ -189,6 +189,37 @@ circle{
     margin-right:auto;
 }
 
+
+text {
+
+    text-anchor: middle;
+    font-family: 'HelveticaNeue-Light';
+    alignment-baseline:central;
+    font-weight: 300;
+    font-size:25px;
+
+}
+
+
+.nodes circle{
+    opacity:1;
+}
+
+defs path{
+
+    stroke:none;
+    fill: rgb(0.1, 0.1, 0.1);
+
+}
+
+.arrow {
+    marker-end:url(#arrowhead);
+    stroke-width:5px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+}
+
 /*.scene-info .controlgrp .control-row input[type=range]{*/
    /*width:50%;*/
    /*display:inline-block;*/

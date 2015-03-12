@@ -40,6 +40,11 @@
                    points='saccades'
                    ng-show="showSaccades"></heatview>
         <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
+
+        <directedpath class="stacked scanpath" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></directedpath>
+        <circularnodes class="stacked nodes" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></circularnodes>
+        <textlabel class="stacked" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></textlabel>
+        <focusmap></focusmap>
         <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
         <brush id="sp" class="stacked" width="650" height="500" ng-show="showTracking"></brush>
         <zoom id="scene-zoom" class="stacked" width="650" height="500" ng-show="mode==='view'"></zoom>
@@ -54,6 +59,7 @@
                     <input type="checkbox" ng-model="showHeatmap"> heatmap</input>
                     <input type="checkbox" ng-model="showFixations" ng-change="fixationVisibility()"> fixations</input>
                     <input type="checkbox" ng-model="showSaccades" ng-change="saccadeVisibility()"> saccades</input>
+                     <input type="checkbox" ng-model="showScanPath"> path</input>
                      </div>
 
                     <!--<div style="display:inline-block"><label>threshold</label></div>-->

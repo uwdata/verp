@@ -1,16 +1,16 @@
 /*
  *
- * File  : text.js
+ * File  : circle.js
  * Author: Cagatay Demiralp (cagatay)
- * Desc  : 
+ * Desc  :
  *
- * 	Example: 
+ * 	Example:
  *
  * Date    : Mon Jan  5 00:44:44 2015
  *
  */
 
-var text = function(){
+var circle = function(){
 
     var width = 256,
         height = 256,
@@ -20,19 +20,20 @@ var text = function(){
         yScale =  d3.scale.linear()
             .domain([0, height])
             .range([0, height]),
+        color =  d3.scale.category10(),
         svg;
 
 
-    function _text(s, d){
+    function _circle(s, d){
 
         svg = s.append('svg')
             .attr('width', width)
             .attr('height', height);
 
-        svg.selectAll('text')
+        svg.selectAll('circle')
             .data(d)
             .enter()
-            .append('text');
+            .append('circle');
 
         draw();
 
@@ -41,11 +42,11 @@ var text = function(){
     function updateBinding(d){
 
         //update selection
-        var s = svg.selectAll('text')
+        var s = svg.selectAll('circle')
             .data(d);
 
         s.enter()
-            .append('text');
+            .append('circle');
 
         s.exit()
             .remove();
@@ -55,14 +56,15 @@ var text = function(){
 
     function draw(){
 
-        svg.selectAll('text')
-            .attr('x', function(d){ return xScale(d.pos[0]);})
-            .attr('y', function(d){ return yScale(d.pos[1]);})
-            .text(function(d){return d.label;});
+        svg.selectAll('circle')
+            .attr('cx', function(d){ return xScale(d.pos[0]);})
+            .attr('cy', function(d){ return yScale(d.pos[1]);})
+            .attr('r', 20)
+            .style('fill', function(d,i){return color(i);})
 
     }
 
-    _text.update = function(_){
+    _circle.update = function(_){
 
         if(arguments.length) {
             updateBinding(_);
@@ -74,36 +76,36 @@ var text = function(){
     };
 
 
-    _text.width = function(_){
+    _circle.width = function(_){
 
         if(!arguments.length) return width;
 
         width = _;
 
-        return _text;
+        return _circle;
 
     };
 
 
-    _text.height = function(_){
+    _circle.height = function(_){
 
         if(!arguments.length) return height;
 
         height = _;
 
-        return  _text;
+        return  _circle;
 
     };
 
 
-    _text.xScale = function(_){
+    _circle.xScale = function(_){
 
 
         if(!arguments.length) return xScale;
 
         xScale = _;
 
-        return  _text;
+        return  _circle;
 
 
 
@@ -111,18 +113,18 @@ var text = function(){
 
 
 
-    _text.yScale = function(_){
+    _circle.yScale = function(_){
 
         if(!arguments.length) return yScale;
 
         yScale = _;
 
-        return  _text;
+        return  _circle;
 
     };
 
 
-    return _text;
+    return _circle;
 
 };
 

@@ -2,21 +2,24 @@
 
 /**
  * @ngdoc directive
- * @name verpApp.directive:textlabel
+ * @name verpApp.directive:CircularNodes
  * @description
- * # textlabel
+ * # CircularNodes
  */
 angular.module('verpApp')
-    .directive('textlabel', function () {
+  .directive('circularnodes', function () {
 
         var postLink = function (scope, element, attrs) {
+
+
+            console.log('compiled');
+
 
             var w = +attrs.width,
                 h = +attrs.height,
                 x = d3.scale.linear(),
                 y = d3.scale.linear(),
-                labels;
-
+                nodes;
 
 
             function init(){
@@ -29,20 +32,20 @@ angular.module('verpApp')
                 x.domain(dom.dx).range([0, w]);
                 y.domain(dom.dy).range([0, h]);
 
-                 labels = text()
+                nodes = circle()
                     .width(w)
                     .height(h)
                     .xScale(x)
                     .yScale(y);
 
                 d3.select(element[0])
-                    .call(labels, scope.data);
+                    .call(nodes, scope.data);
 
             }
 
-function update(){
+            function update(){
 
-           if(!scope.data) return;
+                if(!scope.data) return;
 
 
                 var dom = scope.domain();
@@ -50,11 +53,9 @@ function update(){
                 x.domain(dom.dx).range([0, w]);
                 y.domain(dom.dy).range([0, h]);
 
-        labels.xScale(x).yScale(y).update(scope.data);
+                nodes.xScale(x).yScale(y).update(scope.data);
 
-}
-
-
+            }
 
 
 
@@ -63,7 +64,7 @@ function update(){
                 x.domain(d.xs().domain()).range(d.xs().range());
                 y.domain(d.ys().domain()).range(d.ys().range());
 
-                labels.xScale(x)
+                nodes.xScale(x)
                     .yScale(y)
                     .update();
 
@@ -72,7 +73,7 @@ function update(){
 
             scope.$watch('data', function(){
 
-                if(!labels) init(); else update();
+                if(!nodes) init(); else update();
 
             });
 
@@ -85,15 +86,15 @@ function update(){
 
 
         return {
-                template: '<div></div>',
-                scope: {
-                    data: '=data',
-                    domain:'&domain'
-                },
-                restrict: 'E',
-                replace:true,
-                link:postLink
+            template: '<div></div>',
+            scope: {
+                data: '=data',
+                domain:'&domain'
+            },
+            restrict: 'E',
+            replace:true,
+            link:postLink
 
         };
 
-    });
+  });

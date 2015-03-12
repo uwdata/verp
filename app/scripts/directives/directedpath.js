@@ -2,21 +2,21 @@
 
 /**
  * @ngdoc directive
- * @name verpApp.directive:textlabel
+ * @name verpApp.directive:directedpath
  * @description
- * # textlabel
+ * # directedpath
  */
 angular.module('verpApp')
-    .directive('textlabel', function () {
-
+  .directive('directedpath', function () {
         var postLink = function (scope, element, attrs) {
+
+
 
             var w = +attrs.width,
                 h = +attrs.height,
                 x = d3.scale.linear(),
                 y = d3.scale.linear(),
-                labels;
-
+                dpath;
 
 
             function init(){
@@ -29,20 +29,23 @@ angular.module('verpApp')
                 x.domain(dom.dx).range([0, w]);
                 y.domain(dom.dy).range([0, h]);
 
-                 labels = text()
+                dpath = arrow()
                     .width(w)
                     .height(h)
                     .xScale(x)
                     .yScale(y);
 
+
+                console.log(toarrow(scope.data));
+
                 d3.select(element[0])
-                    .call(labels, scope.data);
+                    .call(dpath, toarrow(scope.data));
 
             }
 
-function update(){
+            function update(){
 
-           if(!scope.data) return;
+                if(!scope.data) return;
 
 
                 var dom = scope.domain();
@@ -50,20 +53,34 @@ function update(){
                 x.domain(dom.dx).range([0, w]);
                 y.domain(dom.dy).range([0, h]);
 
-        labels.xScale(x).yScale(y).update(scope.data);
 
-}
+                dpath.xScale(x).yScale(y).update(toarrow(scope.data));
+
+            }
 
 
+            var toarrow = function(data){
 
+                var n = data.length,
+                    d = [],
+                    i = 0;
 
+                for( ; i < n-1; i++)
+                    d.push({
+                       src: data[i].pos,
+                        target: data[i+1].pos
+                    })
+
+                return d;
+
+            };
 
             function updateScale(e, d){
 
                 x.domain(d.xs().domain()).range(d.xs().range());
                 y.domain(d.ys().domain()).range(d.ys().range());
 
-                labels.xScale(x)
+                dpath.xScale(x)
                     .yScale(y)
                     .update();
 
@@ -72,7 +89,7 @@ function update(){
 
             scope.$watch('data', function(){
 
-                if(!labels) init(); else update();
+                if(!dpath) init(); else update();
 
             });
 
@@ -85,15 +102,16 @@ function update(){
 
 
         return {
-                template: '<div></div>',
-                scope: {
-                    data: '=data',
-                    domain:'&domain'
-                },
-                restrict: 'E',
-                replace:true,
-                link:postLink
+            template: '<div></div>',
+            scope: {
+                data: '=data',
+                domain:'&domain'
+            },
+            restrict: 'E',
+            replace:true,
+            link:postLink
 
         };
 
-    });
+
+  });
