@@ -69,6 +69,11 @@
       s.domain([ imgHeight - domy[0], imgHeight - domy[1] ]);
       return s;
     }
+    crp.recurrenceRate = function() {};
+    crp.determinism = function() {};
+    crp.entropy = function() {
+      if (rpdata) return rep.entropy(rpdata, data.x.length, eps);
+    };
     crp.epsnet = function() {
       return epsnet;
     };
@@ -229,6 +234,64 @@
     for (i = 0; i < n; i++) s += a[i] === b[i] ? 0 : 1;
     return s;
   }
+  rep.rr = function(d, n, eps) {
+    var rp = rep_distanceToRP(d, eps);
+    return rep_rc(rp, n) / (n * n - n);
+  };
+  rep.det = function(d, n, eps) {
+    var rp = rep_distanceToRP(d, eps), histdl = rep_diagonalLineHistogram(rp, n), rc = rep_rc(rp, n);
+    return (rc - 2 * histdl[0]) / rc;
+  };
+  rep.entropy = function(d, n, eps) {
+    var rp = [ 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1 ];
+    var histdl = rep_diagonalLineHistogram(rp, 6), z = 0, i = 0, h = 0, p;
+    console.log(histdl);
+    for (;i < histdl.length; i++) z += histdl[i];
+    for (i = 0; i < histdl.length; i++) {
+      p = histdl[i];
+      if (p > 0) h += p / z * Math.log(p / z);
+    }
+    return -h;
+  };
+  var rep_rc = function(rp, n) {
+    var s = 0, i, j;
+    for (i = 1; i < n - 1; i++) for (j = i + 1; j < n; j++) s += rp[i * n + j];
+    return 2 * s;
+  };
+  var rep_diagonalLineHistogram = function(rp, n) {
+    var h = stat.uint32Array(n, 0), cnt, i, j, indx;
+    for (i = 0; i < n - 1; i++) {
+      for (j = i + 1; j < n; j++) {
+        cnt = 0;
+        indx = i * n + j;
+        if (rp[indx] === 1) {
+          rp[indx] = 0;
+          cnt = 1;
+          cnt += rep_traceDiagonal(rp, i + 1, j + 1, n);
+          h[cnt - 1]++;
+        }
+      }
+    }
+    return h;
+  };
+  var rep_traceDiagonal = function(rp, i, j, n) {
+    var m = n - j, cnt = 0, l = 0, indx;
+    for (;l < m; l++, i++, j++) {
+      indx = i * n + j;
+      if (rp[indx] === 1) {
+        cnt++;
+        rp[indx] = 0;
+      } else {
+        break;
+      }
+    }
+    return cnt;
+  };
+  var rep_distanceToRP = function(d, eps) {
+    var n = d.length, rp = stat.uint8Array(n, 0), i = 0;
+    for (;i < n; i++) rp[i] = d[i] <= eps ? 1 : 0;
+    return rp;
+  };
   if (typeof define === "function" && define.amd) {
     define(rep);
   } else if (typeof module === "object" && module.exports) {

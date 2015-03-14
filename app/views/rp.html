@@ -1,6 +1,6 @@
 <div class="col-md-7 column recurrence" ng-controller="RecurrenceCtrl">
     <div class="row clearfix">
-        <div class="col-md-8 column" style="padding-left:70px" ng-controller="RecurrenceCtrl">
+        <div class="col-md-8 column" style="padding-left:70px" >
             <label class="viewname">RP</label>
             <span class="glyphicon glyphicon-search"
                   ng-model="interaction.mode"
@@ -13,10 +13,13 @@
                   ng-style="brushStyle"
                   ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'};">
             </span>
-            <span class="glyphicon glyphicon-repeat"
-                    ng-click="resetView()"></span>
+            <span class="glyphicon glyphicon-repeat" ng-click="resetView()"></span>
+
             <rp class="stacked flip-vertical" width="500" height="500"></rp>
-            <brush id="rp"  class="stacked" width="500" height="500" flipy="true"></brush>
+
+            <brush id="rp" class="stacked" width="500" height="500" flipy="true"></brush>
+
+
             <zoom id="rp-zoom" class="stacked" width="500" height="500" flipy="true" ng-show="interaction.mode==='view'"></zoom>
         </div>
 
@@ -26,9 +29,9 @@
 
                 <div class="form-group slider">
                     <div style="display:block"><label>epsilon</label></div>
-                    <label class="numinput">min:</label><input type="number"  id="min-input" value="{{epsmin}}" ng-model="epsmin">
+                    <label class="numinput">min:</label><input  type="number"  id="min-input" value="{{epsmin}}" ng-model="epsmin">
                     <label class="numinput">step:</label><input type="number" id="max-input" value="{{epsstep}}" ng-model="epsstep">
-                    <label class="numinput">max:</label><input type="number" id="step-input" value="{{epsmax}}" ng-model="epsmax">
+                    <label class="numinput">max:</label><input  type="number" id="step-input" value="{{epsmax}}" ng-model="epsmax">
 
                     <input type="range"
                            min="{{epsmin}}"
@@ -51,6 +54,7 @@
                                ng-change="epsFilteringUpdate()"/>
                     </label>
                 </div>
+
 
                 <label>distance functions</label>
                 <div class="form-group">

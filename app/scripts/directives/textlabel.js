@@ -13,23 +13,24 @@ angular.module('verpApp')
 
             var w = +attrs.width,
                 h = +attrs.height,
-                x = d3.scale.linear(),
-                y = d3.scale.linear(),
+                x = d3.scale.linear().range([0, w]),
+                y = d3.scale.linear().range([0, h]),
                 labels;
 
 
+            if(w === 100) console.log(scope.data);
 
             function init(){
-
-                if(!scope.data) return;
 
 
                 var dom = scope.domain();
 
+                if(!(scope.data && dom)) return;
+
                 x.domain(dom.dx).range([0, w]);
                 y.domain(dom.dy).range([0, h]);
 
-                 labels = text()
+                labels = text()
                     .width(w)
                     .height(h)
                     .xScale(x)
@@ -40,9 +41,9 @@ angular.module('verpApp')
 
             }
 
-function update(){
+            function update(){
 
-           if(!scope.data) return;
+                if(!scope.data) return;
 
 
                 var dom = scope.domain();
@@ -50,12 +51,9 @@ function update(){
                 x.domain(dom.dx).range([0, w]);
                 y.domain(dom.dy).range([0, h]);
 
-        labels.xScale(x).yScale(y).update(scope.data);
+                labels.xScale(x).yScale(y).update(scope.data);
 
-}
-
-
-
+            }
 
 
             function updateScale(e, d){
@@ -79,20 +77,19 @@ function update(){
             scope.$on('domain.ready', init);
             scope.$on('view.zoom', updateScale);
 
-
         };
 
 
 
         return {
-                template: '<div></div>',
-                scope: {
-                    data: '=data',
-                    domain:'&domain'
-                },
-                restrict: 'E',
-                replace:true,
-                link:postLink
+            template: '<div></div>',
+            scope: {
+                data: '=data',
+                domain:'&domain'
+            },
+            restrict: 'E',
+            replace:true,
+            link:postLink
 
         };
 

@@ -41,11 +41,11 @@
                    ng-show="showSaccades"></heatview>
         <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
 
+        <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
         <directedpath class="stacked scanpath" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></directedpath>
         <circularnodes class="stacked nodes" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></circularnodes>
         <textlabel class="stacked" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></textlabel>
         <focusmap></focusmap>
-        <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
         <brush id="sp" class="stacked" width="650" height="500" ng-show="showTracking"></brush>
         <zoom id="scene-zoom" class="stacked" width="650" height="500" ng-show="mode==='view'"></zoom>
     </div>

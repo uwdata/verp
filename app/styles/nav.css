@@ -11,3 +11,34 @@
 .navbar-nav .glyphicon{
     font-size:20px;
 }
+
+
+
+
+#rqa .divtable{
+    display: table;
+    margin-top:5px;
+}
+
+#rqa .row{
+    display: table-row;
+    text-align:center;
+}
+
+
+#rqa .row.heading {
+    text-aling: center;
+}
+
+#rqa .column {
+    font-size:12px;
+    display: table-cell;
+    color:gray;
+    width:80px;
+}
+
+
+#rqa .row.heading .column{
+    color: rgba(255, 69, 0, 0.60);
+}
+

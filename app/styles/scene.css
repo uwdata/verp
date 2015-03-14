@@ -196,6 +196,7 @@ text {
     font-family: 'HelveticaNeue-Light';
     alignment-baseline:central;
     font-weight: 300;
+    fill:white;
     font-size:25px;
 
 }
@@ -214,10 +215,10 @@ defs path{
 
 .arrow {
     marker-end:url(#arrowhead);
+   filter:url(#dropshadow);
     stroke-width:5px;
     stroke-linecap: round;
     stroke-linejoin: round;
-
 }
 
 /*.scene-info .controlgrp .control-row input[type=range]{*/

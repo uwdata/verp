@@ -120,9 +120,7 @@ angular.module('verpApp')
 
         $scope.domain = function(){
 
-            if($scope.xDomain && $scope.yDomain)
-                return {dx: $scope.xDomain,
-                    dy: $scope.yDomain};
+            if($scope.xDomain && $scope.yDomain) return {dx: $scope.xDomain, dy: $scope.yDomain};
 
         };
 

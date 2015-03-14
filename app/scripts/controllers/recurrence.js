@@ -19,6 +19,10 @@ angular.module('verpApp')
         $scope.epsTimeMin = 0;
         $scope.epsTimeMax= 100;
         $scope.epsTimeStep = 1;
+        $scope.recurrenceRate = 0.5;
+
+        $scope.showRQA = false;
+        $scope.rqa = {rr:0, det:0, entropy:0, tt:0};
 
         $scope.name = 'RecurrenceCtrl';
         $scope.distfn = 'l2';
@@ -30,6 +34,19 @@ angular.module('verpApp')
         $scope.partition = false;
         $scope.interaction = {mode:'selection'};
 
+        //$scope.toggleShowRQA = function(){
+        //
+        //    $scope.showRQA =  !$scope.showRQA;
+        //
+        //    console.log($scope.showRQA);
+        //
+        //};
+
+        $scope.RR = function(){
+
+            return $scope.recurrenceRate;
+
+        };
 
         $scope.setMode = function(m){
 
@@ -57,10 +74,7 @@ angular.module('verpApp')
 
         $scope.domain = function(){
 
-            if($scope.xDomain && $scope.yDomain)
-
-            return {dx: $scope.xDomain,
-                    dy: $scope.yDomain};
+            if($scope.xDomain && $scope.yDomain) return {dx: $scope.xDomain, dy: $scope.yDomain};
 
         };
 
@@ -113,7 +127,7 @@ angular.module('verpApp')
                 $scope.xDomain = dx;
                 $scope.yDomain = dy;
 
-             $scope.$broadcast('domain.ready');
+             $scope.$broadcast('domain.ready', d);
 
         }
 

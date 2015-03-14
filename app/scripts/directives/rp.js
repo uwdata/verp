@@ -15,36 +15,35 @@ angular.module('verpApp')
                 h = +attrs.height,
                 rp = null;
 
-           function  init(){
+            function  init(){
 
-               rp = rep.crp()
+                rp = rep.crp()
                     .width(w)
                     .height(h)
                     .distfn(scope.distfn)
                     .eps(scope.eps);
+            }
 
-           }
 
+            function update(e,scene) {
 
-           function update(e,scene) {
+                var dd = {x: scene.data.value, y: scene.data.value};
 
-              var dd = {x: scene.data.value, y: scene.data.value};
+                if(rp === null) {
+                    init();
+                    rp(dd, element[0]);
+                    DataService.service('rpEpsNet', rp.epsnet);
+                    DataService.service('rpDistanceMatrix', rp.distanceMatrix);
 
-              if(rp === null) {
-                  init();
-                  rp(dd, element[0]);
-                  DataService.service('rpEpsNet', rp.epsnet);
-                  DataService.service('rpDistanceMatrix', rp.distanceMatrix);
-
-              }else{
-                  rp.data(dd).update();
-              }
-           }
+                }else{
+                    rp.data(dd).update();
+                }
+            }
 
 
 
             function brush(e,d){
-               if(rp) EventService.broadcastRPSelection(rp.boxHighlight(d));
+                if(rp) EventService.broadcastRPSelection(rp.boxHighlight(d));
             }
 
             function  highlight(e, d){
@@ -53,7 +52,7 @@ angular.module('verpApp')
 
 
             function  updateScale(e, d){
-              if(rp) rp.scale(d).update();
+                if(rp) rp.scale(d).update();
             }
 
 
@@ -63,12 +62,18 @@ angular.module('verpApp')
                     rp.eps(d.eps).update();
                     if (d.epsFiltering === true)
                         $rootScope.$broadcast('rp.epsFilter.update', d);
+
+                    console.log('RR: '+rp.recurrenceRate());
+                    console.log('DET:'+rp.determinism());
+                    console.log('ENTROPY:'+rp.entropy());
+
+
                 }
             }
 
 
             function  updateDistfn(n,o){
-              if(rp) rp.distfn(n).update();
+                if(rp) rp.distfn(n).update();
             }
 
             scope.$on('scene.ready', update);

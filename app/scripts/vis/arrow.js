@@ -21,7 +21,7 @@ var arrow = function(){
             .domain([0, height])
             .range([0, height]),
         color =  d3.scale.category10(),
-        svg, path;
+        svg, path, filter, fmerge;
 
 
     function _arrow(s, d){
@@ -44,6 +44,22 @@ var arrow = function(){
             .attr('orient','auto')
             .append('path')
             .attr('d','M 0 0 L 10 5 L 0 10 z');
+
+        /*
+        filter = svg.append('filter')
+            .attr('id','dropshadow');
+        filter.append('feGaussianBlur')
+            .attr('stdDeviation',3)
+            .attr('in', 'SourceAlpha');
+        filter.append('feOffset')
+            .attr('dx',2)
+            .attr('dy',2)
+            .attr('result','offsetblur');
+        fmerge = filter.append('feMerge');
+        fmerge.append('ferMergeNode');
+        fmerge.append('feMergeNode')
+              .attr('in', 'SourceGraphic');
+               */
 
         path = svg.append('g');
 
