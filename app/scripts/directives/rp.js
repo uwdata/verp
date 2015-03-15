@@ -63,10 +63,8 @@ angular.module('verpApp')
                     if (d.epsFiltering === true)
                         $rootScope.$broadcast('rp.epsFilter.update', d);
 
-                    console.log('RR: '+rp.recurrenceRate());
-                    console.log('DET:'+rp.determinism());
-                    console.log('ENTROPY:'+rp.entropy());
-
+                    scope.rqa = rp.rqa();
+                    console.log(scope.rqa);
 
                 }
             }

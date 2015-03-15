@@ -63,16 +63,8 @@
       xScale = d3.scale.linear().domain([ 0, imgWidth ]).range([ 0, width ]);
       yScale = d3.scale.linear().domain([ 0, imgHeight ]).range([ 0, height ]);
     }
-    function flipY(s) {
-      var rangey = s.range(), domy = s.domain();
-      s.range([ canvas.height - rangey[0], canvas.height - rangey[1] ]);
-      s.domain([ imgHeight - domy[0], imgHeight - domy[1] ]);
-      return s;
-    }
-    crp.recurrenceRate = function() {};
-    crp.determinism = function() {};
-    crp.entropy = function() {
-      if (rpdata) return rep.entropy(rpdata, data.x.length, eps);
+    crp.rqa = function() {
+      if (rpdata) return rep.rqa(rpdata, data.x.length, eps);
     };
     crp.epsnet = function() {
       return epsnet;
@@ -234,6 +226,32 @@
     for (i = 0; i < n; i++) s += a[i] === b[i] ? 0 : 1;
     return s;
   }
+  rep.rqa = function(d, n, eps) {
+    var dlmin = 2, vlmin = 2, rp = rep_distanceToRP(d, eps), rc = rep_rc(rp, n), rpcpy = new Uint8Array(rp.buffer.slice()), histdl = rep_diagonalLineHistogram(rp, n), histvl = rep_verticalLineHistogram(rpcpy, n), rr = rc / (n * n - n), Sdlmin = 0, Svlmin = 0, Zdl = 0, Zvl = 0, h = 0, i, p, det, lam, entropy, l, tt;
+    for (i = 0; i < n; i++) {
+      if (i < dlmin) Sdlmin += histdl[i]; else Zdl += histdl[i];
+    }
+    for (i = 0; i < n; i++) {
+      if (i < vlmin) Svlmin += histvl[i]; else Zvl += histvl[i];
+    }
+    det = (rc - Sdlmin) / rc;
+    lam = (rc - Svlmin) / rc;
+    l = (rc - Sdlmin) / Zdl;
+    tt = (rc - Svlmin) / Zvl;
+    for (i = dlmin - 1; i < n; i++) {
+      p = histdl[i];
+      if (p > 0) h += p / Zdl * Math.log(p / Zdl);
+    }
+    entropy = -h;
+    return {
+      rr: rr,
+      det: det,
+      entropy: entropy,
+      lam: lam,
+      l: l,
+      tt: tt
+    };
+  };
   rep.rr = function(d, n, eps) {
     var rp = rep_distanceToRP(d, eps);
     return rep_rc(rp, n) / (n * n - n);
@@ -243,11 +261,9 @@
     return (rc - 2 * histdl[0]) / rc;
   };
   rep.entropy = function(d, n, eps) {
-    var rp = [ 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1 ];
-    var histdl = rep_diagonalLineHistogram(rp, 6), z = 0, i = 0, h = 0, p;
-    console.log(histdl);
+    var rp = rep_distanceToRP(d, eps), histdl = rep_diagonalLineHistogram(rp, n), z = 0, lmin = 2, i = lmin - 1, h = 0, p;
     for (;i < histdl.length; i++) z += histdl[i];
-    for (i = 0; i < histdl.length; i++) {
+    for (i = lmin - 1; i < histdl.length; i++) {
       p = histdl[i];
       if (p > 0) h += p / z * Math.log(p / z);
     }
@@ -256,7 +272,7 @@
   var rep_rc = function(rp, n) {
     var s = 0, i, j;
     for (i = 1; i < n - 1; i++) for (j = i + 1; j < n; j++) s += rp[i * n + j];
-    return 2 * s;
+    return s;
   };
   var rep_diagonalLineHistogram = function(rp, n) {
     var h = stat.uint32Array(n, 0), cnt, i, j, indx;
@@ -273,6 +289,35 @@
       }
     }
     return h;
+  };
+  var rep_verticalLineHistogram = function(rp, n) {
+    var h = stat.uint32Array(n, 0), cnt, i, j, indx;
+    for (i = 0; i < n - 1; i++) {
+      for (j = i + 1; j < n; j++) {
+        cnt = 0;
+        indx = i * n + j;
+        if (rp[indx] === 1) {
+          rp[indx] = 0;
+          cnt = 1;
+          cnt += rep_traceVertical(rp, i + 1, j, n);
+          h[cnt - 1]++;
+        }
+      }
+    }
+    return h;
+  };
+  var rep_traceVertical = function(rp, i, j, n) {
+    var m = j - 1, cnt = 0, l = 0, indx;
+    for (;l < m; l++, i++) {
+      indx = i * n + j;
+      if (rp[indx] === 1) {
+        cnt++;
+        rp[indx] = 0;
+      } else {
+        break;
+      }
+    }
+    return cnt;
   };
   var rep_traceDiagonal = function(rp, i, j, n) {
     var m = n - j, cnt = 0, l = 0, indx;
