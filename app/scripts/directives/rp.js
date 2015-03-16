@@ -89,7 +89,6 @@ angular.module('verpApp')
 
                     rp.eps(d.eps).update();
 
-
                     var rqa = rp.rqa();
 
                     $rootScope.$broadcast('rqa.update', rqa);
