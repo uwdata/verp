@@ -9,51 +9,27 @@
  */
 angular.module('verpApp')
     .controller('RecurrenceCtrl', function ($scope,  EventService) {
-        $scope.rpPanelSize = [200, 300];
 
-        $scope.eps = 50;
-        $scope.epsmin = 0;
-        $scope.epsmax = 100;
-        $scope.epsstep= 1;
-        $scope.epsTime = 50;
-        $scope.epsTimeMin = 0;
-        $scope.epsTimeMax= 100;
-        $scope.epsTimeStep = 1;
-        $scope.recurrenceRate = 0.5;
 
-        $scope.showRQA = false;
-        $scope.rqa = {rr:0, det:0, entropy:0, tt:0};
+        $scope.eps = {value:50, min:0, max:100, step:1, distfn:'l2', filtering:false};
+        $scope.time = {value:50, min:0, max:100, step:1, filtering:false};
+        $scope.rqa = {rr:0, det:0, entropy:0, l:0, tt:0, lam:0, visible:false};
+        $scope.data = {eps:$scope.eps};
 
-        $scope.name = 'RecurrenceCtrl';
-        $scope.distfn = 'l2';
         $scope.brush = {};
-        $scope.brush.lock = true;
-        $scope.epsFiltering = false;
-        $scope.epsTimeFiltering = false;
 
         $scope.partition = false;
         $scope.interaction = {mode:'selection'};
 
-        //$scope.toggleShowRQA = function(){
-        //
-        //    $scope.showRQA =  !$scope.showRQA;
-        //
-        //    console.log($scope.showRQA);
-        //
-        //};
 
-        $scope.RR = function(){
+        $scope.updateRQA = function(e, d){
 
-            return $scope.recurrenceRate;
-
+                    $scope.rqa = d;
         };
 
         $scope.setMode = function(m){
-
             $scope.interaction.mode = m;
-
         };
-
 
 
         $scope.broadcastEvent = function(msg,data){
@@ -79,29 +55,47 @@ angular.module('verpApp')
         };
 
 
+        $scope.updateDistfn = function(){
+
+            $scope.$broadcast('distfn.update', $scope.eps.distfn);
+
+        };
+
+
         $scope.epsFilteringUpdate = function (){
 
-            EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
-                epsFiltering:$scope.epsFiltering,
-                partition: $scope.partition
-            });
+
+            var e = $scope.eps,
+                d ={eps:+e.value,
+                    filtering:e.filtering,
+                    partition:$scope.partition};
+
+            $scope.$broadcast('eps.update',d);
+
+            //EventService.broadcastEpsUpdate(d);
 
         };
 
 
-        $scope.epsUpdate = function (){
-            EventService.broadcastEpsUpdate({eps:parseInt($scope.eps, 10),
-                                             epsFiltering:$scope.epsFiltering,
-                                             partition: $scope.partition
-            });
+        $scope.updateEps = function (){
+
+            var e = $scope.eps,
+                d ={eps:+e.value,
+                    filtering:e.filtering,
+                    partition:$scope.partition};
+
+            $scope.$broadcast('eps.update',d);
+
+            //EventService.broadcastEpsUpdate(d);
+
         };
 
 
 
-        $scope.epsTimeUpdate = function (){
-            EventService.broadcastSaccadeUpdate({epsTime:parseInt($scope.epsTime, 10),
-                epsTimeFiltering:$scope.epsTimeFiltering,
-                eps:$scope.eps
+        $scope.timeUpdate = function (){
+            EventService.broadcastSaccadeUpdate({epsTime:parseInt($scope.time.value, 10),
+                epsTimeFiltering:$scope.time.filtering,
+                eps:$scope.eps.value
             });
         };
 
@@ -116,23 +110,27 @@ angular.module('verpApp')
 
         function init(e, d){
 
-                var n = d.data.value.length,
-                    dx = [0,n],
-                    dy = [0,n];
+            var n = d.data.value.length,
+                dx = [0, n],
+                dy = [0, n];
 
-                $scope.xScale = d3.scale.linear().domain(dx);
-                $scope.yScale = d3.scale.linear().domain(dy);
+            $scope.xScale = d3.scale.linear().domain(dx);
+            $scope.yScale = d3.scale.linear().domain(dy);
 
-                // default data scale
-                $scope.xDomain = dx;
-                $scope.yDomain = dy;
+            $scope.data.x = d.data.value;
+            $scope.data.y = d.data.value;
 
-             $scope.$broadcast('domain.ready', d);
+            // default data scale
+            $scope.xDomain = dx;
+            $scope.yDomain = dy;
+
+            $scope.$broadcast('domain.ready', d);
 
         }
 
         $scope.$on('scene.ready', init);
         $scope.$on('view.zoom', updateScale);
+        $scope.$on('rqa.update', $scope.updateRQA);
 
     });
 

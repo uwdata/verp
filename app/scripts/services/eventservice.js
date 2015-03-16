@@ -51,12 +51,12 @@ angular.module('verpApp')
 
         var broadcastEpsUpdate= function broadcastEpsUpdate(d) {
             rp.eps = d.eps;
-            rp.epsFiltering = d.epsFiltering;
+            rp.epsFiltering = d.filtering;
             rp.partition = d.partition;
             if(rp.epsFiltering === true)
                 rp.epsNet = DataService.service('rpEpsNet');
 
-            $rootScope.$broadcast('rp.eps.update', rp);
+            //$rootScope.$broadcast('eps.update', rp);
 
         };
 

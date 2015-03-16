@@ -20,7 +20,7 @@ angular.module('verpApp')
             //creates the maximal complex once
             function init(e, d){
 
-                //console.log('creating the alpha complex!');
+                console.log('creating the alpha complex!');
                 var v = d.data.pos,
                     dom = scope.domain();
 
@@ -34,6 +34,11 @@ angular.module('verpApp')
 
             //then extracts alpha complexes as needed
             function alphaUpdate(e,d){
+
+                console.log('updating  the alpha complex!');
+
+                console.log(d);
+
                 if(ac && d.partition) {
                     ac.update(d.eps);
                     scope.partition = true;

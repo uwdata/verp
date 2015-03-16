@@ -13,33 +13,54 @@ angular.module('verpApp')
 
             var w = +attrs.width,
                 h = +attrs.height,
-                rp = null;
+                rp;
 
-            function  init(){
+            function init(){
+
+                if(!scope.data.x) return;
+
+                var eps = scope.data.eps;
 
                 rp = rep.crp()
                     .width(w)
                     .height(h)
-                    .distfn(scope.distfn)
-                    .eps(scope.eps);
+                    .distfn(eps.distfn)
+                    .eps(eps.value);
+
+
+                d3.select(element[0])
+                    .call(rp, scope.data);
+
+                DataService.service('rpEpsNet', rp.epsnet);
+                DataService.service('rpDistanceMatrix', rp.distanceMatrix);
+
             }
 
 
-            function update(e,scene) {
-
-                var dd = {x: scene.data.value, y: scene.data.value};
-
-                if(rp === null) {
-                    init();
-                    rp(dd, element[0]);
-                    DataService.service('rpEpsNet', rp.epsnet);
-                    DataService.service('rpDistanceMatrix', rp.distanceMatrix);
-
-                }else{
-                    rp.data(dd).update();
-                }
-            }
-
+            //function update(e, scene) {
+            //
+            //    if(!scope.data) return;
+            //
+            //
+            //    var dom = scope.domain();
+            //
+            //    x.domain(dom.dx).range([0, w]);
+            //    y.domain(dom.dy).range([0, h]);
+            //
+            //
+            //    dpath.xScale(x).yScale(y).update(toarrow(scope.data));
+            //
+            //        //init();
+            //        //rp(dd, element[0]);
+            //        //DataService.service('rpEpsNet', rp.epsnet);
+            //        //DataService.service('rpDistanceMatrix', rp.distanceMatrix);
+            //
+            //    //}else{
+            //
+            //        rp.data(dd).update();
+            //
+            //    //}
+            //}
 
 
             function brush(e,d){
@@ -47,40 +68,54 @@ angular.module('verpApp')
             }
 
             function  highlight(e, d){
+
                 if(rp) rp.highlight(d);
+
             }
 
 
             function  updateScale(e, d){
+
                 if(rp) rp.scale(d).update();
+
             }
 
 
 
             function  updateEps(e,d) {
+
+
                 if (rp) {
+
                     rp.eps(d.eps).update();
-                    if (d.epsFiltering === true)
+
+
+                    var rqa = rp.rqa();
+
+                    $rootScope.$broadcast('rqa.update', rqa);
+
+                    if (d.filtering === true) {
+                        d.epsNet = rp.epsnet;
                         $rootScope.$broadcast('rp.epsFilter.update', d);
 
-                    scope.rqa = rp.rqa();
-                    console.log(scope.rqa);
+                    }
 
+                    //console.log(rqa.rr);
                 }
             }
 
+            function  updateDistfn(e,d){
 
-            function  updateDistfn(n,o){
-                if(rp) rp.distfn(n).update();
+                if(rp) rp.distfn(d).update();
+
             }
 
-            scope.$on('scene.ready', update);
+            scope.$on('domain.ready', init);
             scope.$on('view.zoom', updateScale);
             scope.$on('view.brush', brush);
-
+            scope.$on('distfn.update', updateDistfn);
+            scope.$on('eps.update', updateEps);
             scope.$on('sp.selection', highlight);
-            scope.$on('rp.eps.update', updateEps);
-            scope.$watch('distfn', updateDistfn);
 
         };
 
@@ -89,6 +124,10 @@ angular.module('verpApp')
             template:'<div></div>',
             restrict:'E',
             priority: 1,
+            scope: {
+                data: '=data',
+                rqa: '&rqa'
+            },
             replace: true,
             link: postLink
         }

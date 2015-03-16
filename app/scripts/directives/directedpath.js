@@ -36,8 +36,6 @@ angular.module('verpApp')
                     .yScale(y);
 
 
-                console.log(toarrow(scope.data));
-
                 d3.select(element[0])
                     .call(dpath, toarrow(scope.data));
 

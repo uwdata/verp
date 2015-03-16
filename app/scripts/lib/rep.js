@@ -24,14 +24,14 @@
       ctxOffScreen.imageSmoothingEnabled = false;
       rpimage = ctxOffScreen.getImageData(0, 0, imgWidth, imgHeight);
     }
-    function crp(d, el) {
+    function crp(s, d) {
       imgWidth = d.x.length;
       imgHeight = d.y.length;
       canvasOffScreen = document.createElement("canvas");
       canvasOffScreen.width = imgWidth;
       canvasOffScreen.height = imgHeight;
       ctxOffScreen = canvasOffScreen.getContext("2d");
-      canvas = d3.select(el).append("canvas").attr("width", width).attr("height", height).node();
+      canvas = s.append("canvas").attr("width", width).attr("height", height).node();
       ctx = canvas.getContext("2d");
       ctx.translate(0, canvas.height);
       ctx.scale(1, -1);
@@ -227,7 +227,7 @@
     return s;
   }
   rep.rqa = function(d, n, eps) {
-    var dlmin = 2, vlmin = 2, rp = rep_distanceToRP(d, eps), rc = rep_rc(rp, n), rpcpy = new Uint8Array(rp.buffer.slice()), histdl = rep_diagonalLineHistogram(rp, n), histvl = rep_verticalLineHistogram(rpcpy, n), rr = rc / (n * n - n), Sdlmin = 0, Svlmin = 0, Zdl = 0, Zvl = 0, h = 0, i, p, det, lam, entropy, l, tt;
+    var dlmin = 2, vlmin = 2, rp = rep_distanceToRP(d, eps), rc = rep_rc(rp, n), rpcpy = new Uint8Array(rp.buffer.slice()), histdl = rep_diagonalLineHistogram(rp, n), histvl = rep_verticalLineHistogram(rpcpy, n), rr = 2 * rc / (n * n - n), Sdlmin = 0, Svlmin = 0, Zdl = 0, Zvl = 0, h = 0, i, p, det, lam, entropy, l, tt;
     for (i = 0; i < n; i++) {
       if (i < dlmin) Sdlmin += histdl[i]; else Zdl += histdl[i];
     }
