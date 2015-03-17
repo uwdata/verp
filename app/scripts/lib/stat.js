@@ -257,6 +257,10 @@
     return v;
   };
   stat.vector.dot = function(v0, v1) {
+    if (!(v0 && v1)) {
+      console.error("Undefined vectors! Returning 0 ...");
+      return 0;
+    }
     var n = v0.length, s = 0, i = 0;
     for (;i < n; i++) s += v0[i] * v1[i];
     return s;

@@ -24,14 +24,48 @@ angular.module('verpApp')
                 i;
 
             for (i = 0; i < d.length; i++) {
-                if (!(Math.abs(d[i][0]) < eps  &&
-                    Math.abs(d[i][1]) < eps)){
-                    d[i][0] += tx;
-                    d[i][1] += ty;
-                }
+                //if (!(Math.abs(d[i][0]) < eps  &&
+                //    Math.abs(d[i][1]) < eps)){
+                d[i][0] += tx;
+                d[i][1] += ty;
             }
+            //}
 
         };
+
+
+        var getIDFParts  = function(text) {
+
+
+            var indx   = text.indexOf('Time'),
+                header = trimLines(text.substring(0, indx).split(/[\r\n]+/)),
+                rest   = trimLines(text.substring(indx).split(/[\r\n]+/)),
+                fields = (rest.splice(0,1)[0]).split('\t');
+
+            return {header:header, fields:fields, tracking:rest};
+
+        };
+
+
+        var trimLines = function(lines){
+
+            var n = lines.length,
+                t = [],
+                s, i;
+
+            for (i = 0; i < n; i++) {
+
+                s = lines[i].trim();
+                if(!(s === '' || s === '##')) t.push(s);
+
+            }
+
+            return t;
+
+        };
+
+
+
 
 
         var getIDFParam = function(header, key, delim){
@@ -53,14 +87,14 @@ angular.module('verpApp')
         //
         var parseVERP = function (txt){
 
-           var verp = JSON.parse(txt);
+            var verp = JSON.parse(txt);
 
-           verp.deltaTime = GazeAnalytics.delta(verp.time);
-           verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime);
+            verp.deltaTime = GazeAnalytics.delta(verp.time);
+            verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime);
 
-           var sigmsqr = stat.var(verp.velocity);
-           verp.avgVelocity = sigmsqr.mean;
-           verp.stdVelocity = Math.sqrt(sigmsqr.val);
+            var sigmsqr = stat.var(verp.velocity);
+            verp.avgVelocity = sigmsqr.mean;
+            verp.stdVelocity = Math.sqrt(sigmsqr.val);
 
             return verp;
 
@@ -69,11 +103,11 @@ angular.module('verpApp')
 
         var parseIDF = function (txt) {
 
-            var indx = txt.indexOf('Time'),
-                header = txt.substring(0, indx).split('\n'),
-                rest = (txt.substring(indx + 1)),
-                indx2 = rest.indexOf('\n'),
-                tracking = rest.substring(indx2 + 1).split('\n'),
+
+            var parts =  getIDFParts(txt),
+                header  = parts.header,
+                tracking = parts.tracking,
+                fields = parts.fields,
                 verp = {
                     pos: [],
                     value: [],
@@ -82,8 +116,9 @@ angular.module('verpApp')
                     info: null
                 },
                 n = tracking.length,
-                i, j, row, p;
-
+                eps = 1/ 4,
+                ix = fields.indexOf('L POR X [px]'),
+                i, j, row, p,
 
             p = getIDFParam(header, 'Calibration Area', ':');
             if(p) verp.calibArea = p.match(/\S+/g).map(function(d){return +d;});
@@ -98,6 +133,9 @@ angular.module('verpApp')
 
             verp.info = header;
 
+            // XXX: assumes 1) the default x pos index  is 3, 2) iy = ix + 1.
+            ix = ix > -1 ? ix : 3;
+
 
             j = 0;
             for (i = 0; i < n-1; i++) {
@@ -106,13 +144,20 @@ angular.module('verpApp')
 
                 if (row.length === 0 || row === 'undefined') continue;
 
-                verp.frmid.push(0);
-                verp.time.push(+row[0]);
-                p = row.splice(3, 2);
+
+                p = row.splice(ix, 2);
                 p[0] = +p[0];
                 p[1] = +p[1];
-                verp.pos.push(p);
-                verp.value.push(verp.pos[j++]);
+                if(! (Math.abs(p[0]) < eps  &&
+                    Math.abs(p[1]) < eps)){
+
+
+                    verp.pos.push(p);
+                    verp.frmid.push(0);
+                    verp.time.push(+row[0]);
+                    verp.value.push(verp.pos[j++]);
+
+                }
 
             }
 

@@ -1,0 +1,15 @@
+{
+  "name": "rep",
+  "repo": "cagataydemiralp/rep",
+  "keywords": [
+    "idf"
+  ],
+  "version": "1.0.0",
+  "main": "rep.js",
+  "scripts": [
+    "rep.js"
+  ],
+  "dependencies": {},
+  "development": {},
+  "license": "BSD"
+}
