@@ -1,4 +1,5 @@
 verp
 ====
 
-VERP Explorer: A Visual Micro-Foraging Analysis Tool
+The VERP Explorer is a visual analysis tool for exploring exploring 
+eye movements of visual-cognitive tasks using recurrence plots. 
