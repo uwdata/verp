@@ -1,0 +1,20 @@
+{
+  "name": "chopper",
+  "version": "1.0.0",
+  "main": "chopper.js",
+  "scripts": [
+    "chopper.js"
+  ],
+  "ignore": [
+    ".DS_Store",
+    ".git",
+    "Makefile",
+    "bin",
+    "examples",
+    "index.js",
+    "lib",
+    "node_modules",
+    "package.json",
+    "test"
+  ]
+}

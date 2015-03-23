@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+var chopper = require("../chopper");
+
+console.log(JSON.stringify({
+  "name": "chopper",
+  "version": chopper.version,
+  "main": "chopper.js",
+  "scripts": [
+    "chopper.js"
+  ],
+  "ignore": [
+    ".DS_Store",
+    ".git",
+    "Makefile",
+    "bin",
+    "examples",
+    "index.js",
+    "lib",
+    "node_modules",
+    "package.json",
+    "test"
+  ]
+}, null, 2));

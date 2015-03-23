@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+var fs = require('fs'),
+    optimist = require('optimist'),
+    chopper= require("../");
+
+var argv = optimist
+    .usage("Usage: \033[1mchopper\033[0m file \n\n"
+    + "Version: " + chopper.version + "\n\n"
+    + "Chops the given  multi-trial IDF file into single-trial IDF files\n")
+    .argv;
+
+if (argv.help) return optimist.showHelp();
+
+var filename = process.argv[2],
+    outdir = process.argv[3];
+
+var data = fs.readFileSync(filename, 'utf8');
+
+    var p = chopper.parseIDF(data),
+        n = p.msgs.length,
+        j = p.header.length-2,// img:
+        i, tokens, t;
+
+    console.log(n);
+
+    for (i = 0; i < n; i++){
+
+        p.header[j] = '## Img:\t'+ p.msgs[i];
+
+        t = p.header.concat(p.trials[i].data);
+
+        tokens = p.msgs[i].split('.');
+
+        fs.writeFileSync(outdir + '/'+tokens[0]+'.idf', t.join('\n'));
+
+    }
+
