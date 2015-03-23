@@ -11,9 +11,7 @@ angular.module('verpApp')
 
         var postLink = function (scope, element, attrs) {
 
-
-            console.log('compiled');
-
+            //console.log('compiled');
 
             var w = +attrs.width,
                 h = +attrs.height,

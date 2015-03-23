@@ -27,11 +27,12 @@
                     </li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="search motifs" style="text-decoration-color:lightgray">
-                            </div> <button type="submit" class="btn btn-default">Submit</button>
-                        </form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="search motifs" style="text-decoration-color:lightgray">
+                    </div> <button type="submit" class="btn btn-default">Submit</button>
+                </form>
                 <ul class="nav navbar-nav navbar-right" ng-controller="RecurrenceCtrl">
+
                     <li  id='rqa' ng-show="showRQA">
                         <div class="divtable">
                             <div class="row heading">
@@ -39,19 +40,25 @@
                                 <div class="column" title="Determinism">DET</div>
                                 <div class="column" title="Entropy">ENTROPY</div>
                                 <div class="column" title="Average Diagonal Line Length">L</div>
-                                <div class="column" title="Trapping Time">TT</div>
+                                <div class="column" title="Maximum Diagonal Line Length">Lmax</div>
                                 <div class="column" title="Laminar Phases">LAM</div>
+                                <div class="column" title="Trapping Time">TT</div>
+                                <div class="column" title="Maximum Vertical Line Length">Vmax</div>
+
                             </div>
                             <div class="row">
-                                <div class="column">{{rqa.rr | number:2 }}</div>
-                                <div class="column">{{rqa.det |number:2 }}</div>
-                                <div class="column">{{rqa.entropy | number:2 }}</div>
-                                <div class="column">{{rqa.l | number:2 }}</div>
-                                <div class="column">{{rqa.tt | number:2 }}</div>
-                                <div class="column">{{rqa.lam | number:2 }}</div>
+                                <div class="column" title="Recurrence Rate">{{rqa.rr | number:2 }}</div>
+                                <div class="column" title="Determinism">{{rqa.det |number:2 }}</div>
+                                <div class="column" title="Entropy">{{rqa.entropy | number:2 }}</div>
+                                <div class="column" title="Average Diagonal Line Length">{{rqa.l | number:2 }}</div>
+                                <div class="column" title="Maximum Diagonal Line Length">{{rqa.lmax}}</div>
+                                <div class="column" title="Laminar Phases">{{rqa.lam | number:2 }}</div>
+                                <div class="column" title="Trapping Time">{{rqa.tt | number:2 }}</div>
+                                <div class="column" title="Maximum Vertical Line Length">{{rqa.vmax }}</div>
                             </div>
                         </div>
                     </li>
+
                     <li>
                         <input id="rqa-checkbox" type="checkbox" ng-model="showRQA" style="display:none">
                         <a href="#"><span class="glyphicon glyphicon-stats"
@@ -63,18 +70,15 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help<strong class="caret"></strong></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#">Action</a>
+                                <a href="https://github.com/uwdata/verp">VERP Help</a>
                             </li>
                             <li>
-                                <a href="#">Another action</a>
-                            </li>
-                            <li>
-                                <a href="#">Something else here</a>
+                                <a href="">News on VERP</a>
                             </li>
                             <li class="divider">
                             </li>
                             <li>
-                                <a href="#">Separated link</a>
+                                <a href="https://github.com/uwdata/verp">About</a>
                             </li>
                         </ul>
                     </li>

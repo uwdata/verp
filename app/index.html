@@ -6,13 +6,14 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <!-- endbower -->
     <!-- endbuild -->
-    <!-- build:css(.tmp) styles/main.css -->
+ <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/header.css">
     <link rel="stylesheet" href="styles/nav.css">
     <link rel="stylesheet" href="styles/main.css">
@@ -47,10 +48,13 @@
 
 
 <!-- build:js lib/third-party.js -->
-<script src="scripts/lib/rep.js"></script>
+<script src="scripts/lib/rep.min.js"></script>
 <script src="scripts/lib/heatmap.js"></script>
-<script src="scripts/lib/stat.js"></script>
+<script src="scripts/lib/stat.min.js"></script>
+<script src="scripts/lib/utils.min.js"></script>
+<!-- endbuild -->
 
+<!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
@@ -75,29 +79,28 @@
 <script src="scripts/controllers/scene.js"></script>
 <script src="scripts/controllers/recurrence.js"></script>
 <script src="scripts/controllers/upload.js"></script>
-<script src="scripts/services/filereader.js"></script>
-<script src="scripts/services/dataservice.js"></script>
+<script src="scripts/controllers/timeline.js"></script>
+<script src="scripts/directives/brush.js"></script>
 <script src="scripts/directives/sp.js"></script>
 <script src="scripts/directives/rp.js"></script>
 <script src="scripts/directives/sceneframe.js"></script>
+<script src="scripts/directives/zoom.js"></script>
+<script src="scripts/directives/alphapart.js"></script>
+<script src="scripts/directives/heatview.js"></script>
+<script src="scripts/directives/textlabel.js"></script>
+<script src="scripts/directives/circularnodes.js"></script>
+<script src="scripts/directives/directedpath.js"></script>
+<script src="scripts/services/eventservice.js"></script>
+<script src="scripts/services/filereader.js"></script>
+<script src="scripts/services/dataservice.js"></script>
+<script src="scripts/services/parser.js"></script>
+<script src="scripts/services/gazeanalytics.js"></script>
 <script src="scripts/vis/delaunay.js"></script>
 <script src="scripts/vis/alpha.js"></script>
 <script src="scripts/vis/arrow.js"></script>
 <script src="scripts/vis/circle.js"></script>
 <script src="scripts/vis/text.js"></script>
 <script src="scripts/vis/scatter.js"></script>
-<script src="scripts/vis/utils.js"></script>
-<script src="scripts/directives/brush.js"></script>
-<script src="scripts/services/eventservice.js"></script>
-<script src="scripts/controllers/timeline.js"></script>
-<script src="scripts/directives/zoom.js"></script>
-<script src="scripts/directives/alphapart.js"></script>
-<script src="scripts/directives/heatview.js"></script>
-<script src="scripts/services/parser.js"></script>
-<script src="scripts/services/gazeanalytics.js"></script>
-<script src="scripts/directives/textlabel.js"></script>
-<script src="scripts/directives/circularnodes.js"></script>
-<script src="scripts/directives/directedpath.js"></script>
 <!-- endbuild -->
 
 </body>

@@ -8,7 +8,7 @@
  * Factory in the verpApp.
  */
 angular.module('verpApp')
-    .factory('Parser', function (GazeAnalytics) {
+    .factory('Parser', ['GazeAnalytics', function (GazeAnalytics) {
 
         var calibAreaWidth, calibAreaHeight;
 
@@ -16,7 +16,6 @@ angular.module('verpApp')
 
             var cw = calibAreaWidth,
                 ch = calibAreaHeight,
-                eps = 0.1,
                 w  = d.domainWidth,
                 h  = d.domainHeight,
                 tx = (w-cw) * 0.5,
@@ -24,18 +23,14 @@ angular.module('verpApp')
                 i;
 
             for (i = 0; i < d.length; i++) {
-                //if (!(Math.abs(d[i][0]) < eps  &&
-                //    Math.abs(d[i][1]) < eps)){
                 d[i][0] += tx;
                 d[i][1] += ty;
             }
-            //}
 
         };
 
 
         var getIDFParts  = function(text) {
-
 
             var indx   = text.indexOf('Time'),
                 header = trimLines(text.substring(0, indx).split(/[\r\n]+/)),
@@ -65,9 +60,6 @@ angular.module('verpApp')
         };
 
 
-
-
-
         var getIDFParam = function(header, key, delim){
 
             var n = header.length,
@@ -75,16 +67,18 @@ angular.module('verpApp')
                 j = -1;
 
             for(; i < n; i++){
+
                 j = header[i].indexOf(key);
                 if(j > -1) break;
+
             }
+
 
             if(j > -1) return (header[i].split(delim)[1]);
 
         };
 
 
-        //
         var parseVERP = function (txt){
 
             var verp = JSON.parse(txt);
@@ -136,7 +130,6 @@ angular.module('verpApp')
             // XXX: assumes 1) the default x pos index  is 3, 2) iy = ix + 1.
             ix = ix > -1 ? ix : 3;
 
-
             j = 0;
             for (i = 0; i < n-1; i++) {
 
@@ -167,7 +160,6 @@ angular.module('verpApp')
             // verp.velocity = GazeAnalytics.spatialVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
             // verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
             // verp.velocity = verp.deltaTime;
-
             //velocity(verp.pos, verp.deltaTime, verp.velocity, 0.000001);
 
             var sigmsqr = stat.var(verp.velocity);
@@ -193,4 +185,4 @@ angular.module('verpApp')
             IDF: parseIDF
         };
 
-    });
+    }]);

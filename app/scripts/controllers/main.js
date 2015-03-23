@@ -8,6 +8,6 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-  .controller('MainCtrl', function ($scope) {
+  .controller('MainCtrl', ['$scope', function ($scope) {
 
-  });
+  }]);

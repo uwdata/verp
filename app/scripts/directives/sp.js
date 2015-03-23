@@ -7,7 +7,7 @@
  * # sp creates a scatter plot
  */
 angular.module('verpApp')
-    .directive('sp',function(EventService) {
+    .directive('sp',['EventService', function(EventService) {
 
         var postLink = function(scope, element, attrs) {
             var w = attrs.width,
@@ -51,7 +51,7 @@ angular.module('verpApp')
 
             function cond(e,d,x,y){
                 return !(e[0][0] > d[x] || d[x] > e[1][0]
-                    || e[0][1] > d[y] || d[y] > e[1][1]);
+                || e[0][1] > d[y] || d[y] > e[1][1]);
             }
 
 
@@ -69,7 +69,7 @@ angular.module('verpApp')
 
 
             function updateScale(e, d){
-               if(sp) sp.updateAxes(d.xs, d.ys);
+                if(sp) sp.updateAxes(d.xs, d.ys);
             }
 
             function update(e, d) {
@@ -80,8 +80,8 @@ angular.module('verpApp')
 
                     sp = new Scatter(d.data.pos,
                         element[0],
-                        {width: w,
-                         height: h,
+                        {   width: w,
+                            height: h,
                             scale: {x:0.5, y:0.5},
                             k: {x:0, y:1}
                         });
@@ -111,7 +111,7 @@ angular.module('verpApp')
 
             //TODO refactor this
             scope.$on('saccade.update', function(e, d){
-              if(sp) sp.hide(d.indx, function(indx,i){return indx[i];});
+                if(sp) sp.hide(d.indx, function(indx,i){return indx[i];});
             });
 
             scope.$watch('sp.markerSize', function(val) {
@@ -127,5 +127,5 @@ angular.module('verpApp')
             link: postLink
         }
 
-    });
+    }]);
 

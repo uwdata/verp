@@ -8,7 +8,7 @@
  * Factory in the verpApp.
  */
 angular.module('verpApp')
-    .factory('EventService', function ($rootScope, DataService) {
+    .factory('EventService', ['$rootScope', 'DataService', function ($rootScope, DataService) {
 
         var rp = {},
             rpSelection = {},
@@ -122,4 +122,4 @@ angular.module('verpApp')
             broadcastSaccadeUpdate: broadcastSaccadeUpdate
         };
 
-    });
+    }]);

@@ -7,7 +7,7 @@
  * # sceneFrame
  */
 angular.module('verpApp')
-    .directive('sceneFrame', function (EventService) {
+    .directive('sceneFrame', ['EventService', function (EventService) {
 
         var sceneFrameLink = function(scope, element, attrs){
 
@@ -110,4 +110,4 @@ angular.module('verpApp')
         }
 
 
-    });
+    }]);

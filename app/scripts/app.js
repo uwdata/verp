@@ -10,14 +10,8 @@
  */
 (function(){
 angular
-  .module('verpApp', [
-    'ngAnimate',
-    'ngCookies',
-    'ngResource',
-    'ngRoute',
-    'ngSanitize',
-    'ngTouch'])
-  .config(function ($routeProvider) {
+  .module('verpApp', ['ngRoute'])
+  .config(['$routeProvider',function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -30,4 +24,4 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });})();
+  }]);})();

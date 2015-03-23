@@ -18,7 +18,7 @@ angular.module('verpApp')
                 labels;
 
 
-            if(w === 100) console.log(scope.data);
+//if(w === 100) console.log(scope.data);
 
             function init(){
 

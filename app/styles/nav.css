@@ -13,8 +13,6 @@
 }
 
 
-
-
 #rqa .divtable{
     display: table;
     margin-top:5px;
@@ -34,7 +32,7 @@
     font-size:12px;
     display: table-cell;
     color:gray;
-    width:80px;
+    width:60px;
 }
 
 

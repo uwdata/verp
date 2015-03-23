@@ -7,7 +7,7 @@
  * # rp  -- recurrence plot directive
  */
 angular.module('verpApp')
-    .directive('rp',function($rootScope, DataService, EventService) {
+    .directive('rp',['$rootScope', 'DataService', 'EventService', function($rootScope, DataService, EventService) {
 
         var postLink = function(scope, element, attrs) {
 
@@ -30,6 +30,9 @@ angular.module('verpApp')
 
                 d3.select(element[0])
                     .call(rp, scope.data);
+
+                var rqa = rp.rqa();
+                    $rootScope.$broadcast('rqa.update', rqa);
 
                 DataService.service('rpEpsNet', rp.epsnet);
                 DataService.service('rpDistanceMatrix', rp.distanceMatrix);
@@ -90,7 +93,6 @@ angular.module('verpApp')
                     rp.eps(d.eps).update();
 
                     var rqa = rp.rqa();
-
                     $rootScope.$broadcast('rqa.update', rqa);
 
                     if (d.filtering === true) {
@@ -99,7 +101,6 @@ angular.module('verpApp')
 
                     }
 
-                    //console.log(rqa.rr);
                 }
             }
 
@@ -124,12 +125,11 @@ angular.module('verpApp')
             restrict:'E',
             priority: 1,
             scope: {
-                data: '=data',
-                rqa: '&rqa'
+                data: '=data'
             },
             replace: true,
             link: postLink
         }
 
 
-    });
+    }]);

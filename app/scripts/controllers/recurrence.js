@@ -8,12 +8,15 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-    .controller('RecurrenceCtrl', function ($scope,  EventService) {
+    .controller('RecurrenceCtrl', ['$scope', 'EventService', function ($scope,  EventService){
 
 
         $scope.eps = {value:50, min:0, max:100, step:1, distfn:'l2', filtering:false};
         $scope.time = {value:50, min:0, max:100, step:1, filtering:false};
-        $scope.rqa = {rr:0, det:0, entropy:0, l:0, tt:0, lam:0, visible:false};
+        $scope.rqa = {};//rr:0, det:0, entropy:0, l:0, tt:0, lam:0, lmax:0, vmax:0};
+
+        $scope.showRQA = true;
+
         $scope.data = {eps:$scope.eps};
 
         $scope.brush = {};
@@ -23,7 +26,6 @@ angular.module('verpApp')
 
 
         $scope.updateRQA = function(e, d){
-
                     $scope.rqa = d;
         };
 
@@ -132,5 +134,5 @@ angular.module('verpApp')
         $scope.$on('view.zoom', updateScale);
         $scope.$on('rqa.update', $scope.updateRQA);
 
-    });
+    }]);
 

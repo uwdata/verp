@@ -8,7 +8,7 @@
  * Factory in the verpApp.
  */
 angular.module('verpApp')
-  .factory('FileReader', function ($q){
+  .factory('FileReader', ['$q', function ($q){
 
       var onLoad = function(reader, deferred, scope) {
             return function () {
@@ -58,4 +58,4 @@ angular.module('verpApp')
             readAsText: readAsText
         };
 
-    });
+    }]);

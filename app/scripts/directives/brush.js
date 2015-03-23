@@ -26,7 +26,7 @@ angular.module('verpApp')
 
             if(f === 'true') y.range([h, 0]);
 
-            console.log(y.range());
+            //console.log(y.range());
 
             d3.select(element[0])
                 .on('mouseover', function(){d3.select(this).node().focus();})

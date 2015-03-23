@@ -1,4 +1,4 @@
-!function() {
+!function(){
   var stat = {
     version: "1.0.0"
   };

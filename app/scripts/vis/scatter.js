@@ -1,4 +1,4 @@
- /*
+/*
  *
  * File  : scatter.js
  * Author: Cagatay Demiralp (cagatay)
@@ -11,16 +11,21 @@
 
 
 function Scatter(data, div, cp) {
+
     this.init(div,cp);
     this.update(data, cp.k);
+    //this.tooltip();
 
 }
+
 
 Scatter.prototype.init = function(div, cp){
 
     var dp = this.defaults(); // default properties
     this.p_ =  utils.merge(dp,cp); // left merged w/ user-defined props
     this.p_.color = d3.scale.category10();
+    this.div_ = div;
+    this.id_ = cp.id;
     this.interacts_ = {};
 
     //create the root svg node
@@ -28,6 +33,8 @@ Scatter.prototype.init = function(div, cp){
         .append('svg')
         .attr('width',cp.width)
         .attr('height',cp.height);
+
+
 };
 
 
@@ -42,9 +49,9 @@ Scatter.prototype.updateAxes = function(xs, ys){
 
 
     this.svg_.selectAll('.shape')
-       .attr('transform', function(d,i){
-           return 'translate('+x(d[k.x]) + ',' + y(d[k.y]) + ')' +
-              'scale(' + sx + ',' + sy + ')';
+        .attr('transform', function(d,i){
+            return 'translate('+x(d[k.x]) + ',' + y(d[k.y]) + ')' +
+                'scale(' + sx + ',' + sy + ')';
         })
 };
 
@@ -103,7 +110,7 @@ Scatter.prototype.update = function(data, key){
 
     this.highlighted_ =
         Array.apply(null, new Array(data.length))
-        .map(Number.prototype.valueOf,0);
+            .map(Number.prototype.valueOf,0);
 
     var p = this.p_,
         x = p.axis.x,
@@ -143,7 +150,11 @@ Scatter.prototype.update = function(data, key){
         .remove();
 
     function appendShape(d,i){
-        return drawfn(d3.select(this),p).attr('class', 'circle');
+        return drawfn(d3.select(this),p)
+            .attr('class', 'circle');
+
+
+
     }
 
 };
@@ -152,7 +163,7 @@ Scatter.prototype.markerSize = function(s){
 
     if(!arguments.length) return this.p_.markerSize;
 
-	//     console.log('updating the marker size to ', s)
+    //     console.log('updating the marker size to ', s)
     if(this.p_.markerSize!==s){
         this.p_.markerSize = s;
 
@@ -189,49 +200,90 @@ Scatter.prototype.interaction = function(e, f, frevert){
 
 Scatter.prototype.ghost = function(indx,f){
 
-   var shapes = this.svg_.selectAll('.shape');
+    var shapes = this.svg_.selectAll('.shape');
 
-     if(arguments.length === 2){
-            shapes.classed('ghost',
-                function (d, i){
+    if(arguments.length === 2){
+        shapes.classed('ghost',
+            function (d, i){
                 return f(indx,i);
             });
-     } else {
-         shapes.classed('ghost',
-                function (d, i){
+    } else {
+        shapes.classed('ghost',
+            function (d, i){
                 return indx !== i ;
             });
-     }
+    }
 };
 
 
 Scatter.prototype.visibility = function(indx){
 
-   this.svg_.selectAll('.shape')
-       .classed('hidden',
-             function (d, i){
+    this.svg_.selectAll('.shape')
+        .classed('hidden',
+        function (d, i){
 
-                return indx[i] === 0;
-            });
+            return indx[i] === 0;
+        });
 
 };
 
+Scatter.prototype.tooltip  = function(){
+
+    var ttwidth = 150,
+        ttheight = 50;
+
+
+    this.tooltip_ = d3.select(this.div_)
+        .append('div')
+        .attr('id', 'tooltip') //move style to CSS
+        .style("position", "absolute")
+        .style("white-space", "nowrap")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .style("background-color","white")
+        .style("border","1px solid #999")
+        .style('border-radius','5px')
+        .style("padding","1px")
+        .style("font-size", "13px")
+        .style("font-family",'"Helvetica"')
+        .style("-mox-box-shadow","2px 2px 11px #666")
+        .style("-webkit-box-shadow","2px 2px 11px #666");
+
+    this.tooltipshape_= d3.select('#tooltip')
+        .append('svg')
+        .attr('width',ttwidth)
+        .attr('height',ttheight)
+        .append('g');
+
+    this.tooltiptext_= this.tooltipshape_.append('text');
+
+    //  .on("mousemove", function(){
+    //        this.tooltip_.style("top", (event.pageY+5)+"px").style("left",(event.pageX+8)+"px");
+    //        this.tooltiptext_.text('Patient ID: ' + this.id_[i]);
+    //})
+    //    .on("mouseout",function(){
+    //        this.tooltip_.style("visibility", "hidden");
+    //        d3.select(this).style("stroke","none");
+    //    });
+
+
+};
 
 Scatter.prototype.hide = function(indx,f){
 
-   var shapes = this.svg_.selectAll('.shape');
+    var shapes = this.svg_.selectAll('.shape');
 
-     if(arguments.length === 2){
-            shapes.classed('gray',
-                function (d, i){
+    if(arguments.length === 2){
+        shapes.classed('gray',
+            function (d, i){
                 return f(indx,i);
             });
-     } else {
-         shapes.classed('gray',
-                function (d, i){
+    } else {
+        shapes.classed('gray',
+            function (d, i){
                 return indx !== i ;
             });
-     }
+    }
 };
 
 
@@ -246,7 +298,7 @@ Scatter.prototype.highlight = function(a, f){
             .selectAll('.shape')
             .classed('ghost',
             function (d, i) {
-               var dd = [d[0], d[1]];
+                var dd = [d[0], d[1]];
                 v = f(a, dd, 0, 1);
                 h[i] = v === true ? 1 : 0;
                 return !v;
@@ -279,5 +331,7 @@ Scatter.prototype.on = function(e) {
                 for (var j=0; j<n; j++) interacts['hover'][j].off(d,i);
             });
     }
+
+
 };
 

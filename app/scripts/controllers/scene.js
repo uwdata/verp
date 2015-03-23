@@ -8,7 +8,7 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-    .controller('SceneCtrl', function ($scope, EventService, GazeAnalytics) {
+    .controller('SceneCtrl', ['$scope', 'EventService', 'GazeAnalytics', function ($scope, EventService, GazeAnalytics) {
 
         $scope.name = 'SceneCtrl';
 
@@ -166,4 +166,4 @@ angular.module('verpApp')
         $scope.$on('scene.ready', init);
 
 
-    });
+    }]);

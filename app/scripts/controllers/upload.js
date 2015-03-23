@@ -8,7 +8,7 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-    .controller('UploadCtrl', function ($scope, Parser, FileReader, DataService) {
+    .controller('UploadCtrl', ['$scope', 'Parser', 'FileReader', 'DataService', function ($scope, Parser, FileReader, DataService) {
 
 
         $scope.getImg = function () {
@@ -40,7 +40,7 @@ angular.module('verpApp')
 
         };
 
-    }).directive('fileSelect', function(){
+    }]).directive('fileSelect', function(){
 
         return {
             link: function(scope,el){

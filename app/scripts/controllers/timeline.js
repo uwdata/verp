@@ -8,7 +8,7 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-    .controller('TimelineCtrl', function ($scope, $timeout, EventService) {
+    .controller('TimelineCtrl', ['$scope', '$timeout', 'EventService', function ($scope, $timeout, EventService) {
 
         $scope.player = {
             currentTime:0,
@@ -135,4 +135,4 @@ angular.module('verpApp')
         };
 
 
-    });
+    }]);

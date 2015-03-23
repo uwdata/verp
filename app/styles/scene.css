@@ -1,3 +1,27 @@
+
+div[mytitle]:hover:after{
+    content: attr(mytitle);
+    padding: 4px 8px;
+    color: #333;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 20;
+    white-space: nowrap;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0px 0px 4px #222;
+    -webkit-box-shadow: 0px 0px 4px #222;
+    box-shadow: 0px 0px 4px #222;
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eeeeee),color-stop(1, #cccccc));
+    background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
+
+}
 #scene{
     position:relative;
 }
@@ -125,7 +149,7 @@ circle{
 
 
 .scene-info .controlgrp .grp-0 .slider{
-    width:95%;
+    width:100%;
 }
 
 .scene-info .controlgrp .grp-0 .slider input[type=number]:hover>.numinput{
@@ -143,7 +167,7 @@ circle{
     color: #232323;
 }
 .scene-info .controlgrp .grp-0 .slider input[type=number]{
-    width:17%;
+    width:23%;
     font-size:10px;
     background-color: rgb(250, 250, 250);
     border-radius: 2px;
@@ -155,7 +179,7 @@ circle{
 
 .scene-info .controlgrp .grp-0 .slider input[type=range]{
 
-    width:80%
+    width:100%
 }
 
 
@@ -163,17 +187,29 @@ circle{
     display:inline-block;
     margin-top:1%;
     margin-bottom:1%;
-    /*width:%;*/
 }
 
 .scene-info .controlgrp .grp-1 {
     /*margin-top:1%;*/
     /*margin-bottom:1%;*/
+    margin-left: 5%;
     float: left;
     display:inline-block;
     font-size:12px;
 }
 
+/*.scene-info .controlgrp .grp-1 .column-0{*/
+
+    /*margin-right:2%;*/
+
+/*}*/
+
+/*.scene-info .controlgrp .grp-1 .column-1{*/
+
+    /*float:left;*/
+    /*margin-right:1%;*/
+
+/*}*/
 
 .scene-info .controlgrp .grp-1 div{
     display:inline-block;
@@ -215,7 +251,6 @@ defs path{
 
 .arrow {
     marker-end:url(#arrowhead);
-   filter:url(#dropshadow);
     stroke-width:5px;
     stroke-linecap: round;
     stroke-linejoin: round;

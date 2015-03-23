@@ -39,9 +39,8 @@
                    domain='domain()'
                    points='saccades'
                    ng-show="showSaccades"></heatview>
-        <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
 
-        <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
+        <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
         <directedpath class="stacked scanpath" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></directedpath>
         <circularnodes class="stacked nodes" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></circularnodes>
         <textlabel class="stacked" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></textlabel>
@@ -55,32 +54,32 @@
             <div class="controlgrp">
                 <div class='grp-0'>
                     <div>
-                    <input type="checkbox" ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"> tracking</input>
-                    <input type="checkbox" ng-model="showHeatmap"> heatmap</input>
-                    <input type="checkbox" ng-model="showFixations" ng-change="fixationVisibility()"> fixations</input>
-                    <input type="checkbox" ng-model="showSaccades" ng-change="saccadeVisibility()"> saccades</input>
-                     <input type="checkbox" ng-model="showScanPath"> path</input>
-                     </div>
+                        <input type="checkbox" ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"> tracking</input>
+                        <input type="checkbox" ng-model="showHeatmap"> heatmap</input>
+                        <input type="checkbox" ng-model="showFixations" ng-change="fixationVisibility()"> fixations</input>
+                        <input type="checkbox" ng-model="showSaccades" ng-change="saccadeVisibility()"> saccades</input>
+                        <input type="checkbox" ng-model="showScanPath"> path</input>
+                    </div>
 
                     <!--<div style="display:inline-block"><label>threshold</label></div>-->
-                    <div class="slider">
-                    <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
-                    <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
-                    <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
+                    <div class="slider" mytitle="Adjust velocity threshold for fixation-saccade classification">
+                        <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
+                        <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
+                        <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
 
-                    <input type="range"
-                           min="{{velocity.min}}"
-                           step="{{velocity.step}}"
-                           max="{{velocity.max}}"
-                           value="{{velocity.threshold}}"
-                           ng-model="velocity.threshold"
-                           ng-change="classify()"/>
+                        <input type="range"
+                               min="{{velocity.min}}"
+                               step="{{velocity.step}}"
+                               max="{{velocity.max}}"
+                               value="{{velocity.threshold}}"
+                               ng-model="velocity.threshold"
+                               ng-change="classify()"/>
                         <label class="center">{{velocity.threshold}}</label>
                     </div>
                 </div>
 
                 <div class="grp-1">
-                    <div>
+                    <div class="column-0">
                         <label>circle size</label><input type="range" min="0" step="0.25" max="50"
                                                          ng-model="sp.markerSize"
                                                          ng-init="s.markerSize=7"/>
@@ -91,7 +90,7 @@
                                ng-change="spStyle={'opacity':spOpacity}"/>
                     </div>
 
-                    <div>
+                    <div class="column-1">
                         <label>scene opacity</label>
                         <input type="range" min="0" step="0.05" max="1.0"
                                ng-model="imgOpacity"

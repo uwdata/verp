@@ -7,8 +7,9 @@
  * # DataService
  * Factory in the verpApp.
  */
+
 angular.module('verpApp')
-    .factory('DataService', function ($rootScope) {
+    .factory('DataService', ['$rootScope', function ($rootScope) {
 
         var scene   = {},
             services = {};
@@ -47,4 +48,4 @@ angular.module('verpApp')
             service:service
         };
 
-    });
+    }]);

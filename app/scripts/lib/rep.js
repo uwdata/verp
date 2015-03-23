@@ -227,18 +227,21 @@
     return s;
   }
   rep.rqa = function(d, n, eps) {
-    var dlmin = 2, vlmin = 2, rp = rep_distanceToRP(d, eps), rc = rep_rc(rp, n), rpcpy = new Uint8Array(rp.buffer.slice()), histdl = rep_diagonalLineHistogram(rp, n), histvl = rep_verticalLineHistogram(rpcpy, n), rr = 2 * rc / (n * n - n), Sdlmin = 0, Svlmin = 0, Zdl = 0, Zvl = 0, h = 0, i, p, det, lam, entropy, l, tt;
+    var dlmin = 1, vlmin = 1, rp = rep_distanceToRP(d, eps), rc = rep_rc(rp, n), rpcpy = new Uint8Array(rp.buffer.slice()), histdl = rep_diagonalLineHistogram(rp, n), histvl = rep_verticalLineHistogram(rpcpy, n), rr = 2 * rc / (n * n - n), Sdlmin = 0, Svlmin = 0, Zdl = 0, Zvl = 0, i, p, det, entropy, l, lmax, lam, tt, vmax;
     for (i = 0; i < n; i++) {
-      if (i < dlmin) Sdlmin += histdl[i]; else Zdl += histdl[i];
+      if (i < dlmin) Sdlmin += (i + 1) * histdl[i]; else Zdl += histdl[i];
     }
     for (i = 0; i < n; i++) {
-      if (i < vlmin) Svlmin += histvl[i]; else Zvl += histvl[i];
+      if (i < vlmin) Svlmin += (i + 1) * histvl[i]; else Zvl += histvl[i];
     }
-    det = (rc - Sdlmin) / rc;
-    lam = (rc - Svlmin) / rc;
-    l = (rc - Sdlmin) / Zdl;
-    tt = (rc - Svlmin) / Zvl;
-    for (i = dlmin - 1; i < n; i++) {
+    det = rc ? (rc - Sdlmin) / rc : 0;
+    lam = rc ? (rc - Svlmin) / rc : 0;
+    l = Zdl ? (rc - Sdlmin) / Zdl : 0;
+    tt = Zvl ? (rc - Svlmin) / Zvl : 0;
+    lmax = rep_histMax(histdl);
+    vmax = rep_histMax(histvl);
+    var h = 0;
+    for (i = dlmin; i < n; i++) {
       p = histdl[i];
       if (p > 0) h += p / Zdl * Math.log(p / Zdl);
     }
@@ -247,9 +250,11 @@
       rr: rr,
       det: det,
       entropy: entropy,
-      lam: lam,
       l: l,
-      tt: tt
+      lmax: lmax,
+      lam: lam,
+      tt: tt,
+      vmax: vmax
     };
   };
   rep.rr = function(d, n, eps) {
@@ -269,16 +274,19 @@
     }
     return -h;
   };
+  var rep_histMax = function(h) {
+    var n = h.length, i;
+    for (i = n - 1; i >= 0; i--) if (h[i]) return i + 1;
+  };
   var rep_rc = function(rp, n) {
     var s = 0, i, j;
-    for (i = 1; i < n - 1; i++) for (j = i + 1; j < n; j++) s += rp[i * n + j];
+    for (i = 0; i < n - 1; i++) for (j = i + 1; j < n; j++) s += rp[i * n + j];
     return s;
   };
   var rep_diagonalLineHistogram = function(rp, n) {
     var h = stat.uint32Array(n, 0), cnt, i, j, indx;
     for (i = 0; i < n - 1; i++) {
       for (j = i + 1; j < n; j++) {
-        cnt = 0;
         indx = i * n + j;
         if (rp[indx] === 1) {
           rp[indx] = 0;
@@ -294,7 +302,6 @@
     var h = stat.uint32Array(n, 0), cnt, i, j, indx;
     for (i = 0; i < n - 1; i++) {
       for (j = i + 1; j < n; j++) {
-        cnt = 0;
         indx = i * n + j;
         if (rp[indx] === 1) {
           rp[indx] = 0;
@@ -306,9 +313,37 @@
     }
     return h;
   };
+  var rep_horizontalLineHistogram = function(rp, n) {
+    var h = stat.uint32Array(n, 0), cnt, i, j, indx;
+    for (i = 0; i < n - 1; i++) {
+      for (j = i + 1; j < n; j++) {
+        indx = i * n + j;
+        if (rp[indx] === 1) {
+          cnt = 1;
+          rp[indx] = 0;
+          cnt += rep_traceHorizontal(rp, i, j + 1, n);
+          h[cnt - 1]++;
+        }
+      }
+    }
+    return h;
+  };
+  var rep_traceHorizontal = function(rp, i, j, n) {
+    var m = n - j, cnt = 0, l = 0, indx;
+    for (;l < m; l++, j++) {
+      indx = i * n + j;
+      if (rp[indx] === 1) {
+        cnt++;
+        rp[indx] = 0;
+      } else {
+        break;
+      }
+    }
+    return cnt;
+  };
   var rep_traceVertical = function(rp, i, j, n) {
-    var m = j - 1, cnt = 0, l = 0, indx;
-    for (;l < m; l++, i++) {
+    var m = j - 1, cnt = 0, l, indx;
+    for (l = 0; l < m; l++, i++) {
       indx = i * n + j;
       if (rp[indx] === 1) {
         cnt++;

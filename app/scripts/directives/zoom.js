@@ -20,7 +20,7 @@ angular.module('verpApp')
 
             if (f === 'true') y.range([h,0]);
 
-           console.log(y.range());
+           //console.log(y.range());
 
 
           var zoomer = d3.behavior.zoom()
