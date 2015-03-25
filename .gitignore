@@ -11,4 +11,6 @@ dist
 /*~
 ./todo.txt
 app/todo.txt
+app/.DS_Store 
 bower_components
+

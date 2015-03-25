@@ -44,7 +44,7 @@
         <directedpath class="stacked scanpath" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></directedpath>
         <circularnodes class="stacked nodes" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></circularnodes>
         <textlabel class="stacked" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></textlabel>
-        <focusmap></focusmap>
+        <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
         <brush id="sp" class="stacked" width="650" height="500" ng-show="showTracking"></brush>
         <zoom id="scene-zoom" class="stacked" width="650" height="500" ng-show="mode==='view'"></zoom>
     </div>
@@ -54,15 +54,15 @@
             <div class="controlgrp">
                 <div class='grp-0'>
                     <div>
-                        <input type="checkbox" ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"> tracking</input>
-                        <input type="checkbox" ng-model="showHeatmap"> heatmap</input>
-                        <input type="checkbox" ng-model="showFixations" ng-change="fixationVisibility()"> fixations</input>
-                        <input type="checkbox" ng-model="showSaccades" ng-change="saccadeVisibility()"> saccades</input>
-                        <input type="checkbox" ng-model="showScanPath"> path</input>
+                        <input type="checkbox" titlex='Show tracking points' ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"> tracking</input>
+                        <input type="checkbox" titlex='Show heatmap of tracking points' ng-model="showHeatmap"> heatmap</input>
+                        <input type="checkbox" titlex='Show heatmap of fixations' ng-model="showFixations" ng-change="fixationVisibility()"> fixations</input>
+                        <input type="checkbox" titlex='Show heatmap of saccades' ng-model="showSaccades" ng-change="saccadeVisibility()"> saccades</input>
+                        <input type="checkbox" titlex='Show scan-path graph' ng-model="showScanPath"> path</input>
                     </div>
 
                     <!--<div style="display:inline-block"><label>threshold</label></div>-->
-                    <div class="slider" mytitle="Adjust velocity threshold for fixation-saccade classification">
+                    <div class="slider" titlex ="Adjust velocity threshold for fixation-saccade classification">
                         <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
                         <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
                         <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
@@ -80,9 +80,10 @@
 
                 <div class="grp-1">
                     <div class="column-0">
-                        <label>circle size</label><input type="range" min="0" step="0.25" max="50"
+                        <label>circle size</label><input type="range" min="0" step="0.25" max="40"
+                                                         value="10"
                                                          ng-model="sp.markerSize"
-                                                         ng-init="s.markerSize=7"/>
+                                                         ng-init="s.markerSize=10"/>
                         <label>circle opacity</label>
                         <input type="range"  min="0" step="0.05" max="1.0"
                                ng-model="spOpacity"
@@ -94,7 +95,7 @@
                         <label>scene opacity</label>
                         <input type="range" min="0" step="0.05" max="1.0"
                                ng-model="imgOpacity"
-                               ng-init="imgOpacity=0.5"
+                               ng-init="imgOpacity=1;imgStyle={'opacity':imgOpacity}"
                                ng-change="imgStyle={'opacity':imgOpacity}"/>
                         <label>scene blur</label>
                         <input type="range"  min="0" step="0.25" max="10"

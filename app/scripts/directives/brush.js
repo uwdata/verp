@@ -22,11 +22,14 @@ angular.module('verpApp')
                     .attr('width', w)
                     .attr('height', h)
                     .append('g')
-                    .attr("class", "rectbrush");
+                    .attr("class", "rectbrush"),
+                sgny=-1;
 
-            if(f === 'true') y.range([h, 0]);
+            if(f === 'true') {
+                y.range([h, 0]);
+                sgny = 1
+            }
 
-            //console.log(y.range());
 
             d3.select(element[0])
                 .on('mouseover', function(){d3.select(this).node().focus();})
@@ -49,7 +52,7 @@ angular.module('verpApp')
             }
 
             function brushed(){
-                var e = brush.extent();
+                var e = (brush.empty()) ? false : brush.extent();
                 scope.broadcastEvent('view.brush', e);
             }
 
@@ -65,20 +68,20 @@ angular.module('verpApp')
             }
 
             //in screen coords of y
-            function up(e,step){
-                e[0][1] -= step;
-                e[1][1] -= step;
+            function up(e, step){
+                e[0][1] += (sgny*step);
+                e[1][1] += (sgny*step);
             }
 
 
             function down(e,step){
-                e[0][1] += step;
-                e[1][1] += step;
+                e[0][1] -= (sgny*step);
+                e[1][1] -= (sgny*step);
             }
 
 
             function handleKeydown(){
-                var key = d3.event.keyCode, meta = d3.event.metaKey, step = 2;
+                var key = d3.event.keyCode, meta = d3.event.metaKey, step = 1;
 
                 if(key >= 37 && key <= 40) { //up and down arrow
                     if(brush.empty()) return;

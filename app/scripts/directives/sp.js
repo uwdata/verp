@@ -20,8 +20,9 @@ angular.module('verpApp')
                 if(!arguments.length) return sp.markerSize();
 
                 sp.markerSize(s);
-
             }
+
+
 
             function filter(e, d){
 
@@ -35,8 +36,8 @@ angular.module('verpApp')
                     cond = function(){return false;};
 
                 sp.ghost(indx, cond);
-
             }
+
 
 
             function hide(e,d){
@@ -48,7 +49,6 @@ angular.module('verpApp')
 
             }
 
-
             function cond(e,d,x,y){
                 return !(e[0][0] > d[x] || d[x] > e[1][0]
                 || e[0][1] > d[y] || d[y] > e[1][1]);
@@ -56,7 +56,11 @@ angular.module('verpApp')
 
 
             function condHighlight(d){
-                return sp.highlight(d, cond);
+                if(d)
+                    return sp.highlight(d, cond) ;
+                else
+                    return  sp.resetHighlight();
+
             }
 
             function highlight(e, d){

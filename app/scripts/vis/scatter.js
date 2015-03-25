@@ -287,6 +287,21 @@ Scatter.prototype.hide = function(indx,f){
 };
 
 
+Scatter.prototype.resetHighlight = function() {
+
+    var h = this.highlighted_;
+        this.svg_
+            .selectAll('.shape')
+            .classed('ghost',
+            function (d, i) {
+                h[i] = 0;
+                return false;
+            });
+
+    return h;
+
+};
+
 
 Scatter.prototype.highlight = function(a, f){
 

@@ -19,7 +19,6 @@ angular.module('verpApp')
             scene = null,
             player = null;
 
-
         var broadcastPlayerTimeChange = function broadcastPlayerTimeChange(d){
             player = d;
             $rootScope.$broadcast('player.time', player);
@@ -103,8 +102,10 @@ angular.module('verpApp')
         };
 
         var broadcastSPSelection = function braodcastSPSelection(d){
+
             spSelection.data = d;
             $rootScope.$broadcast('sp.selection', spSelection.data);
+
         };
 
 

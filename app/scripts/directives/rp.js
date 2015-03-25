@@ -32,7 +32,7 @@ angular.module('verpApp')
                     .call(rp, scope.data);
 
                 var rqa = rp.rqa();
-                    $rootScope.$broadcast('rqa.update', rqa);
+                $rootScope.$broadcast('rqa.update', rqa);
 
                 DataService.service('rpEpsNet', rp.epsnet);
                 DataService.service('rpDistanceMatrix', rp.distanceMatrix);
@@ -85,6 +85,15 @@ angular.module('verpApp')
 
 
 
+            function updateRQA(){
+
+                var rqa = rp.rqa();
+                $rootScope.$broadcast('rqa.update', rqa);
+
+
+            }
+
+
             function  updateEps(e,d) {
 
 
@@ -92,8 +101,8 @@ angular.module('verpApp')
 
                     rp.eps(d.eps).update();
 
-                    var rqa = rp.rqa();
-                    $rootScope.$broadcast('rqa.update', rqa);
+                    updateRQA();
+
 
                     if (d.filtering === true) {
                         d.epsNet = rp.epsnet;
@@ -106,7 +115,12 @@ angular.module('verpApp')
 
             function  updateDistfn(e,d){
 
-                if(rp) rp.distfn(d).update();
+                if(rp) {
+                    rp.distfn(d).update();
+                    updateRQA();
+                }
+
+
 
             }
 

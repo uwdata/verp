@@ -25,82 +25,78 @@
         <div class="col-md-4 column" style="padding-left:30px;padding-right:0px" >
 
             <form  role="form" class="form" >
+                <fieldset id='fieldset-0' titlex="Adjust recurrence epsilon threshold">
+                    <legend>epsilon</legend>
+                    <div class="form-group slider">
+                        <!--<div style="display:block"><label>epsilon</label></div>-->
+                        <label class="numinput">min:</label><input  type="number"  id="min-input" value="{{eps.min}}" ng-model="eps.min">
+                        <label class="numinput">step:</label><input type="number" id="max-input" value="{{eps.step}}" ng-model="eps.step">
+                        <label class="numinput">max:</label><input  type="number" id="step-input" value="{{eps.max}}" ng-model="eps.max">
 
-                <div class="form-group slider">
-                    <div style="display:block"><label>epsilon</label></div>
-                    <label class="numinput">min:</label><input  type="number"  id="min-input" value="{{eps.min}}" ng-model="eps.min">
-                    <label class="numinput">step:</label><input type="number" id="max-input" value="{{eps.step}}" ng-model="eps.step">
-                    <label class="numinput">max:</label><input  type="number" id="step-input" value="{{eps.max}}" ng-model="eps.max">
+                        <input type="range"
 
-                    <input type="range"
-                           min="{{eps.min}}"
-                           step="{{eps.step}}"
-                           max="{{eps.max}}"
-                           value="{{eps.value}}"
-                           ng-model="eps.value"
-                           ng-change="updateEps()"/>
-                    <label style="display:block;text-align:center">{{eps.value}}</label>
-                    <label class="checkbox">
-                        epsilon filtering
-                        <input type="checkbox"
-                               ng-model="eps.filtering"
-                               ng-change="epsFilteringUpdate()"/>
-                    </label>
-                    <label class="checkbox">
-                        partition
-                        <input type="checkbox"
-                               ng-model="partition"
-                               ng-change="epsFilteringUpdate()"/>
-                    </label>
-                </div>
+                               min="{{eps.min}}"
+                               step="{{eps.step}}"
+                               max="{{eps.max}}"
+                               value="{{eps.value}}"
+                               ng-model="eps.value"
+                               ng-change="updateEps()"/>
+                        <label style="display:block;text-align:center">{{eps.value}}</label>
+                        <!--<label class="checkbox">-->
+                        <!--epsilon filtering-->
+                        <!--<input type="checkbox"-->
+                        <!--ng-model="eps.filtering"-->
+                        <!--ng-change="epsFilteringUpdate()"/>-->
+                        <!--</label>-->
+                        <!--<label class="checkbox">-->
+                        <!--partition-->
+                        <!--<input type="checkbox"-->
+                        <!--ng-model="partition"-->
+                        <!--ng-change="epsFilteringUpdate()"/>-->
+                        <!--</label>-->
+                    </div>
+                </fieldset>
 
+                <fieldset id='fieldset-1' titlex="Set recurrence distance function">
+                    <legend>distance function</legend>
+                    <div class="form-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="norms" value="l1" ng-model="eps.distfn" ng-change="updateDistfn()" />l1</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="norms" value="l2" ng-model="eps.distfn" ng-change="updateDistfn()" checked/>l2</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="norms" value="max" ng-model="eps.distfn" ng-change="updateDistfn()" />max</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="norms" value="min" ng-model="eps.distfn" ng-change="updateDistfn()" />min</label>
+                        <label class="radio-inline">
+                            <input type="radio" name="norms" value="edit" ng-model="eps.distfn" ng-change="updateDistfn()" />edit</label>
+                    </div>
+                </fieldset>
 
-                <label>distance functions</label>
-                <div class="form-group">
-                    <label class="radio-inline">
-                        <input type="radio" name="norms" value="l1" ng-model="eps.distfn" ng-change="updateDistfn()" />l1</label>
-                    <label class="radio-inline">
-                        <input type="radio" name="norms" value="l2" ng-model="eps.distfn" ng-change="updateDistfn()" checked/>l2</label>
-                    <label class="radio-inline">
-                        <input type="radio" name="norms" value="max" ng-model="eps.distfn" ng-change="updateDistfn()" />max</label>
-                    <label class="radio-inline">
-                        <input type="radio" name="norms" value="min" ng-model="eps.distfn" ng-change="updateDistfn()" />min</label>
-                    <label class="radio-inline">
-                        <input type="radio" name="norms" value="edit" ng-model="eps.distfn" ng-change="updateDistfn()" />edit</label>
-                </div>
-
-                <div class="form-group slider">
-                    <div style="display:block"><label>epsilon time</label></div>
-                    <label class="numinput">min:</label><input type="number"   value="{{time.min}}" ng-model="time.min">
-                    <label class="numinput">step:</label><input type="number"  value="{{time.step}}" ng-model="time.step">
-                    <label class="numinput">max:</label><input type="number"   value="{{time.max}}" ng-model="time.max">
-                    <input type="range"
-                           min="{{time.min}}"
-                           step="{{time.step}}"
-                           max="{{time.max}}"
-                           value="{{time.value}}"
-                           ng-model="time.value"
-                           ng-change="timeUpdate()"/>
-                    <label style="display:block;text-align:center">{{time.value}}</label>
-                    <label class="checkbox">
-                        saccadicity
-                        <input type="checkbox"
-                               ng-model="time.filtering"
+                <fieldset id='fieldset-2' titlex="Adjust alpha-shape threshold">
+                    <legend>alpha</legend>
+                    <div class="form-group slider">
+                        <!--<div style="display:block"><label>alpha</label></div>-->
+                        <label class="numinput">min:</label><input type="number"   value="{{time.min}}" ng-model="time.min">
+                        <label class="numinput">step:</label><input type="number"  value="{{time.step}}" ng-model="time.step">
+                        <label class="numinput">max:</label><input type="number"   value="{{time.max}}" ng-model="time.max">
+                        <input type="range"
+                               min="{{time.min}}"
+                               step="{{time.step}}"
+                               max="{{time.max}}"
+                               value="{{time.value}}"
+                               ng-model="time.value"
                                ng-change="timeUpdate()"/>
-                    </label>
-                </div>
-
+                        <label style="display:block;text-align:center">{{time.value}}</label>
+                        <label class="checkbox">
+                            alpha partition
+                            <input type="checkbox"
+                                   ng-model="time.filtering"
+                                   ng-change="timeUpdate()"/>
+                        </label>
+                    </div>
+                    </fieldset>
             </form>
-
-            <!--<label>time interval</label>-->
-            <!--<xbrush axis="x"></xbrush>-->
-            <!--<div id="time-lock">-->
-                <!--<input type="checkbox" ng-model="brush.lock" checked>-->
-                <!--<span class="glyphicon glyphicon-lock"></span>-->
-                <!--</input>-->
-            <!--</div>-->
-            <!--<xbrush axis="y"></xbrush>-->
-            <!--<label>embedding dimensions</label>-->
 
         </div>
     </div>
