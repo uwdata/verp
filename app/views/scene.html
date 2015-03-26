@@ -4,74 +4,147 @@
 
     <span class="glyphicon glyphicon-search"
           ng-model="mode"
-          ng-style="zoomStyle"
-          ng-click="setMode('view'); brushStyle={'color':'gray'}; zoomStyle={'color': 'orange'};"
+          ng-style="zoomIconStyle"
+          ng-init="zoomIconStyle={'color':'gray'}"
+          ng-click="setMode('view');
+          brushIconStyle={'color':'gray'};
+          zoomIconStyle={'color': 'orange'};
+          zoomStyle={'z-index':14}"
           style="margin-left:45%"></span>
+
+
     <span class="fa fa-paint-brush"
           ng-model="mode"
-          ng-style="brushStyle"
-          ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'}; "></span>
+          ng-style="brushIconStyle"
+          ng-init="brushIconStyle={'color' :'orange'}"
+          ng-click="setMode('selection');
+          brushIconStyle={'color': 'orange'};
+          brushStyle={'z-index' : 14};
+          zoomIconStyle={'color':'gray'};"
+            ></span>
+
     <span class="glyphicon glyphicon-repeat"
           ng-click="resetView()">
            </span>
 
     <div id="scene" class="img-with-label">
-        <scene-frame class="stacked"  width="650" height="500" ng-style="imgStyle"></scene-frame>
-        <heatview  class="stacked"
-                   width="650"
-                   height="500"
-                   colormap="1"
+
+        <scene-frame class="stacked"  width="650" height="500"
+                     ng-style="imgStyle"
+                     ng-init="imgStyle={'z-index':1}" >
+        </scene-frame>
+
+        <heatview  id="heatmap" class="stacked" width="650" height="500" colormap="1"
                    domain='domain()'
                    points='points'
+                   ng-style="heatmapStyle"
+                   ng-init="heatmapStyle={'z-index':2}"
                    ng-show="showHeatmap"></heatview>
-        <heatview  class="stacked"
-                   width="650"
-                   height="500"
-                   colormap="0"
+
+        <heatview  id="fixation-heatmap" class="stacked" width="650" height="500" colormap="0"
                    domain='domain()'
                    points='fixations'
+                   ng-style="fixationStyle"
+                   ng-init="fixationStyle={'z-index':3}"
                    ng-show='showFixations'>
         </heatview>
-        <heatview  class="stacked"
-                   width="650"
-                   height="500"
+
+        <heatview  id="saccade-heatmap" class="stacked" width="650" height="500"
                    colormap="2"
                    domain='domain()'
                    points='saccades'
-                   ng-show="showSaccades"></heatview>
+                   ng-style="saccadeStyle"
+                   ng-init="saccadeStyle={'z-index':4}"
+                   ng-show="showSaccades">
+        </heatview>
 
-        <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
-        <directedpath class="stacked scanpath" width="650" height="500"
+        <sp id="scatterplot" class="stacked" width="650" height="500"
+            ng-style="spStyle"
+            ng-init="imgStyle={'z-index':5}">
+        </sp>
+
+        <directedpath id="directedpath" class="stacked scanpath" width="650" height="500"
                       data='scanPath'
                       domain='domain()'
-                      ng-show="showScanPath"></directedpath>
-        <circularnodes class="stacked nodes" width="650" height="500"
+                      ng-show="showScanPath"
+                      ng-style="pathStyle"
+                      ng-init="pathStyle={'z-index':6}">
+        </directedpath>
+
+        <circularnodes id="circularnodes" class="stacked nodes" width="650" height="500"
                        data='scanPath'
                        domain='domain()'
                        click='onFixationClick(d,i)'
-                       ng-show="showScanPath"></circularnodes>
-        <textlabel class="stacked" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></textlabel>
-        <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
-        <brush id="sp" class="stacked" width="650" height="500" ng-show="showTracking"></brush>
-        <zoom id="scene-zoom" class="stacked" width="650" height="500" ng-show="mode==='view'"></zoom>
+                       ng-style="nodeStyle"
+                       ng-init="nodeStyle={'z-index':7}"
+                       ng-show="showScanPath">
+        </circularnodes>
+
+        <!--<textlabel id="textlabel" class="stacked" width="650" height="500"-->
+                   <!--domain='domain()'-->
+                   <!--data='scanPath'-->
+                   <!--ng-style="labelStyle"-->
+                   <!--ng-init="labelStyle={'z-index' : 8}"-->
+                   <!--ng-show="showScanPath">-->
+        <!--</textlabel>-->
+
+        <alphapart id="alphapart" class="stacked" width="650" height="500"
+                   ng-style="alphapartStyle"
+                   ng-init="alphapartStyle={'z-index':9}"
+                   ng-show="partition">
+        </alphapart>
+
+        <brush id="sp" class="stacked" width="650" height="500"
+               ng-style="brushStyle"
+               ng-init="brushStyle={'z-index' : 10}"
+               ng-show="showTracking">
+        </brush>
+
+        <zoom id="scene-zoom" class="stacked" width="650" height="500"
+              ng-style="zoomStyle"
+              ng-init="zoomStyle={'z-index' : 11}"
+              ng-show="mode==='view'">
+        </zoom>
+
     </div>
 
     <div class="scene-info">
+
         <div ng-show="frm.img.src">
+
             <div class="controlgrp">
+
                 <div class='grp-0'>
+
                     <div>
-                        <input type="checkbox" titlex='Show tracking points' ng-model="showTracking" ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"> tracking</input>
-                        <input type="checkbox" titlex='Show heatmap of tracking points' ng-model="showHeatmap"> heatmap</input>
-                        <input type="checkbox" titlex='Show heatmap of fixations' ng-model="showFixations" ng-change="fixationVisibility()"> fixations</input>
-                        <input type="checkbox" titlex='Show heatmap of saccades' ng-model="showSaccades" ng-change="saccadeVisibility()"> saccades</input>
-                        <input type="checkbox" titlex='Show scan-path graph' ng-model="showScanPath"> path</input>
+
+                        <input type="checkbox" titlex='Show tracking points'
+                               ng-model="showTracking"
+                               ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"> tracking</input>
+
+                        <input type="checkbox" titlex='Show heatmap of tracking points'
+                               ng-model="showHeatmap"> heatmap</input>
+
+                        <input type="checkbox" titlex='Show heatmap of fixations'
+                               ng-model="showFixations"
+                               ng-change="fixationVisibility()"> fixations</input>
+
+                        <input type="checkbox" titlex='Show heatmap of saccades'
+                               ng-model="showSaccades"
+                               ng-change="saccadeVisibility()"> saccades</input>
+
+                        <input type="checkbox" titlex='Show scan-path graph'
+                               ng-model="showScanPath"
+                               ng-click="pathStyle={'z-index' : 12};nodeStyle={'z-index':13}"> path</input>
                     </div>
 
                     <!--<div style="display:inline-block"><label>threshold</label></div>-->
                     <div class="slider" titlex ="Adjust velocity threshold for fixation-saccade classification">
+
                         <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
+
                         <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
+
                         <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
 
                         <input type="range"

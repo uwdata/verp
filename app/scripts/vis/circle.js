@@ -31,12 +31,16 @@ var circle = function(){
             .attr('width', width)
             .attr('height', height);
 
-        var circles = svg.selectAll('circle')
+        var cg = svg.selectAll('.circle')
             .data(d)
             .enter()
-            .append('circle');
+            .append('g')
+            .attr('class', 'circle');
 
-        appendListeners(circles);
+        appendListeners(cg);
+
+        cg.append('circle');
+        cg.append('text');
 
         draw();
     }
@@ -45,14 +49,23 @@ var circle = function(){
     function updateBinding(d){
 
         //update selection
-        var s = svg.selectAll('circle')
+        var s = svg.selectAll('.circle')
             .data(d);
 
-        var newcircles  = s.enter()
-            .append('circle');
+        //enter new circles
+        var cg = s.enter()
+            .append('g')
+            .attr('class', 'circle');
 
-        appendListeners(newcircles);
+        appendListeners(cg);
 
+        //new circles
+        cg.append('circle');
+
+        //new labels
+        cg.append('text');
+
+        //remove unbound
         s.exit()
             .remove();
 
@@ -61,11 +74,17 @@ var circle = function(){
 
     function draw(){
 
-        svg.selectAll('circle')
-            .attr('cx', function(d){ return xScale(d.pos[0]);})
-            .attr('cy', function(d){ return yScale(d.pos[1]);})
+        var cg = svg.selectAll('.circle')
+            .attr('transform', function(d){
+                return 'translate('+ xScale(d.pos[0]) +',' + yScale(d.pos[1]) + ')';
+            });
+            cg.select('circle')
             .attr('r', 20)
             .style('fill', function(d,i){return color(i);})
+            .style('opacity', 0.9);
+
+           cg.select('text')
+            .text(function(d){return d.label;});
 
     }
 
@@ -77,7 +96,7 @@ var circle = function(){
                 s.on(event,listeners[event]);
 
 
-    };
+    }
 
 
 
