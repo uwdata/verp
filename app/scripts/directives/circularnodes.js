@@ -11,7 +11,6 @@ angular.module('verpApp')
 
         var postLink = function (scope, element, attrs) {
 
-            //console.log('compiled');
 
             var w = +attrs.width,
                 h = +attrs.height,
@@ -34,12 +33,13 @@ angular.module('verpApp')
                     .width(w)
                     .height(h)
                     .xScale(x)
-                    .yScale(y);
+                    .yScale(y)
+                    .on('click', handleClick);
 
                 d3.select(element[0])
                     .call(nodes, scope.data);
-
             }
+
 
             function update(){
 
@@ -68,6 +68,11 @@ angular.module('verpApp')
 
             }
 
+            function handleClick(d, i){
+
+                scope.click({d:d, i:i});
+
+            }
 
             scope.$watch('data', function(){
 
@@ -87,7 +92,8 @@ angular.module('verpApp')
             template: '<div></div>',
             scope: {
                 data: '=data',
-                domain:'&domain'
+                domain:'&domain',
+                click:'&click'
             },
             restrict: 'E',
             replace:true,

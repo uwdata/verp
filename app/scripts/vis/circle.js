@@ -21,6 +21,7 @@ var circle = function(){
             .domain([0, height])
             .range([0, height]),
         color =  d3.scale.category10(),
+        listeners=[],
         svg;
 
 
@@ -30,14 +31,16 @@ var circle = function(){
             .attr('width', width)
             .attr('height', height);
 
-        svg.selectAll('circle')
+        var circles = svg.selectAll('circle')
             .data(d)
             .enter()
             .append('circle');
 
-        draw();
+        appendListeners(circles);
 
+        draw();
     }
+
 
     function updateBinding(d){
 
@@ -45,8 +48,10 @@ var circle = function(){
         var s = svg.selectAll('circle')
             .data(d);
 
-        s.enter()
+        var newcircles  = s.enter()
             .append('circle');
+
+        appendListeners(newcircles);
 
         s.exit()
             .remove();
@@ -63,6 +68,18 @@ var circle = function(){
             .style('fill', function(d,i){return color(i);})
 
     }
+
+
+    function appendListeners(s){
+
+        for (var event in listeners)
+            if (listeners.hasOwnProperty(event))
+                s.on(event,listeners[event]);
+
+
+    };
+
+
 
     _circle.update = function(_){
 
@@ -123,6 +140,19 @@ var circle = function(){
 
     };
 
+
+    _circle.on  = function(event, handler){
+
+        if(arguments.length === 0)
+            return listeners;
+        else if(arguments.length === 1)
+            return listeners[event];
+
+        listeners[event] = handler;
+
+        return _circle;
+
+    };
 
     return _circle;
 

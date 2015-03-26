@@ -41,8 +41,15 @@
                    ng-show="showSaccades"></heatview>
 
         <sp class="stacked" width="650" height="500" ng-style="spStyle"></sp>
-        <directedpath class="stacked scanpath" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></directedpath>
-        <circularnodes class="stacked nodes" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></circularnodes>
+        <directedpath class="stacked scanpath" width="650" height="500"
+                      data='scanPath'
+                      domain='domain()'
+                      ng-show="showScanPath"></directedpath>
+        <circularnodes class="stacked nodes" width="650" height="500"
+                       data='scanPath'
+                       domain='domain()'
+                       click='onFixationClick(d,i)'
+                       ng-show="showScanPath"></circularnodes>
         <textlabel class="stacked" width="650" height="500" domain='domain()' data='scanPath' ng-show="showScanPath"></textlabel>
         <alphapart class="stacked" width="650" height="500" ng-show="partition"></alphapart>
         <brush id="sp" class="stacked" width="650" height="500" ng-show="showTracking"></brush>

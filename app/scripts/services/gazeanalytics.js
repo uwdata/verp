@@ -43,7 +43,6 @@ angular.module('verpApp')
         };
 
 
-
         var nextEvent = function(c, i , id) {
 
             var n = c.length;
@@ -74,15 +73,13 @@ angular.module('verpApp')
                 m = j - i;
 
                 if (m >= minsize) {
-                    cluster.push({pos: centroid(p, i, j), label:cnt, data: m});
+                    cluster.push({pos: centroid(p, i, j), label:cnt, data: m, range:[i,j]});
                     ++cnt;
                 }
 
                 if (j >= n )  break;
 
                 i = j;
-
-
             }
 
             return cluster;

@@ -49,17 +49,39 @@ angular.module('verpApp')
 
             }
 
-            function cond(e,d,x,y){
+
+
+            function inKeyRange(d, i, r){
+
+                var r = inKeyRange.data;
+
+                return !(i < r[0] || i >= r[1]);
+
+            }
+
+            function inExtent(d, i){
+
+                var x = 0, y = 1, e = inExtent.data;
+
                 return !(e[0][0] > d[x] || d[x] > e[1][0]
                 || e[0][1] > d[y] || d[y] > e[1][1]);
+
             }
 
 
-            function condHighlight(d){
-                if(d)
-                    return sp.highlight(d, cond) ;
-                else
-                    return  sp.resetHighlight();
+
+            function condHighlight(d, cond){
+
+                if(!d) {
+
+                    return sp.resetHighlight();
+
+                } else {
+
+                    cond.data = d;
+                    return sp.condHighlight(cond);
+
+                }
 
             }
 
@@ -68,13 +90,15 @@ angular.module('verpApp')
             }
 
             function brush(e, d){
-                if(sp) EventService.broadcastSPSelection(condHighlight(d));
+                if(sp) EventService.broadcastSPSelection(condHighlight(d, inExtent));
             }
 
 
             function updateScale(e, d){
                 if(sp) sp.updateAxes(d.xs, d.ys);
             }
+
+
 
             function update(e, d) {
 
@@ -95,32 +119,45 @@ angular.module('verpApp')
                     sp.update(p);
 
                 }
+
             }
+
+
+
 
             scope.$on('scene.ready', update);
             scope.$on('view.zoom', updateScale);
             scope.$on('view.brush', brush);
 
             scope.$on('rp.selection', highlight);
-
             scope.$on('rp.epsFilter.update', filter);
             scope.$on('player.time', hide);
 
             scope.$watch('visibilityChanged', function(){
+
                 if(scope.visibility && sp) {
                     sp.visibility(scope.visibility);
                 }
 
             });
 
-            //TODO refactor this
-            scope.$on('saccade.update', function(e, d){
-                if(sp) sp.hide(d.indx, function(indx,i){return indx[i];});
+
+            scope.$watch('sp.selection', function(selection){
+
+                if(selection) condHighlight(selection, inKeyRange);
+
             });
+
+
+            ////TODO refactor this
+            //scope.$on('saccade.update', function(e, d){
+            //    if(sp) sp.hide(d.indx, function(indx,i){return indx[i];});
+            //});
 
             scope.$watch('sp.markerSize', function(val) {
                 markerSize(val);
             });
+
 
         };
 

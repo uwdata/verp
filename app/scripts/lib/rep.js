@@ -69,6 +69,13 @@
     crp.epsnet = function() {
       return epsnet;
     };
+    crp.resetHighlight = function() {
+      offScreenDirty = true;
+      initArray(activeDomain, 0);
+      rep.toimg(rpdata, data32, imgWidth, imgHeight, eps, epsnet);
+      update();
+      return activeDomain;
+    };
     crp.boxHighlight = function(e) {
       offScreenDirty = true;
       if (!arguments.length) {

@@ -10,8 +10,6 @@ angular.module('verpApp')
   .directive('directedpath', function () {
         var postLink = function (scope, element, attrs) {
 
-
-
             var w = +attrs.width,
                 h = +attrs.height,
                 x = d3.scale.linear(),
@@ -22,7 +20,6 @@ angular.module('verpApp')
             function init(){
 
                 if(!scope.data) return;
-
 
                 var dom = scope.domain();
 
@@ -38,8 +35,9 @@ angular.module('verpApp')
 
                 d3.select(element[0])
                     .call(dpath, toarrow(scope.data));
-
             }
+
+
 
             function update(){
 
@@ -73,6 +71,8 @@ angular.module('verpApp')
 
             };
 
+
+
             function updateScale(e, d){
 
                 x.domain(d.xs().domain()).range(d.xs().range());
@@ -83,6 +83,7 @@ angular.module('verpApp')
                     .update();
 
             }
+
 
 
             scope.$watch('data', function(){

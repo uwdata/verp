@@ -62,7 +62,6 @@ angular.module('verpApp')
 
         $scope.fixationVisibility = function(){
 
-            // console.log($scope.showSaccades);
             var n = $scope.event.length,
                 i = 0;
 
@@ -78,6 +77,17 @@ angular.module('verpApp')
             $scope.visibilityChanged =  !$scope.visibilityChanged;
 
         };
+
+        $scope.onFixationClick  = function(d, i){
+
+            console.log('Fixation Node ' + i + ' is clicked!');
+
+            $scope.sp.selection = d.range;
+
+            //$scope.$broadcast('fixation.click', d.range);
+
+        };
+
 
 
         $scope.classify = function(){
@@ -115,7 +125,9 @@ angular.module('verpApp')
         };
 
         $scope.broadcastEvent = function(msg,data){
+
             $scope.$broadcast(msg,data);
+
         };
 
         $scope.domain = function(){
@@ -125,7 +137,7 @@ angular.module('verpApp')
         };
 
 
-        function updateScale(e,d){
+        function updateScale(e, d){
 
             $scope.xScale.domain(d.xs().domain()).range(d.xs().range());
             $scope.yScale.domain(d.ys().domain()).range(d.ys().range());
@@ -133,7 +145,7 @@ angular.module('verpApp')
         }
 
 
-        function init(e,d){
+        function init(e, d){
 
             var dx = [0, +$scope.frm.img.naturalWidth],
                 dy = [0, +$scope.frm.img.naturalHeight],

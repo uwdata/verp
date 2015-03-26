@@ -290,46 +290,59 @@ Scatter.prototype.hide = function(indx,f){
 Scatter.prototype.resetHighlight = function() {
 
     var h = this.highlighted_;
-        this.svg_
-            .selectAll('.shape')
-            .classed('ghost',
-            function (d, i) {
-                h[i] = 0;
-                return false;
-            });
+    this.svg_
+        .selectAll('.shape')
+        .classed('ghost',
+        function (d, i) {
+            h[i] = 0;
+            return false;
+        });
 
     return h;
 
 };
 
 
-Scatter.prototype.highlight = function(a, f){
+
+Scatter.prototype.condHighlight = function(cond) {
+
 
     var h = this.highlighted_, v;
 
-    if(arguments.length === 2) {
+    this.svg_
+        .selectAll('.shape')
+        .classed('ghost',
+        function (d, i) {
+            v =  cond(d, i);
+            h[i] = v ? 1 : 0;
+            return !v;
+        });
 
-        this.svg_
-            .selectAll('.shape')
-            .classed('ghost',
-            function (d, i) {
-                var dd = [d[0], d[1]];
-                v = f(a, dd, 0, 1);
-                h[i] = v === true ? 1 : 0;
-                return !v;
-            });
-    }else{
-
-        this.svg_
-            .selectAll('.shape')
-            .classed('ghost',
-            function (d, i) {
-                return !(h[i] = a[i]);
-            });
-    }
 
     return h;
+
 };
+
+
+
+
+Scatter.prototype.highlight = function(s){
+
+    var h = this.highlighted_;
+
+    this.svg_
+        .selectAll('.shape')
+        .classed('ghost',
+        function (d, i) {
+            return !(h[i] = s[i]);
+        });
+
+
+    return h;
+
+};
+
+
 
 
 Scatter.prototype.on = function(e) {

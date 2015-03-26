@@ -67,7 +67,16 @@ angular.module('verpApp')
 
 
             function brush(e,d){
-                if(rp) EventService.broadcastRPSelection(rp.boxHighlight(d));
+
+                if(rp) {
+
+                   if(d)
+                       EventService.broadcastRPSelection(rp.boxHighlight(d));
+                   else
+                       EventService.broadcastRPSelection(rp.resetHighlight());
+
+                }
+
             }
 
             function  highlight(e, d){
@@ -119,8 +128,6 @@ angular.module('verpApp')
                     rp.distfn(d).update();
                     updateRQA();
                 }
-
-
 
             }
 
