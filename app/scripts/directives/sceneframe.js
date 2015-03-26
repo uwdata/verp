@@ -42,11 +42,10 @@ angular.module('verpApp')
                         EventService.broadcastSceneReady({data: s.tracking, src:frm.img.src});
 
                     }
-
-
                 };
 
                 frm.img.src = d;
+
 
             }
 

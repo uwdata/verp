@@ -31,7 +31,7 @@ li a[titlex]:hover:after{
     left: 0;
     top: 100%;
     z-index: 20;
-    white-space:normal;
+    white-space: normal;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
@@ -65,6 +65,35 @@ li a[titlex]:hover:after{
 
 
 
+#fileinfo .divtable{
+    display: table;
+    margin-top:5px;
+}
+
+#fileinfo .row{
+    display: table-row;
+    text-align:left;
+}
+
+
+#fileinfo .row.heading {
+    text-aling: left;
+}
+
+#fileinfo .column {
+    font-size:12px;
+    display: table-cell;
+    white-space: nowrap;
+    color:gray;
+    width:150px;
+}
+
+
+#fileinfo .row.heading .column{
+    text-align:left;
+    color: rgba(255, 69, 0, 0.60);
+    /*color:gray;*/
+}
 
 
 #rqa .divtable{

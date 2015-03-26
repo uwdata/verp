@@ -107,7 +107,7 @@ angular.module('verpApp')
         return {
             template: '<div></div>',
             scope: {
-                points: '=points',
+                points:'=points',
                 domain:'&domain'
             },
             restrict: 'E',

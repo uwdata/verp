@@ -1,36 +1,58 @@
 <div class="row navbar clearfix">
     <div class="col-md-12 column">
         <nav class="navbar navbar-default" role="navigation">
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse"  ng-controller="UploadCtrl">
                 <ul class="nav navbar-nav">
                     <li>
                         <!--<button type="button" class="navbar-toggle"></button>-->
                         <a  titlex = 'Load  scene'href="#"
                             onclick="document.getElementById('img-selector').click()">
                             <span class="glyphicon glyphicon-picture"></span></a>
-                        <input ng-controller="UploadCtrl"
-                               id="img-selector"
-                               type="file"
-                               accept="image/png"
-                               img-select="onFileSelect($files)"
-                               style="display:none">
+                        <input  id="img-selector"
+                                type="file"
+                                accept="image/png"
+                                img-select="onFileSelect($files)"
+                                style="display:none">
                     </li>
                     <li>
                         <a titlex='Load eye-tracking positions' href="#" onclick="document.getElementById('file-selector').click()">
                             <span class="glyphicon glyphicon-eye-open"></span></a>
-                        <input ng-controller="UploadCtrl"
-                               id="file-selector"
-                               type="file"
-                               accept="text/idf"
-                               file-select="onFileSelect($files)"
-                               style="display:none">
+                        <input  id="file-selector"
+                                type="file"
+                                accept="text/idf"
+                                file-select="onFileSelect($files)"
+                                style="display:none">
                     </li>
+
                 </ul>
+
                 <form class="navbar-form navbar-left" role="search">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="search motifs" style="text-decoration-color:lightgray">
                     </div> <button type="submit" class="btn btn-default">Submit</button>
                 </form>
+
+                <ul class="nav navbar-nav" ng-controller="UploadCtrl">
+                    <li>
+                        <input id="fileinfo-checkbox" type="checkbox" ng-model="showFileInfo" style="display:none">
+                        <a  titlex = 'Show file info'href="#">
+                        <span class="glyphicon glyphicon-info-sign"
+                              onclick="document.getElementById('fileinfo-checkbox').click()"></span></a>
+                    </li>
+                    <li id="fileinfo" ng-show="showFileInfo">
+                        <div class="divtable">
+                            <div class="row heading">
+                                <div class="column" title="Loaded scene file ">Scene</div>
+                                <div class="column" title="Loaded eye-tracking file">Eye-tracking</div>
+                            </div>
+                            <div class="row">
+                                <div class="column" title="Loaded scene file">{{imgFile.name}}</div>
+                                <div class="column" title="Loaded eye-tracking file">{{file.name}}</div>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
                 <ul class="nav navbar-nav navbar-right" ng-controller="RecurrenceCtrl">
 
                     <li  id='rqa' ng-show="showRQA">
@@ -62,7 +84,7 @@
                     <li>
                         <input id="rqa-checkbox" type="checkbox" ng-model="showRQA" style="display:none">
                         <a id='stats' titlex = 'Show recurrence quantification measures' href="#"><span class="glyphicon glyphicon-stats"
-                                          onclick="document.getElementById('rqa-checkbox').click()"></span></a>
+                                                                                                        onclick="document.getElementById('rqa-checkbox').click()"></span></a>
                     </li>
 
                     <li class="dropdown">

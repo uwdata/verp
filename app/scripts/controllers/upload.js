@@ -11,6 +11,7 @@ angular.module('verpApp')
     .controller('UploadCtrl', ['$scope', 'Parser', 'FileReader', 'DataService', function ($scope, Parser, FileReader, DataService) {
 
 
+
         $scope.getImg = function () {
 
             FileReader.readAsDataURL($scope.imgFile, $scope)
@@ -19,6 +20,7 @@ angular.module('verpApp')
                 });
 
         };
+
 
         $scope.getFile = function () {
 
