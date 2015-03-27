@@ -21,19 +21,49 @@ angular.module('verpApp')
 
         $scope.frm = {};
         $scope.sp = {};
-        $scope.partition = false;
+        $scope.alpha = {
+            min:0,
+            max:100,
+            step:1,
+            value:50,
+            partition:false,
+            change:alphaUpdate};
 
         $scope.visibilityChanged = false;
-
-        $scope.visibility = undefined;
-
-        $scope.points = undefined;
-        $scope.fixations = undefined;
-        $scope.saccades = undefined;
+        //$scope.visibility = undefined;
+        //$scope.points = undefined;
+        //$scope.fixations = undefined;
+        //$scope.saccades = undefined;
 
         $scope.velocity = { min:0, step:1, max:10, threshold:5 };
-
         $scope.mode = 'selection';
+
+
+
+       $scope.clickPropagate = function (src, dest){
+
+           var srcnode  = document.getElementById(src),
+               srcz = srcnode.style.zIndex,
+               destnode  = document.getElementById(dest),
+               destz = destnode.style.zIndex,
+               e = new MouseEvent('click', {
+                   'view': window,
+                   'bubbles': true,
+                   'cancelable': true
+               });
+
+           //send src back & bring dest front
+           srcnode.style.zIndex  = destz-1;
+           destnode.style.zIndex = srcz+1;
+
+           //simulate click
+           (document.elementFromPoint(window.event.clientX, window.event.clientY).dispatchEvent(e));
+
+           //restore z
+          srcnode.style.zIndex  = srcz;
+          destnode.style.zIndex = destz;
+
+       };
 
 
         $scope.saccadeVisibility = function(){
@@ -81,10 +111,7 @@ angular.module('verpApp')
         $scope.onFixationClick  = function(d, i){
 
             console.log('Fixation Node ' + i + ' is clicked!');
-
             $scope.sp.selection = d.range;
-
-            //$scope.$broadcast('fixation.click', d.range);
 
         };
 
@@ -137,6 +164,13 @@ angular.module('verpApp')
         };
 
 
+     function alphaUpdate(){
+
+            console.log('alpha value is changed...' );
+
+        }
+
+
         function updateScale(e, d){
 
             $scope.xScale.domain(d.xs().domain()).range(d.xs().range());
@@ -146,6 +180,11 @@ angular.module('verpApp')
 
 
         function init(e, d){
+
+            console.log('initializing the scene controller');
+
+            if(! $scope.frm.img)  return;
+
 
             var dx = [0, +$scope.frm.img.naturalWidth],
                 dy = [0, +$scope.frm.img.naturalHeight],

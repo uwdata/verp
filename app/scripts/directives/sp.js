@@ -143,8 +143,8 @@ angular.module('verpApp')
 
 
             scope.$watch('sp.selection', function(selection){
-
-                if(selection) condHighlight(selection, inKeyRange);
+                //if(selection) condHighlight(selection, inKeyRange);
+                if(sp) EventService.broadcastSPSelection(condHighlight(selection, inKeyRange));
 
             });
 

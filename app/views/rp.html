@@ -73,29 +73,34 @@
                     </div>
                 </fieldset>
 
-                <fieldset id='fieldset-2' titlex="Adjust alpha-shape threshold">
+
+
+                <fieldset id='fieldset-2'  ng-controller="SceneCtrl">
+
                     <legend>alpha</legend>
+
                     <div class="form-group slider">
                         <!--<div style="display:block"><label>alpha</label></div>-->
-                        <label class="numinput">min:</label><input type="number"   value="{{time.min}}" ng-model="time.min">
-                        <label class="numinput">step:</label><input type="number"  value="{{time.step}}" ng-model="time.step">
-                        <label class="numinput">max:</label><input type="number"   value="{{time.max}}" ng-model="time.max">
+                        <label class="numinput">min:</label><input type="number"   value="{{alpha.min}}" ng-model="alpha.min">
+                        <label class="numinput">step:</label><input type="number"  value="{{alpha.step}}" ng-model="alpha.step">
+                        <label class="numinput">max:</label><input type="number"   value="{{alpha.max}}" ng-model="alpha.max">
                         <input type="range"
-                               min="{{time.min}}"
-                               step="{{time.step}}"
-                               max="{{time.max}}"
-                               value="{{time.value}}"
-                               ng-model="time.value"
-                               ng-change="timeUpdate()"/>
-                        <label style="display:block;text-align:center">{{time.value}}</label>
-                        <label class="checkbox">
+                               titlex="Adjust alpha-shape threshold"
+                               min="{{alpha.min}}"
+                               step="{{alpha.step}}"
+                               max="{{alpha.max}}"
+                               value="{{alpha.value}}"
+                               ng-model="alpha.value"
+                               ng-change="alpha.change()"/>
+                        <!--style=""-->
+                        <label class="value">{{alpha.value}}</label>
+                        <label class="checkbox" titlex="Show alpha shapes of fixations">
                             alpha partition
                             <input type="checkbox"
-                                   ng-model="time.filtering"
-                                   ng-change="timeUpdate()"/>
+                                   ng-model="alpha.partition"/>
                         </label>
                     </div>
-                    </fieldset>
+                </fieldset>
             </form>
 
         </div>

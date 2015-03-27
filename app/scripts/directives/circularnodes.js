@@ -45,13 +45,12 @@ angular.module('verpApp')
 
                 if(!scope.data) return;
 
+                // var dom = scope.domain();
+                // x.domain(dom.dx).range([0, w]);
+                // y.domain(dom.dy).range([0, h]);
+                // nodes.xScale(x).yScale(y).update(scope.data);
 
-                var dom = scope.domain();
-
-                x.domain(dom.dx).range([0, w]);
-                y.domain(dom.dy).range([0, h]);
-
-                nodes.xScale(x).yScale(y).update(scope.data);
+                nodes.update(scope.data);
 
             }
 

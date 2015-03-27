@@ -73,7 +73,7 @@
 
         <alphapart id="alphapart" class="stacked" width="650" height="500"
                    ng-style="alphapartStyle"
-                   ng-show="partition">
+                   ng-show="alpha.partition">
         </alphapart>
 
         <!--ng-init="alphapartStyle={'z-index':9}"-->
@@ -116,21 +116,7 @@
                 <zoom id="scene-zoom" class="stacked" width="650" height="500"
                       ng-style="zoomStyle"
                       ng-show="mode==='view'"
-                      onclick="
-                      console.log('clicked');
-                      console.log(window.event.pageX, window.event.pageY);
-                      document.getElementById('scene-zoom').style.zIndex='-1';
-                      document.getElementById('circularnodes').style.zIndex='100';
-                      var e = new MouseEvent('click', {
-    'view': window,
-    'bubbles': true,
-    'cancelable': true
-  });
-                      console.log(document.elementFromPoint(window.event.clientX, window.event.clientY).dispatchEvent(e));
-//                      (document.elementFromPoint(window.event.clientX, window.event.clientY)).click();
-                      document.getElementById('circularnodes').style.zIndex='6';
-                      document.getElementById('scene-zoom').style.zIndex='20';
-                      ">
+                      ng-click="clickPropagate('scene-zoom', 'circularnodes')">
                 </zoom>
 
             </div>

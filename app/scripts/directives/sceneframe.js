@@ -39,13 +39,15 @@ angular.module('verpApp')
 
                         s.tracking.pos.domainWidth = frm.img.naturalWidth;
                         s.tracking.pos.domainHeight = frm.img.naturalHeight;
+
+                        console.log('tracking is already loaded; scene is ready!');
+
                         EventService.broadcastSceneReady({data: s.tracking, src:frm.img.src});
 
                     }
                 };
 
                 frm.img.src = d;
-
 
             }
 
@@ -89,6 +91,9 @@ angular.module('verpApp')
                     p.domainWidth = frm.img.naturalWidth;
                     p.domainHeight = frm.img.naturalHeight;
                     if(d.coordXform)  d.coordXform(p);
+
+                    console.log('image is already loaded; scene is ready!');
+
                     EventService.broadcastSceneReady({data: s.tracking, src: frm.img.src});
 
                 }

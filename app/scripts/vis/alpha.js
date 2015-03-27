@@ -2,7 +2,7 @@
  *
  * File  : alpha.js
  * Author: Cagatay Demiralp (cagatay)
- * Desc  : Alpha partitioner.
+ * Desc  : Alpha  partitioner.
  *
  * Date    : Sat Sep 4 23:13:43 2014
  * Modified: $Id$
@@ -26,7 +26,7 @@ function alpha(v) {
             var dx = a[0] - b[0], dy = a[1] - b[1];
             return dx * dx + dy * dy;
         },
-        withinAlpha = function(v,m, i, asq){
+        withinAlpha = function(v, m, i, asq){
             return (dsq(v[m[i + 0]], v[m[i + 1]]) < asq &&
             dsq(v[m[i + 0]], v[m[i + 2]]) < asq &&
             dsq(v[m[i + 1]], v[m[i + 2]]) < asq);

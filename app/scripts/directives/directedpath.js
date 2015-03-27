@@ -32,25 +32,16 @@ angular.module('verpApp')
                     .xScale(x)
                     .yScale(y);
 
-
                 d3.select(element[0])
                     .call(dpath, toarrow(scope.data));
             }
-
 
 
             function update(){
 
                 if(!scope.data) return;
 
-
-                var dom = scope.domain();
-
-                x.domain(dom.dx).range([0, w]);
-                y.domain(dom.dy).range([0, h]);
-
-
-                dpath.xScale(x).yScale(y).update(toarrow(scope.data));
+                dpath.update(toarrow(scope.data));
 
             }
 

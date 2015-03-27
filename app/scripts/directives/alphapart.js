@@ -20,7 +20,6 @@ angular.module('verpApp')
             //creates the maximal complex once
             function init(e, d){
 
-                console.log('creating the alpha complex!');
                 var v = d.data.pos,
                     dom = scope.domain();
 
@@ -29,15 +28,15 @@ angular.module('verpApp')
 
                 ac = alpha(v).xScale(x).yScale(y);
                 ac(element[0]);
+
             }
 
 
             //then extracts alpha complexes as needed
             function alphaUpdate(e,d){
 
-                console.log('updating  the alpha complex!');
-
-                console.log(d);
+                //console.log('updating  the alpha complex!');
+                //console.log(d);
 
                 if(ac && d.partition) {
                     ac.update(d.eps);
@@ -45,6 +44,7 @@ angular.module('verpApp')
                 }else{
                     scope.partition = false;
                 }
+
 
             }
 
@@ -57,7 +57,7 @@ angular.module('verpApp')
 
             scope.$on('domain.ready', init);
             scope.$on('view.zoom', updateScale);
-            scope.$on('rp.epsFilter.update', alphaUpdate);
+            scope.$on('alpha.update', alphaUpdate);
 
         };
 
