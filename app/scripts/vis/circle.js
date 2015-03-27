@@ -20,7 +20,24 @@ var circle = function(){
         yScale =  d3.scale.linear()
             .domain([0, height])
             .range([0, height]),
-        color =  d3.scale.category10(),
+      //color = d3.scale.category10(),
+        color = d3.scale.linear()
+            //.domain([0, 3, 6, 10, 14, 18, 22, 26, 28, 30])
+            //.range(["brown", "#ddd", "darkgreen"])
+            .range([
+                '#a50026',
+            '#d73027',
+            '#f46d43',
+            '#fdae61',
+            '#fee090',
+            '#ffffbf',
+            '#e0f3f8',
+            '#abd9e9',
+            '#74add1',
+            '#4575b4',
+            '#313695'])
+            //.range(['black','darkgreen','green','aqua','blue','purple','violet','red','orange','yellow'])
+            .clamp(true),
         listeners=[],
         svg;
 
@@ -30,7 +47,9 @@ var circle = function(){
         svg = s.append('svg')
             .attr('width', width)
             .attr('height', height);
-
+        var n = d.length-1;
+        console.log(n);
+        color.domain(d3.range(0, n + n/10, n/10));
         var cg = svg.selectAll('.circle')
             .data(d)
             .enter()
@@ -47,6 +66,10 @@ var circle = function(){
 
 
     function updateBinding(d){
+
+        //update color binding
+        var n = d.length-1;
+         color.domain(d3.range(0, n + n/10, n/10));
 
         //update selection
         var s = svg.selectAll('.circle')
@@ -78,12 +101,12 @@ var circle = function(){
             .attr('transform', function(d){
                 return 'translate('+ xScale(d.pos[0]) +',' + yScale(d.pos[1]) + ')';
             });
-            cg.select('circle')
+        cg.select('circle')
             .attr('r', 20)
             .style('fill', function(d,i){return color(i);})
             .style('opacity', 0.9);
 
-           cg.select('text')
+        cg.select('text')
             .text(function(d){return d.label;});
 
     }
