@@ -13,8 +13,7 @@ function alpha(v) {
 
     var vertices = v,
         triangles = Delaunay.triangulate(vertices),
-        width = 960,
-        height = 500,
+        fill = '#39c',
         xScale,
         yScale,
         svg,
@@ -27,25 +26,24 @@ function alpha(v) {
             return dx * dx + dy * dy;
         },
         withinAlpha = function(v, m, i, asq){
-            return (dsq(v[m[i + 0]], v[m[i + 1]]) < asq &&
-            dsq(v[m[i + 0]], v[m[i + 2]]) < asq &&
-            dsq(v[m[i + 1]], v[m[i + 2]]) < asq);
+
+            return ( dsq(v[m[i + 0]], v[m[i + 1]]) < asq &&
+                     dsq(v[m[i + 0]], v[m[i + 2]]) < asq &&
+                     dsq(v[m[i + 1]], v[m[i + 2]]) < asq );
 
         };
 
 
-    function alphaPath(el){
-        svg = d3.select(el)
-            .append('svg')
-            .attr('width', width)
-            .attr('height', height)
-            .append('g')
-            .attr('class', 'boundary');
+    function _alpha(s){
 
-        return alphaPath;
+        svg = s.append('g')
+             .attr('class', 'alphashape');
+
+        return _alpha;
     }
 
-    alphaPath.update = function(a) {
+
+    _alpha.update = function(a) {
 
 
         if (!arguments.length){
@@ -53,6 +51,9 @@ function alpha(v) {
             if(bPolyline) drawPath(vertices, bPolyline);
 
         } else {
+
+
+            //console.log('updating alpha..');
 
             alpha = a;
 
@@ -64,7 +65,7 @@ function alpha(v) {
 
             for (i = 0; i < n; i += 3) {
                 if (withinAlpha(v, m, i, asq))
-                    alphaComplex.push([m[i + 0], m[i + 1], m[i + 2]]);
+                    alphaComplex.push([m[i], m[i + 1], m[i + 2]]);
             }
 
 
@@ -84,27 +85,39 @@ function alpha(v) {
             drawPath(v, bPolyline);
         }
 
-        return alphaPath;
+        return _alpha;
     };
 
 
-    alphaPath.xScale = function(_){
+    _alpha.xScale = function(_){
 
         if(!arguments.length) return xScale;
 
         xScale = _;
 
-        return alphaPath;
+        return _alpha;
     };
 
-    alphaPath.yScale = function(_){
+    _alpha.yScale = function(_){
 
-        if(!arguments.length) return xScale;
+        if(!arguments.length) return yScale;
 
         yScale = _;
 
-        return alphaPath;
+        return _alpha;
     };
+
+    _alpha.color = function(_) {
+
+        if (!arguments.length) return fill;
+
+        fill = _;
+
+        return _alpha;
+
+    };
+
+
 
 
     //draws the boundary of the
@@ -117,10 +130,10 @@ function alpha(v) {
             })
             .y(function (d) {
                 return yScale(v[d][1]);
-            }).interpolate('cardinal');
+            }).interpolate('monotone');
 
         //join
-        var paths = svg.selectAll(".boundary-path")
+        var paths = svg.selectAll(".alphashape-boundary")
             .data(b, function (d, i) {
                 return alphaKey[i];
             });
@@ -128,12 +141,12 @@ function alpha(v) {
         //create
         paths.enter()
             .append("path")
-            .attr('class', 'boundary-path')
+            .attr('class', 'alphashape-boundary')
             .style('fill-opacity', 0.05)
             .transition().style('fill-opacity', 0.8);
 
         //update
-        paths.style("fill", "#39c")
+        paths.style("fill", fill)
             .style("fill-opacity", 0.8)
             .style("stroke-width", 2)
             .attr('d', function (d) {
@@ -292,5 +305,5 @@ function alpha(v) {
     }
 
 
-    return alphaPath;
+    return _alpha;
 }

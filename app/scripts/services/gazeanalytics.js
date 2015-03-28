@@ -87,6 +87,33 @@ angular.module('verpApp')
         };
 
 
+        // extract actual fixation points using range
+        // indices given by fixation clustering
+        var clusterPoints = function(c, p){
+
+            var n = c.length,
+                f = [],
+                i, j, k;
+
+            for (k = 0; k < n; k++) {
+
+                i = c[k].range[0];
+                j = c[k].range[1];
+
+                var fk  = [];
+
+                for (; i < j; i++)  fk.push(p[i]);
+
+                f.push(fk);
+            }
+
+           return f;
+
+        };
+
+
+
+
         var centroid = function(p, i, j){
 
             var n = j - i,
@@ -203,6 +230,7 @@ angular.module('verpApp')
         return {
 
             cluster: cluster,
+            clusterPoints: clusterPoints,
             classifyIVT: classifyIVT,
             angularVelocity: angularVelocity,
             spatialVelocity: spatialVelocity,

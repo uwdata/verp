@@ -13,6 +13,18 @@ angular.module('verpApp')
 
         var scene   = {},
             services = {};
+            //
+        ////var alphaUpdate = function(v){
+        //    if(!arguments.length) return alpha.value;
+        //    alpha.value = v;
+        //};
+
+        //var alphaPartition  = function(v){
+        //    if(!arguments.length) return alpha.partition;
+        //    alpha.partition = v;
+        //};
+
+
 
         var tracking = function(_){
 

@@ -20,8 +20,7 @@
           brushIconStyle={'color': 'orange'};
           zoomIconStyle={'color':'gray'};">
     </span>
-
-    <!--brushStyle={'z-index' : 14};-->
+ <!--brushStyle={'z-index' : 14};-->
 
     <span class="glyphicon glyphicon-repeat"
           ng-click="resetView()">
@@ -44,22 +43,22 @@
 
         <!--ng-init="heatmapStyle={'z-index':2}"-->
 
-        <heatview  id="fixation-heatmap" class="stacked" width="650" height="500" colormap="0"
-                   domain='domain()'
-                   points='fixations'
-                   ng-style="fixationStyle"
-                   ng-show='showFixations'>
-        </heatview>
+        <!--<heatview  id="fixation-heatmap" class="stacked" width="650" height="500" colormap="0"-->
+                   <!--domain='domain()'-->
+                   <!--points='fixations'-->
+                   <!--ng-style="fixationStyle"-->
+                   <!--ng-show='showFixations'>-->
+        <!--</heatview>-->
 
         <!--ng-init="fixationStyle={'z-index':3}"-->
 
-        <heatview  id="saccade-heatmap" class="stacked" width="650" height="500"
-                   colormap="2"
-                   domain='domain()'
-                   points='saccades'
-                   ng-style="saccadeStyle"
-                   ng-show="showSaccades">
-        </heatview>
+        <!--<heatview  id="saccade-heatmap" class="stacked" width="650" height="500"-->
+                   <!--colormap="2"-->
+                   <!--domain='domain()'-->
+                   <!--points='saccades'-->
+                   <!--ng-style="saccadeStyle"-->
+                   <!--ng-show="showSaccades">-->
+        <!--</heatview>-->
 
 
         <!--ng-init="saccadeStyle={'z-index':4}"-->
@@ -73,6 +72,9 @@
 
         <alphapart id="alphapart" class="stacked" width="650" height="500"
                    ng-style="alphapartStyle"
+                   data="scanPathPoints"
+                   alpha="alpha.value"
+                   domain="domain()"
                    ng-show="alpha.partition">
         </alphapart>
 
@@ -85,43 +87,37 @@
                       ng-style="pathStyle">
         </directedpath>
         <!--ng-init="pathStyle={'z-index':6}">-->
-        <div>
 
-            <circularnodes id="circularnodes" class="stacked nodes" width="650" height="500"
-                           data='scanPath'
-                           domain='domain()'
-                           click='onFixationClick(d,i)'
-                           ng-style="nodeStyle"
-                           ng-show="showScanPath">
-            </circularnodes>
+        <circularnodes id="circularnodes" class="stacked nodes" width="650" height="500"
+                       data='scanPath'
+                       domain='domain()'
+                       click='onFixationClick(d,i)'
+                       ng-style="nodeStyle"
+                       ng-show="showScanPath">
+        </circularnodes>
 
-            <!--ng-init="nodeStyle={'z-index':7}"-->
+        <!--ng-init="nodeStyle={'z-index':7}"-->
 
-            <!--<textlabel id="textlabel" class="stacked" width="650" height="500"-->
-            <!--domain='domain()'-->
-            <!--data='scanPath'-->
-            <!--ng-style="labelStyle"-->
-            <!--ng-init="labelStyle={'z-index' : 8}"-->
-            <!--ng-show="showScanPath">-->
-            <!--</textlabel>-->
-            <div>
+        <!--<textlabel id="textlabel" class="stacked" width="650" height="500"-->
+        <!--domain='domain()'-->
+        <!--data='scanPath'-->
+        <!--ng-style="labelStyle"-->
+        <!--ng-init="labelStyle={'z-index' : 8}"-->
+        <!--ng-show="showScanPath">-->
+        <!--</textlabel>-->
 
-                <brush id="sp" class="stacked" width="650" height="500"
-                       ng-style="brushStyle"
-                       ng-show="showTracking">
-                </brush>
+        <brush id="sp" class="stacked" width="650" height="500"
+               ng-style="brushStyle"
+               ng-show="showTracking">
+        </brush>
 
-                <!--ng-init="brushStyle={'z-index' : 10}"-->
+        <!--ng-init="brushStyle={'z-index' : 10}"-->
 
-                <zoom id="scene-zoom" class="stacked" width="650" height="500"
-                      ng-style="zoomStyle"
-                      ng-show="mode==='view'"
-                      ng-click="clickPropagate('scene-zoom', 'circularnodes')">
-                </zoom>
-
-            </div>
-        </div>
-
+        <zoom id="scene-zoom" class="stacked" width="650" height="500"
+              ng-style="zoomStyle"
+              ng-show="mode==='view'"
+              ng-click="clickPropagate('scene-zoom', 'circularnodes')">
+        </zoom>
         <!--ng-init="zoomStyle={'z-index' : 11; 'pointer-events}"-->
 
     </div>
@@ -152,7 +148,7 @@
                                ng-change="saccadeVisibility()"> saccades</input>
 
                         <input type="checkbox" titlex='Show scan-path graph'
-                               ng-model="showScanPath"> path</input>
+                               ng-model="showScanPath"> path </input>
 
                     </div>
 

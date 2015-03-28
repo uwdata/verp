@@ -21,49 +21,41 @@ angular.module('verpApp')
 
         $scope.frm = {};
         $scope.sp = {};
-        $scope.alpha = {
-            min:0,
-            max:100,
-            step:1,
-            value:50,
-            partition:false,
-            change:alphaUpdate};
+        $scope.alpha = {value:50, partition:false};
 
         $scope.visibilityChanged = false;
-        //$scope.visibility = undefined;
-        //$scope.points = undefined;
-        //$scope.fixations = undefined;
-        //$scope.saccades = undefined;
+
 
         $scope.velocity = { min:0, step:1, max:10, threshold:5 };
+
         $scope.mode = 'selection';
 
 
+        $scope.clickPropagate = function (src, dest){
 
-       $scope.clickPropagate = function (src, dest){
+            var srcnode  = document.getElementById(src),
+                srcz = srcnode.style.zIndex,
+                destnode  = document.getElementById(dest),
+                destz = destnode.style.zIndex,
+                e = new MouseEvent('click', {
+                    'view': window,
+                    'bubbles': true,
+                    'cancelable': true
+                });
 
-           var srcnode  = document.getElementById(src),
-               srcz = srcnode.style.zIndex,
-               destnode  = document.getElementById(dest),
-               destz = destnode.style.zIndex,
-               e = new MouseEvent('click', {
-                   'view': window,
-                   'bubbles': true,
-                   'cancelable': true
-               });
+            //send src back & bring dest front
+            srcnode.style.zIndex  = destz-1;
+            destnode.style.zIndex = srcz+1;
 
-           //send src back & bring dest front
-           srcnode.style.zIndex  = destz-1;
-           destnode.style.zIndex = srcz+1;
+            //simulate click
+            (document.elementFromPoint(window.event.clientX, window.event.clientY).dispatchEvent(e));
 
-           //simulate click
-           (document.elementFromPoint(window.event.clientX, window.event.clientY).dispatchEvent(e));
+            //restore z
+            srcnode.style.zIndex  = srcz;
+            destnode.style.zIndex = destz;
 
-           //restore z
-          srcnode.style.zIndex  = srcz;
-          destnode.style.zIndex = destz;
 
-       };
+        };
 
 
         $scope.saccadeVisibility = function(){
@@ -79,10 +71,9 @@ angular.module('verpApp')
 
             } else {
 
-                 for(; i < n; i++)
-                     $scope.visibility[i] = ($scope.event[i] === 1) ? 0 :
-                         ($scope.showFixations) ? 1 : 0;
-
+                for(; i < n; i++)
+                    $scope.visibility[i] = ($scope.event[i] === 1) ? 0 :
+                        ($scope.showFixations) ? 1 : 0;
 
             }
 
@@ -97,20 +88,20 @@ angular.module('verpApp')
 
             if($scope.showFixations){
                 for(; i < n; i++)
-                $scope.visibility[i] = ($scope.event[i] === 0) ? 1 : ($scope.showSaccades) ? 1 : 0;
+                    $scope.visibility[i] = ($scope.event[i] === 0) ? 1 : ($scope.showSaccades) ? 1 : 0;
 
             }else{
-                 for(; i < n; i++)
-                 $scope.visibility[i] = ($scope.event[i] === 0) ? 0 : ($scope.showSaccades) ? 1 : 0;
+                for(; i < n; i++)
+                    $scope.visibility[i] = ($scope.event[i] === 0) ? 0 : ($scope.showSaccades) ? 1 : 0;
             }
 
             $scope.visibilityChanged =  !$scope.visibilityChanged;
 
         };
 
-        $scope.onFixationClick  = function(d, i){
 
-            console.log('Fixation Node ' + i + ' is clicked!');
+        $scope.onFixationClick  = function(d, i){
+            //console.log('Fixation Node ' + i + ' is clicked!');
             $scope.sp.selection = d.range;
 
         };
@@ -130,7 +121,7 @@ angular.module('verpApp')
             for(; i < n; i++)
                 if(e[i] === 0) //fixation
                     f.push(p[i]);
-                 else  //saccade
+                else  //saccade
                     s.push(p[i]);
 
 
@@ -138,6 +129,8 @@ angular.module('verpApp')
             $scope.saccades = s;
 
             $scope.scanPath = GazeAnalytics.cluster(e, p);
+            $scope.scanPathPoints = GazeAnalytics.clusterPoints($scope.scanPath, p);
+
 
         };
 
@@ -159,16 +152,15 @@ angular.module('verpApp')
 
         $scope.domain = function(){
 
-            if($scope.xDomain && $scope.yDomain) return {dx: $scope.xDomain, dy: $scope.yDomain};
+            if($scope.xDomain && $scope.yDomain)
+                return {dx: $scope.xDomain,
+                    dy: $scope.yDomain,
+                    rx: $scope.xScale.range(),
+                    ry:$scope.yScale.range()};
 
         };
 
 
-     function alphaUpdate(){
-
-            console.log('alpha value is changed...' );
-
-        }
 
 
         function updateScale(e, d){
@@ -179,9 +171,9 @@ angular.module('verpApp')
         }
 
 
-        function init(e, d){
+        function init(e,  d) {
 
-            console.log('initializing the scene controller');
+            //console.log('initializing the scene controller');
 
             if(! $scope.frm.img)  return;
 
@@ -213,6 +205,14 @@ angular.module('verpApp')
 
         }
 
+        $scope.$on('alpha.update' , function(e,d){ $scope.alpha.value = d;});
+
+        $scope.$on('alpha.partition' , function(e,d){
+
+            //console.log(d);
+            $scope.alpha.partition = d;
+
+        });
         $scope.$on('view.zoom' , updateScale);
         $scope.$on('scene.ready', init);
 

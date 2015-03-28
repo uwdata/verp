@@ -2,18 +2,47 @@
     <div class="row clearfix">
         <div class="col-md-8 column" style="padding-left:70px" >
             <label class="viewname">RP</label>
-            <span class="glyphicon glyphicon-search"
-                  ng-model="interaction.mode"
-                  ng-style="zoomStyle"
-                  ng-click="setMode('view'); brushStyle={'color':'gray'}; zoomStyle={'color': 'orange'};"
-                  style="margin-left:45%">
-                  </span>
-            <span class="fa fa-paint-brush"
-                  ng-model="interaction.mode"
-                  ng-style="brushStyle"
-                  ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'};">
-            </span>
-            <span class="glyphicon glyphicon-repeat" ng-click="resetView()"></span>
+
+           <span class="glyphicon glyphicon-search"
+                 ng-model="interaction.mode"
+                 ng-style="zoomIconStyle"
+                 ng-init="zoomIconStyle={'color':'gray'}"
+                 ng-click="setMode('view');
+          brushIconStyle={'color':'gray'};
+          zoomIconStyle={'color': 'orange'}"
+                 style="margin-left:45%"></span>
+            <!--zoomStyle={'z-index':14}"-->
+
+    <span class="fa fa-paint-brush"
+          ng-model="interaction.mode"
+          ng-style="brushIconStyle"
+          ng-init="brushIconStyle={'color' :'orange'}"
+          ng-click="setMode('selection');
+          brushIconStyle={'color': 'orange'};
+          zoomIconStyle={'color':'gray'};">
+    </span>
+
+    <span class="glyphicon glyphicon-repeat"
+          ng-click="resetView()">
+           </span>
+
+            <!---->
+            <!---->
+            <!--<span class="glyphicon glyphicon-search"-->
+            <!--ng-model="interaction.mode"-->
+            <!--ng-style="zoomStyle"-->
+            <!--ng-click="setMode('view'); brushStyle={'color':'gray'}; zoomStyle={'color': 'orange'};"-->
+            <!--style="margin-left:45%">-->
+            <!--</span>-->
+            <!--<span class="fa fa-paint-brush"-->
+            <!--ng-model="interaction.mode"-->
+            <!--ng-style="brushStyle"-->
+            <!--ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'};">-->
+            <!--</span>-->
+            <!--<span class="glyphicon glyphicon-repeat" ng-click="resetView()"></span>-->
+
+
+
 
             <rp class="stacked flip-vertical" width="500" height="500" data="data"></rp>
 
@@ -42,18 +71,6 @@
                                ng-model="eps.value"
                                ng-change="updateEps()"/>
                         <label style="display:block;text-align:center">{{eps.value}}</label>
-                        <!--<label class="checkbox">-->
-                        <!--epsilon filtering-->
-                        <!--<input type="checkbox"-->
-                        <!--ng-model="eps.filtering"-->
-                        <!--ng-change="epsFilteringUpdate()"/>-->
-                        <!--</label>-->
-                        <!--<label class="checkbox">-->
-                        <!--partition-->
-                        <!--<input type="checkbox"-->
-                        <!--ng-model="partition"-->
-                        <!--ng-change="epsFilteringUpdate()"/>-->
-                        <!--</label>-->
                     </div>
                 </fieldset>
 
@@ -75,7 +92,7 @@
 
 
 
-                <fieldset id='fieldset-2'  ng-controller="SceneCtrl">
+                <fieldset id='fieldset-2'  ng-controller="AlphaformCtrl">
 
                     <legend>alpha</legend>
 
@@ -91,13 +108,13 @@
                                max="{{alpha.max}}"
                                value="{{alpha.value}}"
                                ng-model="alpha.value"
-                               ng-change="alpha.change()"/>
-                        <!--style=""-->
+                               ng-change="alphaUpdate({{alpha.value}})"/>
                         <label class="value">{{alpha.value}}</label>
                         <label class="checkbox" titlex="Show alpha shapes of fixations">
                             alpha partition
                             <input type="checkbox"
-                                   ng-model="alpha.partition"/>
+                                   ng-model="alpha.partition"
+                                   ng-click="alphaPartition()"/>
                         </label>
                     </div>
                 </fieldset>
