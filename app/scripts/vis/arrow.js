@@ -20,7 +20,21 @@ var arrow = function(){
         yScale =  d3.scale.linear()
             .domain([0, height])
             .range([0, height]),
-        color =  d3.scale.category10(),
+        color = d3.scale.linear()
+            .range([
+                '#a50026',
+                '#d73027',
+                '#f46d43',
+                '#fdae61',
+                '#fee090',
+                '#ffffbf',
+                '#e0f3f8',
+                '#abd9e9',
+                '#74add1',
+                '#4575b4',
+                '#313695'])
+            .clamp(true),
+        //color =  d3.scale.category10(),
         svg, path, filter, fmerge;
 
 
@@ -31,6 +45,7 @@ var arrow = function(){
             .attr('width', width)
             .attr('height', height);
 
+        updateColorDomain(d.length);
 
         //define an arrow head  marker
         svg.append('defs')
@@ -75,7 +90,15 @@ var arrow = function(){
 
     }
 
+    function updateColorDomain(n){
+
+        color.domain(d3.range(0, n + n/10, n/10));
+    }
+
+
     function updateBinding(d){
+
+        updateColorDomain(d.length);
 
         //update selection
         var s = path.selectAll('path')

@@ -12,10 +12,7 @@ angular.module('verpApp')
 
         var delta = function(t, s){
 
-            if(!t) {
-                console.warn('No data to take delta of');
-                return;
-            }
+            if(!t)  return;
 
             var dt = [],
                 ts = s || 1,
@@ -88,7 +85,7 @@ angular.module('verpApp')
 
 
         // extract actual fixation points using range
-        // indices given by fixation clustering
+        // indices from  clustering
         var clusterPoints = function(c, p){
 
             var n = c.length,

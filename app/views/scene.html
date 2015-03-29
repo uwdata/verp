@@ -1,5 +1,5 @@
 <div class="scene col-md-5 column nopadding" style="padding-left:10px" ng-controller="SceneCtrl"
-     xmlns="http://www.w3.org/1999/html">
+     xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <label class="viewname">{{frm.srcName || 'Scene'}}</label>
 
     <span class="glyphicon glyphicon-search"
@@ -20,7 +20,7 @@
           brushIconStyle={'color': 'orange'};
           zoomIconStyle={'color':'gray'};">
     </span>
- <!--brushStyle={'z-index' : 14};-->
+    <!--brushStyle={'z-index' : 14};-->
 
     <span class="glyphicon glyphicon-repeat"
           ng-click="resetView()">
@@ -44,20 +44,20 @@
         <!--ng-init="heatmapStyle={'z-index':2}"-->
 
         <!--<heatview  id="fixation-heatmap" class="stacked" width="650" height="500" colormap="0"-->
-                   <!--domain='domain()'-->
-                   <!--points='fixations'-->
-                   <!--ng-style="fixationStyle"-->
-                   <!--ng-show='showFixations'>-->
+        <!--domain='domain()'-->
+        <!--points='fixations'-->
+        <!--ng-style="fixationStyle"-->
+        <!--ng-show='showFixations'>-->
         <!--</heatview>-->
 
-        <!--ng-init="fixationStyle={'z-index':3}"-->
+        <!--&lt;!&ndash;ng-init="fixationStyle={'z-index':3}"&ndash;&gt;-->
 
         <!--<heatview  id="saccade-heatmap" class="stacked" width="650" height="500"-->
-                   <!--colormap="2"-->
-                   <!--domain='domain()'-->
-                   <!--points='saccades'-->
-                   <!--ng-style="saccadeStyle"-->
-                   <!--ng-show="showSaccades">-->
+        <!--colormap="2"-->
+        <!--domain='domain()'-->
+        <!--points='saccades'-->
+        <!--ng-style="saccadeStyle"-->
+        <!--ng-show="showSaccades">-->
         <!--</heatview>-->
 
 
@@ -126,80 +126,194 @@
 
         <div ng-show="frm.img.src">
 
-            <div class="controlgrp">
+            <fieldset id="scene-ctrls-0">
 
-                <div class='grp-0'>
+                <div class="divtable">
 
-                    <div>
-
-                        <input type="checkbox" titlex='Show tracking points'
-                               ng-model="showTracking"
-                               ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}"> tracking</input>
-
-                        <input type="checkbox" titlex='Show heatmap of tracking points'
-                               ng-model="showHeatmap"> heatmap</input>
-
-                        <input type="checkbox" titlex='Show heatmap of fixations'
-                               ng-model="showFixations"
-                               ng-change="fixationVisibility()"> fixations</input>
-
-                        <input type="checkbox" titlex='Show heatmap of saccades'
-                               ng-model="showSaccades"
-                               ng-change="saccadeVisibility()"> saccades</input>
-
-                        <input type="checkbox" titlex='Show scan-path graph'
-                               ng-model="showScanPath"> path </input>
-
+                    <div class="row heading">
+                        <div class="column" title=""> </div>
+                        <div class="column" title="Scatter">scatter</div>
+                        <div class="column" title="Heatmap ">heatmap</div>
+                        <div class="column" title="Directed path">path</div>
                     </div>
 
-                    <!--ng-click="pathStyle={'z-index' : 12};nodeStyle={'z-index':13}"-->
-
-                    <!--<div style="display:inline-block"><label>threshold</label></div>-->
-                    <div class="slider" titlex ="Adjust velocity threshold for fixation-saccade classification">
-
-                        <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
-
-                        <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
-
-                        <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
-
-                        <input type="range"
-                               min="{{velocity.min}}"
-                               step="{{velocity.step}}"
-                               max="{{velocity.max}}"
-                               value="{{velocity.threshold}}"
-                               ng-model="velocity.threshold"
-                               ng-change="classify()"/>
-                        <label class="center">{{velocity.threshold}}</label>
+                    <div class="row row-1">
+                        <div class="column column-0" title="All tracking positions">all</div>
+                        <div class="column column-1" title="All tracking positions">
+                            <input type="checkbox" titlex='Show all tracking points'
+                                   ng-model="showTracking"
+                                   ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}">
+                        </div>
+                        <div class="column column-2" title="All tracking positions">
+                            <input type="checkbox" titlex='Show heatmap of tracking points' ng-model="showHeatmap">
+                        </div>
+                        <div class="column column-3" title="All tracking positions">
+                            <input type="checkbox" titlex='Show scan-path graph' ng-model="showScanPath">
+                        </div>
                     </div>
+
+                    <div class="row row-2">
+                        <div class="column column-0" title="All tracking positions">fixations</div>
+
+                        <div class="column column-1" title="All tracking positions">
+                            <input type="checkbox" titlex='Show heatmap of fixations'
+                                   ng-model="showFixations"
+                                   ng-change="fixationVisibility()">
+                        </div>
+                        <div class="column column-2" title="All tracking positions">
+                            <input type="checkbox">
+                        </div>
+                        <div class="column column-3" title="All tracking positions">
+                            <input type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row row-3">
+                        <div class="column column-0" title="All tracking positions">saccades</div>
+                        <div class="column column-1" title="All tracking positions">
+                            <input type="checkbox" titlex='Show heatmap of saccades'
+                                   ng-model="showSaccades"
+                                   ng-change="saccadeVisibility()">
+                        </div>
+                        <div class="column column-2" title="All tracking positions">
+                            <input type="checkbox">
+                        </div>
+                        <div class="column column-3" title="All tracking positions">
+                            <input type="checkbox">
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="grp-1">
-                    <div class="column-0">
-                        <label>circle size</label><input type="range" min="0" step="0.25" max="40"
-                                                         value="10"
-                                                         ng-model="sp.markerSize"
-                                                         ng-init="s.markerSize=10"/>
-                        <label>circle opacity</label>
-                        <input type="range"  min="0" step="0.05" max="1.0"
-                               ng-model="spOpacity"
-                               ng-init="spOpacity=1.0"
-                               ng-change="spStyle={'opacity':spOpacity}"/>
-                    </div>
+            </fieldset>
 
-                    <div class="column-1">
-                        <label>scene opacity</label>
-                        <input type="range" min="0" step="0.05" max="1.0"
-                               ng-model="imgOpacity"
-                               ng-init="imgOpacity=1;imgStyle={'opacity':imgOpacity}"
-                               ng-change="imgStyle={'opacity':imgOpacity}"/>
-                        <label>scene blur</label>
-                        <input type="range"  min="0" step="0.25" max="10"
-                               ng-model="spBlur" ng-init="spBlur=0"
-                               ng-change="imgStyle={'filter':'blur('+spBlur+')', '-webkit-filter': 'blur('+spBlur+'px)'}"/>
+            <!--<div class="controlgrp">-->
+
+            <!--<div class='grp-0'>-->
+
+            <!--<div>-->
+
+
+            <!--<input type="checkbox" titlex='Show heatmap of tracking points'-->
+            <!--ng-model="showHeatmap"> heatmap</input>-->
+
+            <!--<input type="checkbox" titlex='Show heatmap of fixations'-->
+            <!--ng-model="showFixations"-->
+            <!--ng-change="fixationVisibility()"> fixations</input>-->
+
+            <!--<input type="checkbox" titlex='Show heatmap of saccades'-->
+            <!--ng-model="showSaccades"-->
+            <!--ng-change="saccadeVisibility()"> saccades</input>-->
+
+            <!--<input type="checkbox" titlex='Show scan-path graph'-->
+            <!--ng-model="showScanPath"> path </input>-->
+
+            <!--</div>-->
+
+            <!--&lt;!&ndash;ng-click="pathStyle={'z-index' : 12};nodeStyle={'z-index':13}"&ndash;&gt;-->
+
+            <!--<div style="display:inline-block"><label>threshold</label></div>-->
+
+
+
+            <fieldset id="scene-ctrls-1">
+
+                <div class="divtable">
+                    <div class="row heading">
+                        <div class="column">velocity threshold</div>
+                    </div>
+                    <div class="row row-1">
+                        <div class="column">
+                            <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
+                            <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
+                            <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
+                        </div>
+                    </div>
+                    <div class="row row-2">
+                        <div class="column">
+                            <input type="range"
+                                   min="{{velocity.min}}"
+                                   step="{{velocity.step}}"
+                                   max="{{velocity.max}}"
+                                   value="{{velocity.threshold}}"
+                                   ng-model="velocity.threshold"
+                                   ng-change="classify()"/>
+                            <label class="center">{{velocity.threshold}}</label>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </fieldset>
+
+            <fieldset id="scene-ctrls-2">
+                <div class="divtable">
+                    <div class="row heading">
+                        <div class="column column-0" title=""></div>
+                        <div class="column" title="scene">scene</div> <div class="column column-0" title=""></div>
+                        <div class="column" title="circle">circle</div>
+                    </div>
+
+                    <div class="row row-1">
+                        <div class="column column-0" title="opacity">opacity</div>
+                        <div class="column" title="scene opacity">
+                            <input type="range" min="0" step="0.05" max="1.0"
+                                   ng-model="imgOpacity"
+                                   ng-init="imgOpacity=1;imgStyle={'opacity':imgOpacity}"
+                                   ng-change="imgStyle={'opacity':imgOpacity}"/>
+                        </div>
+                        <div class="column column-0" title="opacity">opacity</div>
+                        <div class="column column-1" title="circle opacity">
+                            <input type="range"  min="0" step="0.05" max="1.0"
+                                   ng-model="spOpacity"
+                                   ng-init="spOpacity=1.0"
+                                   ng-change="spStyle={'opacity':spOpacity}"/>
+                        </div>
+                    </div>
+
+                    <div class="row row-2">
+                        <div class="column column-0" title="blur">blur</div>
+                        <div class="column " title="scene blur">
+                            <input type="range"  min="0" step="0.25" max="10"
+                                   ng-model="spBlur" ng-init="spBlur=0"
+                                   ng-change="imgStyle={'filter':'blur('+spBlur+')', '-webkit-filter': 'blur('+spBlur+'px)'}"/>
+                        </div>
+                        <div class="column column-0" title="blur">size</div>
+                        <div class="column" title="circle size">
+                            <input type="range" min="0" step="0.25" max="40"
+                                   value="10"
+                                   ng-model="sp.markerSize"
+                                   ng-init="s.markerSize=10"/>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!--<div class="grp-1">-->
+            <!--<div class="column-0">-->
+            <!--<label>circle size</label>-->
+            <!--<input type="range" min="0" step="0.25" max="40"-->
+            <!--value="10"-->
+            <!--ng-model="sp.markerSize"-->
+            <!--ng-init="s.markerSize=10"/>-->
+            <!--<label>circle opacity</label>-->
+            <!--<input type="range"  min="0" step="0.05" max="1.0"-->
+            <!--ng-model="spOpacity"-->
+            <!--ng-init="spOpacity=1.0"-->
+            <!--ng-change="spStyle={'opacity':spOpacity}"/>-->
+            <!--</div>-->
+
+            <!--<div class="column-1">-->
+            <!--<label>scene opacity</label>-->
+            <!--<input type="range" min="0" step="0.05" max="1.0"-->
+            <!--ng-model="imgOpacity"-->
+            <!--ng-init="imgOpacity=1;imgStyle={'opacity':imgOpacity}"-->
+            <!--ng-change="imgStyle={'opacity':imgOpacity}"/>-->
+            <!--<label>scene blur</label>-->
+            <!--<input type="range"  min="0" step="0.25" max="10"-->
+            <!--ng-model="spBlur" ng-init="spBlur=0"-->
+            <!--ng-change="imgStyle={'filter':'blur('+spBlur+')', '-webkit-filter': 'blur('+spBlur+'px)'}"/>-->
+            <!--</div>-->
+            <!--</div>-->
         </div>
     </div>
+</div>
 </div>

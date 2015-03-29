@@ -34,7 +34,10 @@
 
                 <ul class="nav navbar-nav" ng-controller="UploadCtrl">
                     <li>
-                        <input id="fileinfo-checkbox" type="checkbox" ng-model="showFileInfo" style="display:none">
+                        <input id="fileinfo-checkbox" type="checkbox"
+                               ng-init="showFileInfo=true"
+                               ng-model="showFileInfo"
+                               style="display:none" >
                         <a  titlex = 'Show file info'href="#">
                         <span class="glyphicon glyphicon-info-sign"
                               onclick="document.getElementById('fileinfo-checkbox').click()"></span></a>

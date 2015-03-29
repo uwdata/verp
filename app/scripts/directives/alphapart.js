@@ -15,7 +15,21 @@ angular.module('verpApp')
                 h = +attrs.height,
                 x = d3.scale.linear().range([0, w]),
                 y = d3.scale.linear().range([0, h]),
-                c = d3.scale.category10(),
+                c = d3.scale.linear()
+                    .range([
+                        '#a50026',
+                        '#d73027',
+                        '#f46d43',
+                        '#fdae61',
+                        '#fee090',
+                        '#ffffbf',
+                        '#e0f3f8',
+                        '#abd9e9',
+                        '#74add1',
+                        '#4575b4',
+                        '#313695'])
+                    .clamp(true),
+
                 svg, ac;
 
 
@@ -25,11 +39,11 @@ angular.module('verpApp')
                 if(! scope.data) return;
 
                 var  d = scope.data,
-                     n = d.length,
+                     n = d.length - 1,
                      dom = scope.domain(),
                      i;
 
-                //console.log(n);
+                c.domain(d3.range(0, n + n/10, n/10));
 
                 if(!svg) {
                     svg = d3.select(element[0]).append('svg')

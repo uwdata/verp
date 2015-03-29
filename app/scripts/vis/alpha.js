@@ -148,7 +148,7 @@ function alpha(v) {
         //update
         paths.style("fill", fill)
             .style("fill-opacity", 0.8)
-            .style("stroke-width", 2)
+            //.style("stroke-width", 1)
             .attr('d', function (d) {
                 return lf(d);
             });

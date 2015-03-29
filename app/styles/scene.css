@@ -160,40 +160,108 @@ circle{
    margin-right:auto;
 }
 
+.scene-info fieldset#scene-ctrls-0{
+    width:30%;
+    float:left;
+    padding-right:1%;
+}
 
-
-
-.scene-info .controlgrp .grp-0 {
-    /*margin-top:1%;*/
-    /*margin-bottom:1%;*/
-    float: left;
-    display:inline-block;
-    font-size:12px;
-    width:50%;
+.scene-info fieldset#scene-ctrls-1 {
+    width:30%;
+    float:left;
 }
 
 
-.scene-info .controlgrp .grp-0 .slider{
+.scene-info fieldset#scene-ctrls-2 {
+    width:40%;
+    float:left;
+}
+
+
+.scene-info fieldset .divtable{
+    display: table;
+    margin-top:5px;
+}
+
+.scene-info fieldset .row{
+    display: table-row;
+    text-align:center;
+}
+
+
+
+.scene-info fieldset .column.column-0{
+    text-align: right;
+    vertical-align:top;
+    padding-right:1%;
+}
+
+
+.scene-info fieldset .row.heading {
+    text-align: center;
+}
+
+
+.scene-info fieldset .column {
+    font-size:12px;
+    display: table-cell;
+    color:gray;
+    width: 150px;
+}
+
+
+.scene-info #scene-ctrls-1 .column {
+    font-size:12px;
+    display: table-cell;
+    color:gray;
     width:100%;
 }
 
-.scene-info .controlgrp .grp-0 .slider input[type=number]:hover>.numinput{
+
+
+.scene-info fieldset .row.heading .column{
+    color: rgba(255, 69, 0, 0.60);
+}
+
+
+
+.scene-info fieldset#scene-ctrls-1 .row.heading .column{
+    color: rgba(255, 69, 0, 0.60);
+}
+
+
+
+/*.scene-info .controlgrp .grp-0 {*/
+    /*margin-top:1%;*/
+    /*margin-bottom:1%;*/
+    /*float: left;*/
+    /*display:inline-block;*/
+    /*font-size:12px;*/
+    /*width:50%;*/
+/*}*/
+
+
+.scene-info fieldset input[type=number]:hover>.numinput{
    color: #232323;
 
 }
 
-.scene-info .controlgrp .grp-0 .slider .numinput{
+.scene-info fieldset .numinput{
    color: #9b9b9b;
    font-size:12px;
 }
 
 
-.scene-info .controlgrp .grp-0 .slider input[type=number]:hover{
+.scene-info fieldset  input[type=range]{
+    width:100%
+}
+
+.scene-info fieldset input[type=number]:hover{
     color: #232323;
 }
-.scene-info .controlgrp .grp-0 .slider input[type=number]{
-    width:23%;
-    font-size:10px;
+.scene-info fieldset input[type=number]{
+    width:18%;
+    font-size:9px;
     background-color: rgb(250, 250, 250);
     border-radius: 2px;
     border: rgb(238,238,238);
@@ -202,39 +270,6 @@ circle{
     -webkit-border-radius:4px;
 }
 
-.scene-info .controlgrp .grp-0 .slider input[type=range]{
-
-    width:100%
-}
-
-
-.scene-info .controlgrp .grp-0 div{
-    display:inline-block;
-    margin-top:1%;
-    margin-bottom:1%;
-}
-
-.scene-info .controlgrp .grp-1 {
-    /*margin-top:1%;*/
-    /*margin-bottom:1%;*/
-    margin-left: 5%;
-    float: left;
-    display:inline-block;
-    font-size:12px;
-}
-
-/*.scene-info .controlgrp .grp-1 .column-0{*/
-
-    /*margin-right:2%;*/
-
-/*}*/
-
-/*.scene-info .controlgrp .grp-1 .column-1{*/
-
-    /*float:left;*/
-    /*margin-right:1%;*/
-
-/*}*/
 
 .scene-info .controlgrp .grp-1 div{
     display:inline-block;
@@ -267,6 +302,17 @@ text {
     opacity:1;
 }
 
+.alphashape-boundary{
+
+    stroke-width:2;
+    stroke: black;
+    vector-effect:non-scaling-stroke;
+    stroke-dasharray:5,5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+
+}
+
 defs path{
 
     stroke:none;
@@ -277,6 +323,8 @@ defs path{
 .arrow {
     marker-end:url(#arrowhead);
     stroke-width:5px;
+    /*stroke:black !important;*/
+    /*stroke-width:1;*/
     stroke-linecap: round;
     stroke-linejoin: round;
 }

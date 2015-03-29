@@ -25,7 +25,7 @@ var circle = function(){
             //.domain([0, 3, 6, 10, 14, 18, 22, 26, 28, 30])
             //.range(["brown", "#ddd", "darkgreen"])
             .range([
-                '#a50026',
+             '#a50026',
             '#d73027',
             '#f46d43',
             '#fdae61',
@@ -36,7 +36,6 @@ var circle = function(){
             '#74add1',
             '#4575b4',
             '#313695'])
-            //.range(['black','darkgreen','green','aqua','blue','purple','violet','red','orange','yellow'])
             .clamp(true),
         listeners=[],
         svg;
@@ -48,7 +47,6 @@ var circle = function(){
             .attr('width', width)
             .attr('height', height);
         var n = d.length-1;
-        console.log(n);
         color.domain(d3.range(0, n + n/10, n/10));
         var cg = svg.selectAll('.circle')
             .data(d)

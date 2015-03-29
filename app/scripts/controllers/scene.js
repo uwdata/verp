@@ -77,6 +77,7 @@ angular.module('verpApp')
 
             }
 
+
             $scope.visibilityChanged =  !$scope.visibilityChanged;
 
         };
@@ -101,7 +102,10 @@ angular.module('verpApp')
 
 
         $scope.onFixationClick  = function(d, i){
-            //console.log('Fixation Node ' + i + ' is clicked!');
+
+            // console.log('Fixation Node ' + i + ' is clicked!');
+            //d3.select(this).style('stroke','blue');
+
             $scope.sp.selection = d.range;
 
         };
@@ -172,8 +176,6 @@ angular.module('verpApp')
 
 
         function init(e,  d) {
-
-            //console.log('initializing the scene controller');
 
             if(! $scope.frm.img)  return;
 
