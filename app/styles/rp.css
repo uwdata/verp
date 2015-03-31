@@ -210,6 +210,16 @@ legend{
     transition: color 0.25s linear;
 }
 
+.timetooltip{
+    font-size:14px;
+    font-weight:150;
+
+}
+
+#tooltip-0-a, #tooltip-1-a, #tooltip-2-a{
+   color:orangered;
+}
+
 
 /*.flip-vertical canvas{*/
     /*-moz-transform: scaleY(-1);*/

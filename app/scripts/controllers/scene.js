@@ -33,6 +33,7 @@ angular.module('verpApp')
 
         $scope.clickPropagate = function (src, dest){
 
+
             var srcnode  = document.getElementById(src),
                 srcz = srcnode.style.zIndex,
                 destnode  = document.getElementById(dest),
@@ -53,8 +54,6 @@ angular.module('verpApp')
             //restore z
             srcnode.style.zIndex  = srcz;
             destnode.style.zIndex = destz;
-
-
         };
 
 
@@ -69,18 +68,24 @@ angular.module('verpApp')
                     $scope.visibility[i] = ($scope.event[i] === 1) ? 1 :
                         ($scope.showFixations) ? 1 : 0;
 
-            } else {
+            } else if($scope.showFixations){
 
                 for(; i < n; i++)
                     $scope.visibility[i] = ($scope.event[i] === 1) ? 0 :
                         ($scope.showFixations) ? 1 : 0;
 
+            } else{
+
+                for (; i < n; i++)  $scope.visibility[i] = 1;
+
             }
 
-
-            $scope.visibilityChanged =  !$scope.visibilityChanged;
+            $scope.$broadcast('update.visibility');
 
         };
+
+
+
 
         $scope.fixationVisibility = function(){
 
@@ -91,22 +96,51 @@ angular.module('verpApp')
                 for(; i < n; i++)
                     $scope.visibility[i] = ($scope.event[i] === 0) ? 1 : ($scope.showSaccades) ? 1 : 0;
 
-            }else{
-                for(; i < n; i++)
+            }else if($scope.showSaccades) {
+                for (; i < n; i++)
                     $scope.visibility[i] = ($scope.event[i] === 0) ? 0 : ($scope.showSaccades) ? 1 : 0;
+
+            } else{
+
+                for (; i < n; i++)  $scope.visibility[i] = 1;
+
             }
 
-            $scope.visibilityChanged =  !$scope.visibilityChanged;
+
+            $scope.$broadcast('update.visibility');
 
         };
 
 
         $scope.onFixationClick  = function(d, i){
 
-            // console.log('Fixation Node ' + i + ' is clicked!');
-            //d3.select(this).style('stroke','blue');
+
+            d3.select('#tooltip-0-a').text('Selected fixation cluster: ');
+            d3.select('#tooltip-0-b').text(i);
+
+            d3.select('#tooltip-1-a').text('Duration: ')
+            d3.select('#tooltip-1-b').text( (+$scope.scanPathDuration.fixation[i]).toFixed(3) + ' (secs)');
+
+            d3.select('#tooltip-2-a').text('Total: ');
+            d3.select('#tooltip-2-b').text((+$scope.scanPathDuration.totalFixation).toFixed(3) + ' (secs)');
+
 
             $scope.sp.selection = d.range;
+
+        };
+
+        $scope.onFixationEdgeClick  = function(d,i){
+
+
+            d3.select('#tooltip-0-a').text('Selected fixation edge: ');
+            d3.select('#tooltip-0-b').text('('+i+','+(i+1)+')');
+
+            d3.select('#tooltip-1-a').text('Duration: ');
+            d3.select('#tooltip-1-b').text((+$scope.scanPathDuration.between[i]).toFixed(3) + ' (secs)');
+
+            d3.select('#tooltip-2-a').text('Total: ');+
+            d3.select('#tooltip-2-b').text((+$scope.scanPathDuration.totalBetween).toFixed(3) + ' (secs)');
+
 
         };
 
@@ -123,18 +157,47 @@ angular.module('verpApp')
 
 
             for(; i < n; i++)
-                if(e[i] === 0) //fixation
+                if(e[i] === 0) { //fixation
                     f.push(p[i]);
-                else  //saccade
+                } else {  //saccade
                     s.push(p[i]);
-
+                }
 
             $scope.fixations = f;
             $scope.saccades = s;
 
-            $scope.scanPath = GazeAnalytics.cluster(e, p);
-            $scope.scanPathPoints = GazeAnalytics.clusterPoints($scope.scanPath, p);
+            $scope.scanPath = GazeAnalytics.cluster(e, p, 20, 0, 1); // fixation path
+            $scope.scanPathDuration = GazeAnalytics.fixationDuration($scope.scanPath, $scope.time,0.000001);
+            $scope.scanPathTooltip =  $scope.generateScanPathTooltip($scope.scanPath, $scope.scanPathDuration);
+            //console.log(GazeAnalytics.cluster(e, p, 5, 1, 0));
+            //console.log($scope.saccadePath);
 
+            $scope.scanPathPoints = GazeAnalytics.clusterPoints($scope.scanPath, p);
+            //$scope.saccadePathPoints = GazeAnalytics.clusterPoints($scope.saccadePath, p);
+
+            $scope.saccadePathPoints = s;
+            //$scope.saccadePathDuration = GazeAnalytics.saccadeDuration(e, $scope.time, 0.000001);
+
+            if($scope.showSaccades)  $scope.saccadeVisibility();
+            if($scope.showFixations) $scope.fixationVisibility();
+
+
+        };
+
+
+        $scope.generateScanPathTooltip  = function(p, d){
+
+            var n = p.length,
+                f = d.fixation,
+                total= d.totalFixation,
+                tt = [],
+                i;
+
+            for (i = 0; i < n; i++ )
+                tt.push('duration: ' + f[i] + ', total: ' + total + '(secs)');
+
+
+            return tt;
 
         };
 
@@ -192,29 +255,31 @@ angular.module('verpApp')
             $scope.yDomain = dy;
 
             $scope.points = d.data.pos;
+            $scope.time = d.data.time;
+            $scope.duration = 0.000001*($scope.time[$scope.time.length-1] - $scope.time[0]);
 
             v.values = d.data.velocity;
-            v.threshold = ~~(d.data.avgVelocity);
-            v.min = ~~Math.max(v.threshold - 2 * d.data.stdVelocity, 0);
-            v.max = ~~(v.threshold + 2 * d.data.stdVelocity);
-            v.step = ~~(d.data.stdVelocity/4);
+
+            v.min = ~~Math.max(d.data.avgVelocity - 5 * d.data.stdVelocity, 0);
+            v.max = ~~(d.data.avgVelocity +  5 * d.data.stdVelocity);
+
+            $scope.velocity.threshold = ~~( 0.5 * (v.min + v.max) );
+
+            v.step = ~~(d.data.stdVelocity/16);
 
             $scope.event = stat.array($scope.points.length, 0);
             $scope.visibility = stat.array($scope.points.length, 1);
+
+
             $scope.classify();
 
             $scope.$broadcast('domain.ready', d);
 
         }
 
+
         $scope.$on('alpha.update' , function(e,d){ $scope.alpha.value = d;});
-
-        $scope.$on('alpha.partition' , function(e,d){
-
-            //console.log(d);
-            $scope.alpha.partition = d;
-
-        });
+        $scope.$on('alpha.partition' , function(e,d){  $scope.alpha.partition = d;  });
         $scope.$on('view.zoom' , updateScale);
         $scope.$on('scene.ready', init);
 

@@ -19,10 +19,9 @@ angular.module('verpApp')
                 nodes;
 
 
-            function init(){
+            function init() {
 
                 if(!scope.data) return;
-
 
                 var dom = scope.domain();
 
@@ -38,13 +37,13 @@ angular.module('verpApp')
 
                 d3.select(element[0])
                     .call(nodes, scope.data);
+
             }
 
 
             function update(){
 
                 if(!scope.data) return;
-
                 // var dom = scope.domain();
                 // x.domain(dom.dx).range([0, w]);
                 // y.domain(dom.dy).range([0, h]);
@@ -74,7 +73,6 @@ angular.module('verpApp')
             }
 
             scope.$watch('data', function(){
-
                 if(!nodes) init(); else update();
 
             });

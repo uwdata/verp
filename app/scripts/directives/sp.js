@@ -125,6 +125,10 @@ angular.module('verpApp')
 
 
 
+            scope.$on('update.visibility', function(){
+                if(scope.visibility && sp)  sp.visibility(scope.visibility);
+            });
+
             scope.$on('scene.ready', update);
             scope.$on('view.zoom', updateScale);
             scope.$on('view.brush', brush);
@@ -133,13 +137,6 @@ angular.module('verpApp')
             scope.$on('rp.epsFilter.update', filter);
             scope.$on('player.time', hide);
 
-            scope.$watch('visibilityChanged', function(){
-
-                if(scope.visibility && sp) {
-                    sp.visibility(scope.visibility);
-                }
-
-            });
 
 
             scope.$watch('sp.selection', function(selection){

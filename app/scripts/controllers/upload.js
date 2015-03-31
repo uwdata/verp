@@ -31,14 +31,20 @@ angular.module('verpApp')
 
                     if(t[t.length - 1] === 'json')
                         DataService.tracking(Parser.VERP(result));
-
-                     else if(t[t.length-1] === 'idf')
+                    else if(t[t.length-1] === 'idf')
                         DataService.tracking(Parser.IDF(result));
 
-                     else
+                    else
                         console.error('Unknown tracking file format!');
 
+
+                    $scope.time = DataService.tracking().time;
+                    if($scope.time)
+                        $scope.duration = 0.000001*($scope.time[$scope.time.length-1] - $scope.time[0]);
+
                 });
+
+
 
         };
 

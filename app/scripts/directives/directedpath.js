@@ -30,10 +30,19 @@ angular.module('verpApp')
                     .width(w)
                     .height(h)
                     .xScale(x)
-                    .yScale(y);
+                    .yScale(y)
+            .on('click', handleClick);
 
                 d3.select(element[0])
                     .call(dpath, toarrow(scope.data));
+            }
+
+
+
+            function handleClick(d, i){
+
+                scope.click({d:d, i:i});
+
             }
 
 
@@ -52,11 +61,23 @@ angular.module('verpApp')
                     d = [],
                     i = 0;
 
-                for( ; i < n-1; i++)
-                    d.push({
-                       src: data[i].pos,
-                        target: data[i+1].pos
-                    })
+                if(n > 1) {
+                    if (data[0].pos) {
+                        for (; i < n - 1; i++)
+                            d.push({
+                                src: data[i].pos,
+                                target: data[i + 1].pos
+                            })
+                    } else {
+
+                        for (; i < n - 1; i++)
+                            d.push({
+                                src: data[i],
+                                target: data[i + 1]
+                            })
+
+                    }
+                }
 
                 return d;
 
@@ -95,7 +116,8 @@ angular.module('verpApp')
             template: '<div></div>',
             scope: {
                 data: '=data',
-                domain:'&domain'
+                domain:'&domain',
+                click:'&click'
             },
             restrict: 'E',
             replace:true,

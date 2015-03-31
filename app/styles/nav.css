@@ -80,8 +80,13 @@ li a[titlex]:hover:after{
     text-aling: left;
 }
 
-#fileinfo .column {
+#fileinfo .row.heading .column {
     font-size:12px;
+}
+
+
+#fileinfo .column {
+    font-size:11px;
     display: table-cell;
     white-space: nowrap;
     color:gray;

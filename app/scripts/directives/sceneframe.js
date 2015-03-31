@@ -88,11 +88,11 @@ angular.module('verpApp')
                 s.tracking = d;
 
                 if(frm.img.src) {
+
                     p.domainWidth = frm.img.naturalWidth;
                     p.domainHeight = frm.img.naturalHeight;
-                    if(d.coordXform)  d.coordXform(p);
 
-                    //console.log('image is already loaded; scene is ready!');
+                    if(d.coordXform)  d.coordXform(p);
 
                     EventService.broadcastSceneReady({data: s.tracking, src: frm.img.src});
 

@@ -40,11 +40,11 @@ angular.module('verpApp')
         };
 
 
-        var nextEvent = function(c, i , id) {
+        var nextEvent = function(c,  i , id) {
 
             var n = c.length;
 
-            while (i < n && c[i] !== id ) ++i;
+            while ((i < n)  && (c[i] !== id)) ++i;
 
             return i;
 
@@ -53,24 +53,27 @@ angular.module('verpApp')
 
 
         //group by fixation points
-        var cluster = function(c, p){
+        var cluster = function(c, p, minsize, id0, id1){
 
             var n = p.length,
-                minsize = 20, //minimum fixation cluster size
+            //minsize = size || 20, //minimum size considered to be a cluster
+            //id0 = i0 || 0,
+            //id1 = i1 || 1,
                 cluster = [],
                 cnt = 0,
                 i = 0,
                 j = 0,
                 m = 0;
 
-            while((i = nextEvent(c, i, 0)) < n ) {
 
-                j = nextEvent(c, i, 1);
+            while( (i = nextEvent(c, i, id0)) < n ) {
+
+                j = nextEvent(c, i+1, id1);
 
                 m = j - i;
 
                 if (m >= minsize) {
-                    cluster.push({pos: centroid(p, i, j), label:cnt, data: m, range:[i,j]});
+                    cluster.push({pos: centroid(p, i, j), label:cnt, data: m, range:[i, j]});
                     ++cnt;
                 }
 
@@ -79,7 +82,75 @@ angular.module('verpApp')
                 i = j;
             }
 
+
             return cluster;
+
+        };
+
+
+
+
+        //saccade duration
+        var saccadeDuration = function(c, t){
+
+
+
+
+
+
+
+        };
+
+
+
+
+
+
+        //fixation durations in secs
+        //c: cluster
+        //t: time
+        //s: time scale
+        var fixationDuration = function(c, t, s){
+
+            var n = c.length,
+                fixationTime = [],
+                btwTime = [],
+                total0 = 0,
+                total1 = 0,
+                d, i0, j0, i1,  k;
+
+
+            for (k = 0; k < n - 1; k++){
+
+                i0 = c[k].range[0];
+                j0 = c[k].range[1];
+
+                d = s * (t[j0] - t[i0]);
+                total0 += d;
+                fixationTime.push(d);
+
+                i1 = c[k+1].range[0];
+
+                d = s * ( t[i1] - t[j0] );
+                total1 += d;
+                btwTime.push(d);
+
+            }
+
+            i0 = c[k].range[0];
+            j0 = Math.min(c[k].range[1], t.length-1);
+
+            d = s * (t[j0] - t[i0]);
+            total0 += d;
+
+            fixationTime.push(d);
+
+            return {
+                fixation:fixationTime,
+                between:btwTime,
+                totalFixation:total0,
+                totalBetween:total1
+            };
 
         };
 
@@ -104,7 +175,7 @@ angular.module('verpApp')
                 f.push(fk);
             }
 
-           return f;
+            return f;
 
         };
 
@@ -229,6 +300,7 @@ angular.module('verpApp')
             cluster: cluster,
             clusterPoints: clusterPoints,
             classifyIVT: classifyIVT,
+            fixationDuration: fixationDuration,
             angularVelocity: angularVelocity,
             spatialVelocity: spatialVelocity,
             pixelVelocity: pixelVelocity,

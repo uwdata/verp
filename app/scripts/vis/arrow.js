@@ -32,10 +32,10 @@ var arrow = function(){
                 '#abd9e9',
                 '#74add1',
                 '#4575b4',
-                '#313695'])
+                '#313695'].reverse())
             .clamp(true),
-        //color =  d3.scale.category10(),
-        svg, path, filter, fmerge;
+        listeners=[],
+        svg, path;
 
 
     function _arrow(s, d){
@@ -60,8 +60,7 @@ var arrow = function(){
             .append('path')
             .attr('d','M 0 0 L 10 5 L 0 10 z');
 
-        /*
-        filter = svg.append('filter')
+        /* filter = svg.append('filter')
             .attr('id','dropshadow');
         filter.append('feGaussianBlur')
             .attr('stdDeviation',3)
@@ -73,22 +72,33 @@ var arrow = function(){
         fmerge = filter.append('feMerge');
         fmerge.append('ferMergeNode');
         fmerge.append('feMergeNode')
-              .attr('in', 'SourceGraphic');
-               */
+              .attr('in', 'SourceGraphic');*/
 
         path = svg.append('g');
 
 
-        path.selectAll('path')
+        var a = path.selectAll('path')
             .data(d)
             .enter()
             .append('path');
+
+        appendListeners(a);
 
         draw();
 
 
 
     }
+
+
+    function appendListeners(s){
+
+        for (var event in listeners)
+            if (listeners.hasOwnProperty(event))
+                s.on(event+'.ext', listeners[event]);
+
+    }
+
 
     function updateColorDomain(n){
 
@@ -104,8 +114,10 @@ var arrow = function(){
         var s = path.selectAll('path')
             .data(d);
 
-        s.enter()
+        var a = s.enter()
             .append('path');
+
+        appendListeners(a);
 
         s.exit()
             .remove();
@@ -118,9 +130,10 @@ var arrow = function(){
         path.selectAll('path')
             .attr('d', function(d){
                 return 'M '+ xScale(d.src[0]) + ' ' + yScale(d.src[1])
-                    + ' L' + xScale(d.target[0]) + ' ' +yScale(d.target[1]);})
+                    + ' Q' + xScale(d.src[0]) + ' ' + yScale(d.src[1]) +
+                    ' ' + xScale(d.target[0]) + ' ' +yScale(d.target[1]);})
             .attr('class', 'arrow')
-            .style('stroke', function(d,i){return color(i);});
+            .style('stroke', function(d,i){return color(i+1);});
 
     }
 
@@ -180,6 +193,19 @@ var arrow = function(){
         yScale = _;
 
         return  _arrow;
+
+    };
+
+    _arrow.on  = function(event, handler){
+
+        if(arguments.length === 0)
+            return listeners;
+        else if(arguments.length === 1)
+            return listeners[event];
+
+        listeners[event] = handler;
+
+        return _arrow;
 
     };
 

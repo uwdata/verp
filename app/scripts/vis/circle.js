@@ -22,8 +22,6 @@ var circle = function(){
             .range([0, height]),
       //color = d3.scale.category10(),
         color = d3.scale.linear()
-            //.domain([0, 3, 6, 10, 14, 18, 22, 26, 28, 30])
-            //.range(["brown", "#ddd", "darkgreen"])
             .range([
              '#a50026',
             '#d73027',
@@ -35,19 +33,25 @@ var circle = function(){
             '#abd9e9',
             '#74add1',
             '#4575b4',
-            '#313695'])
+            '#313695'].reverse())
             .clamp(true),
-        listeners=[],
-        svg;
+          listeners=[],
+          tooltip, svg, div;
 
 
     function _circle(s, d){
 
+
         svg = s.append('svg')
             .attr('width', width)
             .attr('height', height);
+
+
+
         var n = d.length-1;
+
         color.domain(d3.range(0, n + n/10, n/10));
+
         var cg = svg.selectAll('.circle')
             .data(d)
             .enter()
@@ -110,12 +114,30 @@ var circle = function(){
     }
 
 
+    function appendTooltip(s){
+
+        //if(tooltip) s.attr('svg:title', function(d,i){return tooltip[i];});
+
+       //if(tooltip)  s.on('click', function(d,i){
+       //
+       //   div.style('top', event.pageY+ 'px')
+       //       .style('left', event.pageX+ 'px')
+       //       .style('visibility', 'visible')
+       //       .text(tooltip[i])
+       //
+       //})
+       //    .on('mouseout', function(d,i){
+       //        div.style('visibility', 'hidden');
+       //    });
+
+    }
+
     function appendListeners(s){
 
         for (var event in listeners)
             if (listeners.hasOwnProperty(event))
-                s.on(event,listeners[event]);
-
+                s.on(event+'.ext', listeners[event]);
+        //s.on('click', function(d,i){d3.select(this).attr('stroke', 'red'); });
 
     }
 
@@ -131,6 +153,19 @@ var circle = function(){
         }
 
     };
+
+
+
+    _circle.tooltip = function(_){
+
+        if(!arguments.length) return tooltip;
+
+        tooltip = _;
+
+        return _circle;
+
+    };
+
 
 
     _circle.width = function(_){
