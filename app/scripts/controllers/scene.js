@@ -112,13 +112,14 @@ angular.module('verpApp')
         };
 
 
-        $scope.onFixationClick  = function(d, i){
 
+        //hack -- fix it
+        $scope.onFixationClick  = function(d, i){
 
             d3.select('#tooltip-0-a').text('Selected fixation cluster: ');
             d3.select('#tooltip-0-b').text(i);
 
-            d3.select('#tooltip-1-a').text('Duration: ')
+            d3.select('#tooltip-1-a').text('Duration: ');
             d3.select('#tooltip-1-b').text( (+$scope.scanPathDuration.fixation[i]).toFixed(3) + ' (secs)');
 
             d3.select('#tooltip-2-a').text('Total: ');
@@ -138,8 +139,10 @@ angular.module('verpApp')
             d3.select('#tooltip-1-a').text('Duration: ');
             d3.select('#tooltip-1-b').text((+$scope.scanPathDuration.between[i]).toFixed(3) + ' (secs)');
 
-            d3.select('#tooltip-2-a').text('Total: ');+
+            d3.select('#tooltip-2-a').text('Total: ');
             d3.select('#tooltip-2-b').text((+$scope.scanPathDuration.totalBetween).toFixed(3) + ' (secs)');
+
+            d3.event.stopPropagation();
 
 
         };

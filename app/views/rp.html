@@ -26,24 +26,6 @@
           ng-click="resetView()">
            </span>
 
-            <!---->
-            <!---->
-            <!--<span class="glyphicon glyphicon-search"-->
-            <!--ng-model="interaction.mode"-->
-            <!--ng-style="zoomStyle"-->
-            <!--ng-click="setMode('view'); brushStyle={'color':'gray'}; zoomStyle={'color': 'orange'};"-->
-            <!--style="margin-left:45%">-->
-            <!--</span>-->
-            <!--<span class="fa fa-paint-brush"-->
-            <!--ng-model="interaction.mode"-->
-            <!--ng-style="brushStyle"-->
-            <!--ng-click="setMode('selection'); brushStyle={'color': 'orange'}; zoomStyle={'color':'gray'};">-->
-            <!--</span>-->
-            <!--<span class="glyphicon glyphicon-repeat" ng-click="resetView()"></span>-->
-
-
-
-
             <rp class="stacked flip-vertical" width="500" height="500" data="data"></rp>
 
             <brush id="rp" class="stacked" width="500" height="500" flipy="true"></brush>
@@ -97,10 +79,11 @@
                     <legend>alpha</legend>
 
                     <div class="form-group slider">
-                        <!--<div style="display:block"><label>alpha</label></div>-->
+
                         <label class="numinput">min:</label><input type="number"   value="{{alpha.min}}" ng-model="alpha.min">
                         <label class="numinput">step:</label><input type="number"  value="{{alpha.step}}" ng-model="alpha.step">
                         <label class="numinput">max:</label><input type="number"   value="{{alpha.max}}" ng-model="alpha.max">
+
                         <input type="range"
                                titlex="Adjust alpha-shape threshold"
                                min="{{alpha.min}}"
