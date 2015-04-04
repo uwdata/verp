@@ -19,6 +19,7 @@ angular.module('verpApp')
         $scope.showScanPath = false;
 
 
+
         $scope.frm = {};
         $scope.sp = {};
         $scope.alpha = {value:50, partition:false};
@@ -30,6 +31,13 @@ angular.module('verpApp')
 
         $scope.mode = 'selection';
 
+
+       $scope.dataurl = function(imgdata){
+
+
+           $scope.heatmapImg = imgdata;
+
+       } ;
 
         $scope.clickPropagate = function (src, dest){
 
@@ -280,6 +288,11 @@ angular.module('verpApp')
 
         }
 
+        $scope.$watch('heatmap', function(){
+
+            console.log('new heatpmap image');
+
+        });
 
         $scope.$on('alpha.update' , function(e,d){ $scope.alpha.value = d;});
         $scope.$on('alpha.partition' , function(e,d){  $scope.alpha.partition = d;  });

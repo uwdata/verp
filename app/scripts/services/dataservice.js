@@ -12,6 +12,7 @@ angular.module('verpApp')
     .factory('DataService', ['$rootScope', function ($rootScope) {
 
         var scene   = {},
+            heatmaps = {},
             services = {};
             //
         ////var alphaUpdate = function(v){
@@ -37,6 +38,18 @@ angular.module('verpApp')
 
         };
 
+
+        var heatmap = function(name,heatmap){
+
+            if(arguments.length === 1)
+                return  heatmaps[name];
+            else if(arguments.length ===2){
+                heatmaps[name] = heatmap;
+            }
+
+        };
+
+
         var img = function(_){
 
             if(!arguments.length) return scene.img;
@@ -57,6 +70,7 @@ angular.module('verpApp')
         return {
             tracking:tracking,
             img:img,
+            heatmap:heatmap,
             service:service
         };
 

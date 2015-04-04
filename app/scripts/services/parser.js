@@ -157,14 +157,19 @@ angular.module('verpApp')
 
             }
 
+            //console.log(verp.pos.join('\n'));
 
             verp.deltaTime = GazeAnalytics.delta(verp.time, 0.000001);
+
+            //console.log(verp.deltaTime.join('\n'));
+
+
             verp.velocity  = GazeAnalytics.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize, verp.headDistance);
 
-            //verp.velocity = GazeAnalytics.spatialVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
+            // verp.velocity = GazeAnalytics.spatialVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
             // verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
             // verp.velocity = verp.deltaTime;
-            //velocity(verp.pos, verp.deltaTime, verp.velocity, 0.000001);
+            // velocity(verp.pos, verp.deltaTime, verp.velocity, 0.000001);
 
             var sigmsqr = stat.var(verp.velocity);
             verp.avgVelocity = sigmsqr.mean;

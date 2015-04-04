@@ -32,13 +32,19 @@
                      ng-style="imgStyle">
         </scene-frame>
 
+        <focusmap id="focusmap" class="stacked" width="650" height="500"
+                  domain="domain()"
+                  data="heatmapImg"
+                  ng-show="showFocusmap">
+        </focusmap>
 
         <!--ng-init="imgStyle={'z-index':1}" >-->
 
         <heatview  id="heatmap" class="stacked" width="650" height="500" colormap="1"
                    domain='domain()'
                    points='points'
-                   ng-style="heatmapStyle"
+                   dataurl="dataurl(imgdata)"
+                   ng-style="heatmapstyle"
                    ng-show="showHeatmap"></heatview>
 
 

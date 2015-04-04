@@ -7,12 +7,13 @@
  * # heatview
  */
 angular.module('verpApp')
-    .directive('heatview', function () {
+    .directive('heatview', ['DataService', function (DataService) {
 
         var postLink = function (scope, element, attrs) {
 
             var w = +attrs.width,
                 h = +attrs.height,
+                name=attrs.id,
                 colormapid = +attrs.colormap,
                 x = d3.scale.linear(),
                 y = d3.scale.linear(),
@@ -55,8 +56,9 @@ angular.module('verpApp')
                 }),
                 data,  pos, n;
 
-            function init(){
+            DataService.heatmap(name, heatmap);
 
+            function init(){
 
                 if(!scope.points) return;
 
@@ -75,9 +77,13 @@ angular.module('verpApp')
                     data.push({x: x(pos[i][0]), y: y(pos[i][1]), value: 1});
 
                 heatmap.setData({
-                    max: 10,
+                    max: 64,
                     data:data});
 
+                scope.dataurl({imgdata:heatmap.getDataURL()});
+                //console.log(heatmap.getData());
+                //console.log(heatmap.getValueAt({x:100,y:120}));
+                //console.log(heatmap.getValueAt({x:300,y:400}));
             }
 
             function updateScale(e, d){
@@ -89,8 +95,9 @@ angular.module('verpApp')
                     data[i]={x:x(pos[i][0]), y:y(pos[i][1]), value:1};
 
                 heatmap.setData({
-                    max: 10,
+                    max: 64,
                     data:data});
+
             }
 
 
@@ -101,17 +108,19 @@ angular.module('verpApp')
             scope.$on('domain.ready', init);
             scope.$on('view.zoom', updateScale);
 
+
         };
 
         return {
             template: '<div></div>',
             scope: {
                 points:'=points',
-                domain:'&domain'
+                domain:'&domain',
+                dataurl:'&dataurl'
             },
             restrict: 'E',
             replace:true,
             link:postLink
         };
 
-    });
+    }]);

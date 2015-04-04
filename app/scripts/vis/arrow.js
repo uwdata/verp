@@ -40,7 +40,6 @@ var arrow = function(){
 
     function _arrow(s, d){
 
-
         svg = s.append('svg')
             .attr('width', width)
             .attr('height', height);
@@ -60,6 +59,7 @@ var arrow = function(){
             .append('path')
             .attr('d','M 0 0 L 10 5 L 0 10 z');
 
+
         /* filter = svg.append('filter')
             .attr('id','dropshadow');
         filter.append('feGaussianBlur')
@@ -74,6 +74,7 @@ var arrow = function(){
         fmerge.append('feMergeNode')
               .attr('in', 'SourceGraphic');*/
 
+
         path = svg.append('g');
 
 
@@ -85,7 +86,6 @@ var arrow = function(){
         appendListeners(a);
 
         draw();
-
 
 
     }

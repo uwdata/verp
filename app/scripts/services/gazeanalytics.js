@@ -281,15 +281,12 @@ angular.module('verpApp')
                 y0 = p[i][1];
                 y1 = p[i+1][1];
 
-
                 delta = Math.sqrt(x0*x0 + y0*y0 - 2*x0*x1 - 2*y0*y1 + y1*y1 + x1*x1);
-
                 v.push(delta/t[i]);
 
             }
 
             v.push(v[i-1]);
-
             return v;
 
         };

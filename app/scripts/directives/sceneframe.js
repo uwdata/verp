@@ -17,10 +17,12 @@ angular.module('verpApp')
                 frm.yScale = d3.scale.linear().range([0, +attrs.height]);
 
             s.canvas = document.createElement('canvas');
-            s.canvas.width = +attrs.width;
+            s.canvas.width  = +attrs.width;
             s.canvas.height = +attrs.height;
             s.ctx = s.canvas.getContext('2d');
+
             s.ctx.imageSmoothingEnabled = false;
+
             frm.img = new Image();
 
             element[0].appendChild(s.canvas);
@@ -40,11 +42,10 @@ angular.module('verpApp')
                         s.tracking.pos.domainWidth = frm.img.naturalWidth;
                         s.tracking.pos.domainHeight = frm.img.naturalHeight;
 
-                        //console.log('tracking is already loaded; scene is ready!');
-
                         EventService.broadcastSceneReady({data: s.tracking, src:frm.img.src});
 
                     }
+
                 };
 
                 frm.img.src = d;
@@ -52,7 +53,7 @@ angular.module('verpApp')
             }
 
 
-            function drawSceneImg(){
+            function drawSceneImg() {
 
                 var dx = frm.xScale.domain(),
                     rx = frm.xScale.range(),
