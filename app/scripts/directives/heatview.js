@@ -7,7 +7,7 @@
  * # heatview
  */
 angular.module('verpApp')
-    .directive('heatview', ['DataService', function (DataService) {
+    .directive('heatview', function () {
 
         var postLink = function (scope, element, attrs) {
 
@@ -50,13 +50,8 @@ angular.module('verpApp')
                         '0.8':'#a63603',
                         '0.9':'#7f2704'}
                 ],
-                heatmap = h337.create({
-                    gradient:grads[colormapid],
-                    container: element[0]
-                }),
-                data,  pos, n;
+                heatmap,  data,  pos, n;
 
-            DataService.heatmap(name, heatmap);
 
             function init(){
 
@@ -74,8 +69,12 @@ angular.module('verpApp')
                 for(; i < n; i++)
                     data.push({x: x(pos[i][0]), y: y(pos[i][1]), value: 1});
 
+                heatmap = h337.create({
+                    gradient:grads[colormapid],
+                    container: element[0]
+                });
                 heatmap.setData({
-                    max: 64,
+                    max: +scope.cfg,
                     data:data});
 
                 scope.dataurl({imgdata:heatmap.getDataURL()});
@@ -91,14 +90,26 @@ angular.module('verpApp')
                     data[i]={x:x(pos[i][0]), y:y(pos[i][1]), value:1};
 
                 heatmap.setData({
-                    max: 64,
+                    max: +scope.cfg,
                     data:data});
 
                  //scope.dataurl({imgdata:heatmap.getDataURL()});
 
             }
 
+            function updateMax(d) {
 
+                //console.log('setting update max');
+
+                if(heatmap) heatmap.setDataMax(d);
+
+                scope.dataurl({imgdata:heatmap.getDataURL()});
+
+            }
+
+            scope.$watch('cfg', function(d){
+                if(heatmap) updateMax(d);
+            });
             scope.$watch('points', function(points){
                 if(points) init();
             });
@@ -113,6 +124,7 @@ angular.module('verpApp')
             template: '<div></div>',
             scope: {
                 points:'=points',
+                cfg:'=cfg',
                 domain:'&domain',
                 dataurl:'&dataurl'
             },
@@ -121,4 +133,4 @@ angular.module('verpApp')
             link:postLink
         };
 
-    }]);
+    });

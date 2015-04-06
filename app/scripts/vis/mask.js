@@ -1,3 +1,4 @@
+'use strict';
 /*
  *
  * File  : mask.js
@@ -28,14 +29,14 @@ var mask = function() {
             .attr('width', width)
             .attr('height',height)
             .node();
+        canvasoff = document.createElement('canvas');
 
         ctx = canvas.getContext('2d');
-        canvasoff = document.createElement('canvas');
-        canvasoff.width = width;
-        canvasoff.height= height;
         ctxoff = canvasoff.getContext('2d');
+
         img = new Image();
 
+        updateBinding(d);
 
     }
 
@@ -86,16 +87,18 @@ var mask = function() {
 
     function updateBinding(d){
 
-        //console.log('update mask binding');
 
         img.onload = function() {
-            //console.log(img.width, img.height);
+
+            canvasoff.width = img.width;
+            canvasoff.height = img.height;
             ctxoff.clearRect(0, 0, canvasoff.width, canvasoff.height);
-            ctxoff.drawImage(img, 0, 0);//, img.width, img.height);
-            imgdata = ctxoff.getImageData(0, 0, img.width, img.height);
+            ctxoff.drawImage(img, 0, 0);
+            imgdata = ctxoff.getImageData(0, 0, canvasoff.width, canvasoff.height);
             initImg();
             ctxoff.putImageData(imgdata,0,0);
             draw();
+
         };
 
         img.src  = d;
@@ -103,11 +106,11 @@ var mask = function() {
 
     _mask.update = function(d){
 
-        if(d)
-            updateBinding(d);
+        if(d) updateBinding(d);
         else
             draw();
 
+        return _mask;
     };
 
     _mask.width = function(_){
@@ -128,8 +131,8 @@ var mask = function() {
         if(!arguments.length) return height;
 
         height = _;
-        yScale.range([0, height]);
 
+        yScale.range([0, height]);
 
         return _mask;
 

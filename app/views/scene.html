@@ -42,8 +42,9 @@
         <!--ng-init="imgStyle={'z-index':1}" >-->
 
         <heatview  id="heatmap" class="stacked" width="650" height="500" colormap="1"
-                   domain='domain()'
                    points='points'
+                   cfg="heatmap.max"
+                   domain='domain()'
                    dataurl="dataurl(imgdata)"
                    ng-style="heatmapstyle"
                    ng-show="showHeatmap"></heatview>
@@ -146,7 +147,7 @@
                         <div class="column"> </div>
                         <div class="column" title="Scatter">scatter</div>
                         <div class="column" title="Heatmap ">heat</div>
-                         <div class="column" title="Focusmap">focus</div>
+                        <div class="column" title="Focusmap">focus</div>
                         <div class="column" title="Directed path">path</div>
                     </div>
 
@@ -162,7 +163,7 @@
                             <input type="checkbox" titlex='Show heatmap of tracking points' ng-model="showHeatmap">
                         </div>
 
-                         <div class="column column-3">
+                        <div class="column column-3">
                             <input type="checkbox" titlex='Show focusmap of tracking points' ng-model="showFocusmap">
                         </div>
                         <div class="column column-4">
@@ -181,7 +182,7 @@
                             <input type="checkbox" titlex="Show heatmap of fixations"
                                    ng-model="showFixationHeatmap">
                         </div>
-                         <div class="column column-3">
+                        <div class="column column-3">
                             <input type="checkbox" titlex='Show focusmap of fixations' ng-model="showFixationFocusmap">
                         </div>
                         <div class="column column-4" >
@@ -200,7 +201,7 @@
                             <input type="checkbox" titlex='Show heatmap of saccades'
                                    ng-model="showSaccadeHeatmap">
                         </div>
-                         <div class="column column-3">
+                        <div class="column column-3">
                             <input type="checkbox" titlex='Show focusmap of saccades'
                                    ng-model="showSaccadeFocusmap">
                         </div>
@@ -247,7 +248,8 @@
                 <div class="divtable">
                     <div class="row heading">
                         <div class="column column-0" ></div>
-                        <div class="column" title="scene">scene</div> <div class="column column-0" ></div>
+                        <div class="column" title="scene">scene</div>
+                        <div class="column column-0" ></div>
                         <div class="column" title="circle">circle</div>
                     </div>
 
@@ -278,9 +280,28 @@
                         <div class="column column-0" title="blur">size</div>
                         <div class="column" title="circle size">
                             <input type="range" min="0" step="0.25" max="40"
-                                   value="10"
+                                   title="{{sp.markerSize}}"
                                    ng-model="sp.markerSize"
-                                   ng-init="s.markerSize=10"/>
+                                   ng-init="sp.markerSize=10"/>
+                        </div>
+                    </div>
+
+                    <div class="row heading">
+                        <div class="column column-0" ></div>
+                        <div class="column" title="heatmap scale">heat</div>
+                        <div class="column column-0" ></div>
+                        <div class="column" title=""></div>
+                    </div>
+                    <div class="row row-1">
+                        <div class="column column-0" title="scale">scale</div>
+                        <div class="column">
+                            <input type="range" min="1" step="1" value="64" max="100"
+                                   title="heatmap scale:{{heatmap.max}}"
+                                   ng-init="heatmap.max=64"
+                                   ng-model="heatmap.max"/>
+                        </div>
+                        <div class="column column-0" title=""></div>
+                        <div class="column column-1" title="">
                         </div>
                     </div>
                 </div>

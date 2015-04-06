@@ -4,7 +4,7 @@ div input[titlex]:hover:after{
     content: attr(titlex);
     padding: 4px 8px;
     color: #333;
-    position: relative;
+    position:relative;
     left: 20%;
     top: 200%;
     z-index: 20;
