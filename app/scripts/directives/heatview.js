@@ -68,8 +68,6 @@ angular.module('verpApp')
 
                 var dom = scope.domain(),
                     i = 0;
-
-                //console.log(n);
                 x.domain(dom.dx).range([0, w]);
                 y.domain(dom.dy).range([0, h]);
 
@@ -81,9 +79,7 @@ angular.module('verpApp')
                     data:data});
 
                 scope.dataurl({imgdata:heatmap.getDataURL()});
-                //console.log(heatmap.getData());
-                //console.log(heatmap.getValueAt({x:100,y:120}));
-                //console.log(heatmap.getValueAt({x:300,y:400}));
+
             }
 
             function updateScale(e, d){
@@ -97,6 +93,8 @@ angular.module('verpApp')
                 heatmap.setData({
                     max: 64,
                     data:data});
+
+                 //scope.dataurl({imgdata:heatmap.getDataURL()});
 
             }
 
