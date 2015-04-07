@@ -6,8 +6,9 @@
     <div class="col-md-5 column">
 
         <div class="player" ng-show="player.sceneReady" >
-            <div class="time">time:{{player.currentTime}}</div>
-            <input type="range"  min={{player.min}}
+            <div class="time"><span>time:</span>{{player.currentTime}}</div>
+            <input type="range"
+                   min={{player.min}}
                    step={{player.step}}
                    max={{player.max}}
                    ng-change="player.manual()"

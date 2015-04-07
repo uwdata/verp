@@ -289,8 +289,13 @@
                     <div class="row heading">
                         <div class="column column-0" ></div>
                         <div class="column" title="heatmap scale">heat</div>
-                        <div class="column column-0" ></div>
-                        <div class="column" title=""></div>
+                        <div class="column column-0 column-gray">color</div>
+                        <div class="column" title="">
+                            <input type="color"
+                                   value="#ff7f50"
+                                   onchange="d3.selectAll('.shape').style('fill', this.value )">
+
+                        </div>
                     </div>
                     <div class="row row-1">
                         <div class="column column-0" title="scale">scale</div>
@@ -300,15 +305,19 @@
                                    ng-init="heatmap.max=64"
                                    ng-model="heatmap.max"/>
                         </div>
-                        <div class="column column-0" title=""></div>
+                        <div class="column column-0" title="">stroke</div>
                         <div class="column column-1" title="">
+                            <input type="color"
+                                   value="#000000"
+                                   onchange="d3.selectAll('.shape').style('stroke', this.value )">
                         </div>
                     </div>
                 </div>
-            </fieldset>
-
-
         </div>
+        </fieldset>
+
+
     </div>
+</div>
 </div>
 </div>

@@ -21,6 +21,10 @@
  font-size:12px;
 }
 
+.timeline .time span{
+       color: rgba(255, 69, 0, 0.60);
+}
+
 .timeline .player .controls{
  margin-left:auto;
  margin-right:auto;
