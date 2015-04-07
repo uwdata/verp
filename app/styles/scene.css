@@ -92,7 +92,7 @@ div[titlex]:hover:after{
     fill:coral;
     opacity:1;
     stroke: black;
-    stroke-width:2;
+    stroke-width:3;
     stroke-opacity:0.9;
 }
 

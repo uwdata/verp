@@ -95,13 +95,7 @@ angular.module('verpApp')
 
 
 
-
-
-
-
         };
-
-
 
 
 
@@ -119,6 +113,7 @@ angular.module('verpApp')
                 total1 = 0,
                 d, i0, j0, i1,  k;
 
+            if(!n) return;
 
             for (k = 0; k < n - 1; k++){
 

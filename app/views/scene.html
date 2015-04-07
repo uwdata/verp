@@ -255,14 +255,14 @@
 
                     <div class="row row-1">
                         <div class="column column-0" title="opacity">opacity</div>
-                        <div class="column" title="scene opacity">
+                        <div class="column" title="scene opacity:{{imgOpacity}}">
                             <input type="range" min="0" step="0.05" max="1.0"
                                    ng-model="imgOpacity"
                                    ng-init="imgOpacity=1;imgStyle={'opacity':imgOpacity}"
                                    ng-change="imgStyle={'opacity':imgOpacity}"/>
                         </div>
                         <div class="column column-0" title="opacity">opacity</div>
-                        <div class="column column-1" title="circle opacity">
+                        <div class="column column-1" title="circle opacity:{{spOpacity}}">
                             <input type="range"  min="0" step="0.05" max="1.0"
                                    ng-model="spOpacity"
                                    ng-init="spOpacity=1.0"
@@ -272,15 +272,14 @@
 
                     <div class="row row-2">
                         <div class="column column-0" title="blur">blur</div>
-                        <div class="column " title="scene blur">
+                        <div class="column " title="scene blur:{{spBlur}}">
                             <input type="range"  min="0" step="0.25" max="10"
                                    ng-model="spBlur" ng-init="spBlur=0"
                                    ng-change="imgStyle={'filter':'blur('+spBlur+')', '-webkit-filter': 'blur('+spBlur+'px)'}"/>
                         </div>
-                        <div class="column column-0" title="blur">size</div>
-                        <div class="column" title="circle size">
+                        <div class="column column-0" title="">size</div>
+                        <div class="column" title="circle size:{{sp.markerSize}}">
                             <input type="range" min="0" step="0.25" max="40"
-                                   title="{{sp.markerSize}}"
                                    ng-model="sp.markerSize"
                                    ng-init="sp.markerSize=10"/>
                         </div>
@@ -289,7 +288,7 @@
                     <div class="row heading">
                         <div class="column column-0" ></div>
                         <div class="column" title="heatmap scale">heat</div>
-                        <div class="column column-0 column-gray">color</div>
+                        <div class="column column-0 column-gray">fill</div>
                         <div class="column" title="">
                             <input type="color"
                                    value="#ff7f50"
