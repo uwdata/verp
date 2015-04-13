@@ -1,4 +1,4 @@
-!function(){
+!function() {
   var stat = {
     version: "1.0.0"
   };
@@ -47,6 +47,11 @@
   };
   stat.uint8Array = function(s, v) {
     return v ? new Uint8Array(s) : stat.initArray(new Uint8Array(s), v);
+  };
+  stat.uint8ArrayCopy = function(a) {
+    var n = a.length, acopy = new Uint8Array(n), i;
+    for (i = 0; i < n; i++) acopy[i] = a[i];
+    return acopy;
   };
   stat.uint32Array = function(s, v) {
     return v ? new Uint32Array(s) : stat.initArray(new Uint32Array(s), v);

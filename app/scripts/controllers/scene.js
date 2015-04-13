@@ -178,7 +178,7 @@ angular.module('verpApp')
 
             $scope.scanPath = GazeAnalytics.cluster(e, p, 20, 0, 1); // fixation path
             $scope.scanPathDuration = GazeAnalytics.fixationDuration($scope.scanPath, $scope.time,0.000001);
-            $scope.scanPathTooltip =  $scope.generateScanPathTooltip($scope.scanPath, $scope.scanPathDuration);
+            //$scope.scanPathTooltip =  $scope.generateScanPathTooltip($scope.scanPath, $scope.scanPathDuration);
             //console.log(GazeAnalytics.cluster(e, p, 5, 1, 0));
             //console.log($scope.saccadePath);
 

@@ -1,6 +1,6 @@
-<div class="scene col-md-5 column nopadding" style="padding-left:10px" ng-controller="SceneCtrl"
-     xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
-    <label class="viewname">{{frm.srcName || 'Scene'}}</label>
+<div class="scene col-md-5 column nopadding" style="padding-left:10px" ng-controller="SceneCtrl">
+
+    <label class="viewname">Scene</label>
 
     <span class="glyphicon glyphicon-search"
           ng-model="mode"
@@ -10,7 +10,6 @@
           brushIconStyle={'color':'gray'};
           zoomIconStyle={'color': 'orange'}"
           style="margin-left:45%"></span>
-    <!--zoomStyle={'z-index':14}"-->
 
     <span class="fa fa-paint-brush"
           ng-model="mode"
@@ -20,7 +19,6 @@
           brushIconStyle={'color': 'orange'};
           zoomIconStyle={'color':'gray'};">
     </span>
-    <!--brushStyle={'z-index' : 14};-->
 
     <span class="glyphicon glyphicon-repeat"
           ng-click="resetView()">
@@ -293,7 +291,6 @@
                             <input type="color"
                                    value="#ff7f50"
                                    onchange="d3.selectAll('.shape').style('fill', this.value )">
-
                         </div>
                     </div>
                     <div class="row row-1">
@@ -312,11 +309,7 @@
                         </div>
                     </div>
                 </div>
+            </fieldset>
         </div>
-        </fieldset>
-
-
     </div>
-</div>
-</div>
 </div>

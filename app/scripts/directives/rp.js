@@ -13,7 +13,7 @@ angular.module('verpApp')
 
             var w = +attrs.width,
                 h = +attrs.height,
-                rp;
+                rp, rqa;
 
             function init(){
 
@@ -31,7 +31,7 @@ angular.module('verpApp')
                 d3.select(element[0])
                     .call(rp, scope.data);
 
-                var rqa = rp.rqa();
+                rqa = rp.rqa();
                 $rootScope.$broadcast('rqa.update', rqa);
 
                 DataService.service('rpEpsNet', rp.epsnet);
@@ -70,14 +70,38 @@ angular.module('verpApp')
 
                 if(rp) {
 
-                   if(d)
-                       EventService.broadcastRPSelection(rp.boxHighlight(d));
-                   else
-                       EventService.broadcastRPSelection(rp.resetHighlight());
+                    if(d)
+                        EventService.broadcastRPSelection(rp.boxHighlight(d));
+                    else
+                        EventService.broadcastRPSelection(rp.resetHighlight());
 
                 }
 
             }
+
+            function patternHighlight(e, d){
+
+                if(rqa) {
+
+                    var p;
+
+                    if ( d === 'horizontal')
+                        p = rqa.hl;
+                    else if ( d === 'vertical')
+                        p =  rqa.vl;
+                    else if ( d === 'diagonal')
+                        p = rqa.dl;
+                    else
+                        console.warn('Unknown pattern: ' + d);
+
+                    if(!p) return;
+
+                    EventService.broadcastRPSelection(rp.patternHighlight(p));
+
+                }
+
+            }
+
 
             function  highlight(e, d){
 
@@ -96,7 +120,7 @@ angular.module('verpApp')
 
             function updateRQA(){
 
-                var rqa = rp.rqa();
+                rqa = rp.rqa();
                 $rootScope.$broadcast('rqa.update', rqa);
 
 
@@ -137,6 +161,7 @@ angular.module('verpApp')
             scope.$on('distfn.update', updateDistfn);
             scope.$on('eps.update', updateEps);
             scope.$on('sp.selection', highlight);
+            scope.$on('pattern.search', patternHighlight);
 
         };
 

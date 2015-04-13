@@ -69,6 +69,28 @@
     crp.epsnet = function() {
       return epsnet;
     };
+    crp.patternHighlight = function(p) {
+      offScreenDirty = true;
+      if (!(arguments.length && p)) {
+        update();
+        return activeDomain;
+      }
+      initArray(activeDomain, 0);
+      var d = data32, rp = rpdata, b = [ 255, 0, 0 ], s1, s2, f, v;
+      for (var i = 0; i < imgHeight - 1; i++) {
+        for (var j = i + 1; j < imgWidth; j++) {
+          s1 = imgWidth * i + j;
+          s2 = imgWidth * j + i;
+          v = rp[s1] <= eps ? 255 : 0;
+          f = p[s1] === 2;
+          if (f) activeDomain[j] = activeDomain[i] = 1;
+          d[s1] = f ? 255 << 24 | .5 * (v + b[2]) << 16 | .5 * (v + b[1]) << 8 | .5 * (v + b[0]) : 255 << 24 | v << 16 | v << 8 | v;
+          d[s2] = d[s1];
+        }
+      }
+      update();
+      return activeDomain;
+    };
     crp.resetHighlight = function() {
       offScreenDirty = true;
       initArray(activeDomain, 0);
@@ -234,7 +256,7 @@
     return s;
   }
   rep.rqa = function(d, n, eps) {
-    var dlmin = 1, vlmin = 1, rp = rep_distanceToRP(d, eps), rc = rep_rc(rp, n), rpcpy = new Uint8Array(rp.buffer.slice()), histdl = rep_diagonalLineHistogram(rp, n), histvl = rep_verticalLineHistogram(rpcpy, n), rr = 2 * rc / (n * n - n), Sdlmin = 0, Svlmin = 0, Zdl = 0, Zvl = 0, i, p, det, entropy, l, lmax, lam, tt, vmax;
+    var dlmin = 1, vlmin = 1, dl = rep_distanceToRP(d, eps), rc = rep_rc(dl, n), vl = stat.uint8ArrayCopy(dl), hl = stat.uint8ArrayCopy(dl), histdl = rep_diagonalLineHistogram(dl, n), histvl = rep_verticalLineHistogram(vl, n), histhl = rep_horizontalLineHistogram(hl, n), rr = 2 * rc / (n * n - n), Sdlmin = 0, Svlmin = 0, Zdl = 0, Zvl = 0, i, p, det, entropy, l, lmax, lam, tt, vmax;
     for (i = 0; i < n; i++) {
       if (i < dlmin) Sdlmin += (i + 1) * histdl[i]; else Zdl += histdl[i];
     }
@@ -261,7 +283,10 @@
       lmax: lmax,
       lam: lam,
       tt: tt,
-      vmax: vmax
+      vmax: vmax,
+      dl: dl,
+      vl: vl,
+      hl: hl
     };
   };
   rep.rr = function(d, n, eps) {
@@ -299,6 +324,7 @@
           rp[indx] = 0;
           cnt = 1;
           cnt += rep_traceDiagonal(rp, i + 1, j + 1, n);
+          rp[indx] = cnt > 1 ? 2 : 0;
           h[cnt - 1]++;
         }
       }
@@ -314,6 +340,7 @@
           rp[indx] = 0;
           cnt = 1;
           cnt += rep_traceVertical(rp, i + 1, j, n);
+          rp[indx] = cnt > 1 ? 2 : 0;
           h[cnt - 1]++;
         }
       }
@@ -329,6 +356,7 @@
           cnt = 1;
           rp[indx] = 0;
           cnt += rep_traceHorizontal(rp, i, j + 1, n);
+          rp[indx] = cnt > 1 ? 2 : 0;
           h[cnt - 1]++;
         }
       }
@@ -341,7 +369,7 @@
       indx = i * n + j;
       if (rp[indx] === 1) {
         cnt++;
-        rp[indx] = 0;
+        rp[indx] = 2;
       } else {
         break;
       }
@@ -349,12 +377,12 @@
     return cnt;
   };
   var rep_traceVertical = function(rp, i, j, n) {
-    var m = j - 1, cnt = 0, l, indx;
+    var m = j - i, cnt = 0, l, indx;
     for (l = 0; l < m; l++, i++) {
       indx = i * n + j;
       if (rp[indx] === 1) {
         cnt++;
-        rp[indx] = 0;
+        rp[indx] = 2;
       } else {
         break;
       }
@@ -367,7 +395,7 @@
       indx = i * n + j;
       if (rp[indx] === 1) {
         cnt++;
-        rp[indx] = 0;
+        rp[indx] = 2;
       } else {
         break;
       }

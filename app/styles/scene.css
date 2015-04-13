@@ -92,8 +92,9 @@ div[titlex]:hover:after{
     fill:coral;
     opacity:1;
     stroke: black;
-    stroke-width:3;
-    stroke-opacity:0.9;
+    stroke-width:2;
+    stroke-opacity:0.7;
+    /*shape-rendering: crispEdges;*/
 }
 
 
@@ -228,7 +229,7 @@ div[titlex]:hover:after{
 
 
 .scene-info fieldset .column {
-    font-size:12px;
+    font-size:11px;
     display: table-cell;
     color:gray;
     width: 150px;
@@ -236,7 +237,7 @@ div[titlex]:hover:after{
 
 
 .scene-info #scene-ctrls-1 .column {
-    font-size:12px;
+    font-size:11px;
     display: table-cell;
     color:gray;
     width:100%;
@@ -320,6 +321,7 @@ text {
     font-family: 'HelveticaNeue-Light';
     alignment-baseline:central;
     font-weight: 300;
+    text-shadow: 1px 1px #000000;
     fill:white;
     font-size:25px;
 

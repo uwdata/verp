@@ -8,8 +8,42 @@
  * Controller of the verpApp
  */
 angular.module('verpApp')
-    .controller('UploadCtrl', ['$scope', 'Parser', 'FileReader', 'DataService', function ($scope, Parser, FileReader, DataService) {
+    .controller('UploadCtrl', ['$scope', '$rootScope', '$timeout', 'Parser', 'FileReader', 'DataService',
+        function ($scope, $rootScope, $timeout, Parser, FileReader, DataService) {
 
+
+       $scope.patternSearch = {show:false, placeholder:"search motifs"};
+
+
+        $scope.resetPatternSearch = function(){
+
+            $scope.patternSearch.show=false;
+            $scope.patternSearch.placeholder = "search motifs";
+
+        };
+
+
+        $scope.patternHighlight = function(type){
+
+            $scope.patternSearch.placeholder='search ' + type + ' ...';
+
+            $rootScope.$broadcast('pattern.search', type);
+
+            $timeout($scope.resetPatternSearch, 500);
+
+        };
+
+
+       $scope.togglePatternSearch = function(searchBox){
+
+           $scope.patternSearch.show = ! $scope.patternSearch.show;
+
+           var sb = searchBox;
+
+           $scope.patternSearch.top = ~~( sb.offsetTop + (3 / 4) * sb.offsetHeight );
+           $scope.patternSearch.left = ~~( searchBox.offsetLeft + (1 / 8) * sb.offsetWidth );
+
+        };
 
 
         $scope.getImg = function () {

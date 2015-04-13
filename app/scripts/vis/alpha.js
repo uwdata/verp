@@ -130,7 +130,7 @@ function alpha(v) {
             })
             .y(function (d) {
                 return yScale(v[d][1]);
-            }).interpolate('monotone');
+            }).interpolate('linear');
 
         //join
         var paths = svg.selectAll(".alphashape-boundary")

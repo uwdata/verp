@@ -106,7 +106,9 @@ var circle = function(){
         cg.select('circle')
             .attr('r', 20)
             .style('fill', function(d,i){return color(i);})
-            .style('opacity', 0.9);
+            .style('opacity', 1)
+            .style('stroke', 'black')
+            .style('stroke-width', '2');
 
         cg.select('text')
             .text(function(d){return d.label;});

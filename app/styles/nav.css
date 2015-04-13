@@ -1,3 +1,6 @@
+
+
+
 li a[titlex]:hover:after{
     content: attr(titlex);
     padding: 4px 8px;
@@ -128,3 +131,37 @@ li a[titlex]:hover:after{
     color: rgba(255, 69, 0, 0.60);
 }
 
+
+#pattern-dialog{
+    position:absolute;
+    white-space:normal;
+    z-index:10;
+    background-color:white;
+    border:1px solid #999;
+    border-radius:5px;
+    padding:1px;
+    font-size:13px;
+    -webkit-box-shadow:2px 2px 11px #666;
+    /*display:none;*/
+}
+
+#pattern-dialog  {
+    width:9%;
+}
+
+
+#pattern-dialog  img{
+    display:inline-block;
+    width:31%;
+    opacity:0.7;
+    border-radius: 5px;
+}
+
+#pattern-dialog  img:hover {
+    opacity: 1;
+    border:2px solid coral;
+}
+
+.searchbox {
+    text-decoration-color:lightgray;
+}
