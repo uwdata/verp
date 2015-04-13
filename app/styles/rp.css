@@ -263,11 +263,10 @@ legend{
 #rp-x-axis svg text{
     font-weight:100;
     text-shadow: none;
-    font-size:11px;
+    font-size:10px;
     stroke:black;
-    stroke-width:0.5;
+    stroke-width:0.25;
     stroke-opacity:0.8;
-    /*stroke:orangered;*/
     shape-rendering: crispEdges;
 }
 
