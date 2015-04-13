@@ -137,25 +137,12 @@ div[titlex]:hover:after{
 }
 
 
-/*.ghost circle{*/
-    /*opacity:0.05;*/
-/*}*/
 
 .hidden circle{
 
    display: none;
 
 }
-
-/*.selected .highlight circle{*/
-    /**/
-    /*fill:red;*/
-    /*opacity:0.9;*/
-    /*stroke:black;*/
-    /*stroke-width:3;*/
-    /**/
-/*}*/
-
 
 
 .highlight circle{
@@ -193,7 +180,7 @@ div[titlex]:hover:after{
 }
 
 .scene-info fieldset#scene-ctrls-1 {
-    width:30%;
+    width:25%;
     float:left;
 }
 
@@ -236,7 +223,7 @@ div[titlex]:hover:after{
 }
 
 
-.scene-info #scene-ctrls-1 .column {
+.scene-info fieldset#scene-ctrls-1 .column {
     font-size:11px;
     display: table-cell;
     color:gray;
@@ -277,7 +264,7 @@ div[titlex]:hover:after{
 
 .scene-info fieldset .numinput{
    color: #9b9b9b;
-   font-size:12px;
+   font-size:11px;
 }
 
 

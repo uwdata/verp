@@ -1,11 +1,7 @@
-<div class="row clearfix jumbotron nopadding timeline" ng-controller="TimelineCtrl">
+<div class="col-md-9 column timeline" ng-controller="TimelineCtrl">
 
-    <div class="col-md-5 column">
+        <div class="timeline player" ng-show="player.sceneReady" >
 
-    </div>
-    <div class="col-md-5 column">
-
-        <div class="player" ng-show="player.sceneReady" >
             <div class="time"><span>time:</span>{{player.currentTime}}</div>
             <input type="range"
                    min={{player.min}}
@@ -21,8 +17,7 @@
                           ng-click="player.playPause()"></span>
                 <span class="btn-sm glyphicon glyphicon-forward" ng-click="player.forward()" ></span>
             </div>
-
-        </div>
     </div>
+
 </div>
 

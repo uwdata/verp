@@ -12,7 +12,6 @@ angular.module('verpApp')
 
 
         $scope.eps = {value:50, min:0, max:100, step:1, distfn:'l2', filtering:false};
-        //$scope.time = {value:50, min:0, max:100, step:1, filtering:false};
         $scope.rqa = {};//rr:0, det:0, entropy:0, l:0, tt:0, lam:0, lmax:0, vmax:0};
 
         $scope.showRQA = true;
@@ -93,17 +92,6 @@ angular.module('verpApp')
         };
 
 
-        //
-        //$scope.timeUpdate = function (){
-        //
-        //    EventService.broadcastSaccadeUpdate({epsTime:parseInt($scope.time.value, 10),
-        //        epsTimeFiltering:$scope.time.filtering,
-        //        eps:$scope.eps.value
-        //    });
-        //
-        //};
-
-
         function updateScale(e, d){
 
             $scope.xScale.domain(d.xs().domain()).range(d.xs().range());
@@ -127,6 +115,8 @@ angular.module('verpApp')
             // default data scale
             $scope.xDomain = dx;
             $scope.yDomain = dy;
+
+            $scope.sceneReady=true;
 
             $scope.$broadcast('domain.ready', d);
 

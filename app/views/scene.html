@@ -1,6 +1,10 @@
-<div class="scene col-md-5 column nopadding" style="padding-left:10px" ng-controller="SceneCtrl">
+<div class="scene col-md-6 column nopadding"  ng-controller="SceneCtrl">
 
-    <label class="viewname">Scene</label>
+    <div class="row clearfix">
+
+        <div class="col-md-12 column">
+
+            <label class="viewname">Scene</label>
 
     <span class="glyphicon glyphicon-search"
           ng-model="mode"
@@ -24,292 +28,296 @@
           ng-click="resetView()">
            </span>
 
-    <div id="scene" class="img-with-label">
+            <div id="scene" class="img-with-label">
 
-        <scene-frame class="stacked"  width="650" height="500"
-                     ng-style="imgStyle">
-        </scene-frame>
+                <scene-frame class="stacked"  width="650" height="500"
+                             ng-style="imgStyle">
+                </scene-frame>
 
-        <focusmap id="focusmap" class="stacked" width="650" height="500"
-                  domain="domain()"
-                  ng-show="showFocusmap">
-        </focusmap>
+                <focusmap id="focusmap" class="stacked" width="650" height="500"
+                          domain="domain()"
+                          ng-show="showFocusmap">
+                </focusmap>
 
-        <!--data="heatmapImg"-->
+                <!--data="heatmapImg"-->
 
-        <!--ng-init="imgStyle={'z-index':1}" >-->
+                <!--ng-init="imgStyle={'z-index':1}" >-->
 
-        <heatview  id="heatmap" class="stacked" width="650" height="500" colormap="1"
-                   points='points'
-                   cfg="heatmap.max"
-                   domain='domain()'
-                   dataurl="dataurl(imgdata)"
-                   ng-style="heatmapstyle"
-                   ng-show="showHeatmap"></heatview>
-
-
-        <heatview  id="fixation-heatmap" class="stacked" width="650" height="500" colormap="0"
-                   domain='domain()'
-                   points='fixations'
-                   ng-style="fixationStyle"
-                   ng-show='showFixationHeatmap'>
-        </heatview>
+                <heatview  id="heatmap" class="stacked" width="650" height="500" colormap="1"
+                           points='points'
+                           cfg="heatmap.max"
+                           domain='domain()'
+                           dataurl="dataurl(imgdata)"
+                           ng-style="heatmapstyle"
+                           ng-show="showHeatmap"></heatview>
 
 
-        <heatview  id="saccade-heatmap" class="stacked" width="650" height="500"
-                   colormap="2"
-                   domain='domain()'
-                   points='saccades'
-                   ng-style="saccadeStyle"
-                   ng-show="showSaccadeHeatmap">
-        </heatview>
-
-        <!--ng-init="saccadeStyle={'z-index':4}"-->
-
-        <sp id="scatterplot" class="stacked" width="650" height="500"
-            ng-style="spStyle">
-        </sp>
-
-        <!--ng-init="spStyle={'z-index':5}">-->
+                <heatview  id="fixation-heatmap" class="stacked" width="650" height="500" colormap="0"
+                           domain='domain()'
+                           points='fixations'
+                           ng-style="fixationStyle"
+                           ng-show='showFixationHeatmap'>
+                </heatview>
 
 
-        <alphapart id="alphapart" class="stacked" width="650" height="500"
-                   ng-style="alphapartStyle"
-                   data="scanPathPoints"
-                   alpha="alpha.value"
-                   domain="domain()"
-                   ng-show="alpha.partition">
-        </alphapart>
+                <heatview  id="saccade-heatmap" class="stacked" width="650" height="500"
+                           colormap="2"
+                           domain='domain()'
+                           points='saccades'
+                           ng-style="saccadeStyle"
+                           ng-show="showSaccadeHeatmap">
+                </heatview>
 
-        <directedpath id="saccadepath" class="stacked saccadepath" width="650" height="500"
-                      data='saccadePathPoints'
-                      domain='domain()'
-                      ng-show="showSaccadePath"
-                      ng-style="pathStyle">
-        </directedpath>
+                <!--ng-init="saccadeStyle={'z-index':4}"-->
 
+                <sp id="scatterplot" class="stacked" width="650" height="500"
+                    ng-style="spStyle">
+                </sp>
 
-        <directedpath id="directedpath" class="stacked scanpath" width="650" height="500"
-                      data='scanPath'
-                      domain='domain()'
-                      click='onFixationEdgeClick(d,i)'
-                      ng-show="showScanPath"
-                      ng-style="pathStyle">
-        </directedpath>
+                <!--ng-init="spStyle={'z-index':5}">-->
 
 
-        <circularnodes id="circularnodes" class="stacked nodes" width="650" height="500"
-                       data='scanPath'
-                       domain='domain()'
-                       tooltip="scanPathTooltip"
-                       click='onFixationClick(d,i)'
-                       ng-style="nodeStyle"
-                       ng-show="showScanPath">
-        </circularnodes>
+                <alphapart id="alphapart" class="stacked" width="650" height="500"
+                           ng-style="alphapartStyle"
+                           data="scanPathPoints"
+                           alpha="alpha.value"
+                           domain="domain()"
+                           ng-show="alpha.partition">
+                </alphapart>
+
+                <directedpath id="saccadepath" class="stacked saccadepath" width="650" height="500"
+                              data='saccadePathPoints'
+                              domain='domain()'
+                              ng-show="showSaccadePath"
+                              ng-style="pathStyle">
+                </directedpath>
 
 
-        <!--ng-init="nodeStyle={'z-index':7}"-->
-        <!--<textlabel id="textlabel" class="stacked" width="650" height="500"-->
-        <!--domain='domain()'-->
-        <!--data='scanPath'-->
-        <!--ng-style="labelStyle"-->
-        <!--ng-init="labelStyle={'z-index' : 8}"-->
-        <!--ng-show="showScanPath">-->
-        <!--</textlabel>-->
+                <directedpath id="directedpath" class="stacked scanpath" width="650" height="500"
+                              data='scanPath'
+                              domain='domain()'
+                              click='onFixationEdgeClick(d,i)'
+                              ng-show="showScanPath"
+                              ng-style="pathStyle">
+                </directedpath>
 
-        <brush id="sp" class="stacked" width="650" height="500"
-               ng-style="brushStyle"
-               ng-show="showTracking">
-        </brush>
 
-        <!--ng-init="brushStyle={'z-index' : 10}"-->
+                <circularnodes id="circularnodes" class="stacked nodes" width="650" height="500"
+                               data='scanPath'
+                               domain='domain()'
+                               tooltip="scanPathTooltip"
+                               click='onFixationClick(d,i)'
+                               ng-style="nodeStyle"
+                               ng-show="showScanPath">
+                </circularnodes>
 
-        <zoom id="scene-zoom" class="stacked" width="650" height="500"
-              ng-style="zoomStyle"
-              ng-show="mode==='view'"
-              ng-click="clickPropagate('scene-zoom', 'circularnodes'); clickPropagate('scene-zoom', 'directedpath')">
-        </zoom>
-        <!--ng-init="zoomStyle={'z-index' : 11; 'pointer-events}"-->
+                <!--ng-init="nodeStyle={'z-index':7}"-->
+                <!--<textlabel id="textlabel" class="stacked" width="650" height="500"-->
+                <!--domain='domain()'-->
+                <!--data='scanPath'-->
+                <!--ng-style="labelStyle"-->
+                <!--ng-init="labelStyle={'z-index' : 8}"-->
+                <!--ng-show="showScanPath">-->
+                <!--</textlabel>-->
 
+                <brush id="sp" class="stacked" width="650" height="500"
+                       ng-style="brushStyle"
+                       ng-show="showTracking">
+                </brush>
+
+                <!--ng-init="brushStyle={'z-index' : 10}"-->
+
+                <zoom id="scene-zoom" class="stacked" width="650" height="500"
+                      ng-style="zoomStyle"
+                      ng-show="mode==='view'"
+                      ng-click="clickPropagate('scene-zoom', 'circularnodes'); clickPropagate('scene-zoom', 'directedpath')">
+                </zoom>
+                <!--ng-init="zoomStyle={'z-index' : 11; 'pointer-events}"-->
+
+            </div>
+
+        </div>
     </div>
 
-    <div class="scene-info">
+    <div class="row clearfix">
 
-        <div ng-show="frm.img.src">
+        <div class="col-md-12 column scene-info">
 
-            <fieldset id="scene-ctrls-0">
+            <div ng-show="frm.img.src">
 
-                <div class="divtable">
+                <fieldset id="scene-ctrls-0">
 
-                    <div class="row heading">
-                        <div class="column"> </div>
-                        <div class="column" title="Scatter">scatter</div>
-                        <div class="column" title="Heatmap ">heat</div>
-                        <div class="column" title="Focusmap">focus</div>
-                        <div class="column" title="Directed path">path</div>
+                    <div class="divtable">
+
+                        <div class="row heading">
+                            <div class="column"> </div>
+                            <div class="column" title="Scatter">scatter</div>
+                            <div class="column" title="Heatmap ">heat</div>
+                            <div class="column" title="Focusmap">focus</div>
+                            <div class="column" title="Directed path">path</div>
+                        </div>
+
+                        <div class="row row-1">
+                            <div class="column column-0">all</div>
+                            <div class="column column-1">
+                                <input type="checkbox" titlex='Show all tracking points'
+                                       ng-model="showTracking"
+                                       ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}">
+                            </div>
+
+                            <div class="column column-2">
+                                <input type="checkbox" titlex='Show heatmap of tracking points' ng-model="showHeatmap">
+                            </div>
+
+                            <div class="column column-3">
+                                <input type="checkbox" titlex='Show focusmap of tracking points' ng-model="showFocusmap">
+                            </div>
+                            <div class="column column-4">
+                                <input type="checkbox" titlex='Show scan-path' ng-model="showScanPath">
+                            </div>
+                        </div>
+
+                        <div class="row row-2">
+                            <div class="column column-0">fixations</div>
+                            <div class="column column-1">
+                                <input type="checkbox" titlex='Show scatter plot of fixations'
+                                       ng-model="showFixations"
+                                       ng-change="fixationVisibility()">
+                            </div>
+                            <div class="column column-2">
+                                <input type="checkbox" titlex="Show heatmap of fixations"
+                                       ng-model="showFixationHeatmap">
+                            </div>
+                            <div class="column column-3">
+                                <input type="checkbox" titlex='Show focusmap of fixations' ng-model="showFixationFocusmap">
+                            </div>
+                            <div class="column column-4" >
+                                <input type="checkbox">
+                            </div>
+                        </div>
+
+                        <div class="row row-3">
+                            <div class="column column-0">saccades</div>
+                            <div class="column column-1">
+                                <input type="checkbox" titlex='Show scatter plot of saccades'
+                                       ng-model="showSaccades"
+                                       ng-change="saccadeVisibility()">
+                            </div>
+                            <div class="column column-2">
+                                <input type="checkbox" titlex='Show heatmap of saccades'
+                                       ng-model="showSaccadeHeatmap">
+                            </div>
+                            <div class="column column-3">
+                                <input type="checkbox" titlex='Show focusmap of saccades'
+                                       ng-model="showSaccadeFocusmap">
+                            </div>
+                            <div class="column column-4">
+                                <input type="checkbox" titlex='Show saccade path'
+                                       ng-model="showSaccadePath">
+                            </div>
+                        </div>
+
                     </div>
 
-                    <div class="row row-1">
-                        <div class="column column-0">all</div>
-                        <div class="column column-1">
-                            <input type="checkbox" titlex='Show all tracking points'
-                                   ng-model="showTracking"
-                                   ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}">
-                        </div>
+                </fieldset>
 
-                        <div class="column column-2">
-                            <input type="checkbox" titlex='Show heatmap of tracking points' ng-model="showHeatmap">
-                        </div>
 
-                        <div class="column column-3">
-                            <input type="checkbox" titlex='Show focusmap of tracking points' ng-model="showFocusmap">
+                <fieldset id="scene-ctrls-1">
+                    <div class="divtable">
+                        <div class="row heading">
+                            <div class="column">velocity threshold</div>
                         </div>
-                        <div class="column column-4">
-                            <input type="checkbox" titlex='Show scan-path' ng-model="showScanPath">
+                        <div class="row row-1">
+                            <div class="column">
+                                <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
+                                <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
+                                <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
+                            </div>
+                        </div>
+                        <div class="row row-2">
+                            <div class="column">
+                                <input type="range"
+                                       min="{{velocity.min}}"
+                                       step="{{velocity.step}}"
+                                       max="{{velocity.max}}"
+                                       value="{{velocity.threshold}}"
+                                       ng-model="velocity.threshold"
+                                       ng-change="classify()"/>
+                                <label class="center">{{velocity.threshold}}</label>
+                            </div>
                         </div>
                     </div>
+                </fieldset>
 
-                    <div class="row row-2">
-                        <div class="column column-0">fixations</div>
-                        <div class="column column-1">
-                            <input type="checkbox" titlex='Show scatter plot of fixations'
-                                   ng-model="showFixations"
-                                   ng-change="fixationVisibility()">
+                <fieldset id="scene-ctrls-2">
+                    <div class="divtable">
+                        <div class="row heading">
+                            <div class="column column-0" ></div>
+                            <div class="column" title="scene">scene</div>
+                            <div class="column column-0" ></div>
+                            <div class="column" title="circle">circle</div>
                         </div>
-                        <div class="column column-2">
-                            <input type="checkbox" titlex="Show heatmap of fixations"
-                                   ng-model="showFixationHeatmap">
+
+                        <div class="row row-1">
+                            <div class="column column-0" title="opacity">opacity</div>
+                            <div class="column" title="scene opacity:{{imgOpacity}}">
+                                <input type="range" min="0" step="0.05" max="1.0"
+                                       ng-model="imgOpacity"
+                                       ng-init="imgOpacity=1;imgStyle={'opacity':imgOpacity}"
+                                       ng-change="imgStyle={'opacity':imgOpacity}"/>
+                            </div>
+                            <div class="column column-0" title="opacity">opacity</div>
+                            <div class="column column-1" title="circle opacity:{{spOpacity}}">
+                                <input type="range"  min="0" step="0.05" max="1.0"
+                                       ng-model="spOpacity"
+                                       ng-init="spOpacity=1.0"
+                                       ng-change="spStyle={'opacity':spOpacity}"/>
+                            </div>
                         </div>
-                        <div class="column column-3">
-                            <input type="checkbox" titlex='Show focusmap of fixations' ng-model="showFixationFocusmap">
+
+                        <div class="row row-2">
+                            <div class="column column-0" title="blur">blur</div>
+                            <div class="column " title="scene blur:{{spBlur}}">
+                                <input type="range"  min="0" step="0.25" max="10"
+                                       ng-model="spBlur" ng-init="spBlur=0"
+                                       ng-change="imgStyle={'filter':'blur('+spBlur+')', '-webkit-filter': 'blur('+spBlur+'px)'}"/>
+                            </div>
+                            <div class="column column-0" title="">size</div>
+                            <div class="column" title="circle size:{{sp.markerSize}}">
+                                <input type="range" min="0" step="0.25" max="40"
+                                       ng-model="sp.markerSize"
+                                       ng-init="sp.markerSize=10"/>
+                            </div>
                         </div>
-                        <div class="column column-4" >
-                            <input type="checkbox">
+
+                        <div class="row heading">
+                            <div class="column column-0" ></div>
+                            <div class="column" title="heatmap scale">heat</div>
+                            <div class="column column-0 column-gray">fill</div>
+                            <div class="column" title="">
+                                <input type="color"
+                                       value="#ff7f50"
+                                       onchange="d3.selectAll('.shape').style('fill', this.value )">
+                            </div>
+                        </div>
+                        <div class="row row-1">
+                            <div class="column column-0" title="scale">scale</div>
+                            <div class="column">
+                                <input type="range" min="1" step="1" value="64" max="100"
+                                       title="heatmap scale:{{heatmap.max}}"
+                                       ng-init="heatmap.max=64"
+                                       ng-model="heatmap.max"/>
+                            </div>
+                            <div class="column column-0" title="">stroke</div>
+                            <div class="column column-1" title="">
+                                <input type="color"
+                                       value="#000000"
+                                       onchange="d3.selectAll('.shape').style('stroke', this.value )">
+                            </div>
                         </div>
                     </div>
-
-                    <div class="row row-3">
-                        <div class="column column-0">saccades</div>
-                        <div class="column column-1">
-                            <input type="checkbox" titlex='Show scatter plot of saccades'
-                                   ng-model="showSaccades"
-                                   ng-change="saccadeVisibility()">
-                        </div>
-                        <div class="column column-2">
-                            <input type="checkbox" titlex='Show heatmap of saccades'
-                                   ng-model="showSaccadeHeatmap">
-                        </div>
-                        <div class="column column-3">
-                            <input type="checkbox" titlex='Show focusmap of saccades'
-                                   ng-model="showSaccadeFocusmap">
-                        </div>
-                        <div class="column column-4">
-                            <input type="checkbox" titlex='Show saccade path'
-                                   ng-model="showSaccadePath">
-                        </div>
-                    </div>
-
-                </div>
-
-            </fieldset>
-
-
-            <fieldset id="scene-ctrls-1">
-
-                <div class="divtable">
-                    <div class="row heading">
-                        <div class="column">velocity threshold</div>
-                    </div>
-                    <div class="row row-1">
-                        <div class="column">
-                            <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
-                            <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
-                            <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
-                        </div>
-                    </div>
-                    <div class="row row-2">
-                        <div class="column">
-                            <input type="range"
-                                   min="{{velocity.min}}"
-                                   step="{{velocity.step}}"
-                                   max="{{velocity.max}}"
-                                   value="{{velocity.threshold}}"
-                                   ng-model="velocity.threshold"
-                                   ng-change="classify()"/>
-                            <label class="center">{{velocity.threshold}}</label>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-
-            <fieldset id="scene-ctrls-2">
-                <div class="divtable">
-                    <div class="row heading">
-                        <div class="column column-0" ></div>
-                        <div class="column" title="scene">scene</div>
-                        <div class="column column-0" ></div>
-                        <div class="column" title="circle">circle</div>
-                    </div>
-
-                    <div class="row row-1">
-                        <div class="column column-0" title="opacity">opacity</div>
-                        <div class="column" title="scene opacity:{{imgOpacity}}">
-                            <input type="range" min="0" step="0.05" max="1.0"
-                                   ng-model="imgOpacity"
-                                   ng-init="imgOpacity=1;imgStyle={'opacity':imgOpacity}"
-                                   ng-change="imgStyle={'opacity':imgOpacity}"/>
-                        </div>
-                        <div class="column column-0" title="opacity">opacity</div>
-                        <div class="column column-1" title="circle opacity:{{spOpacity}}">
-                            <input type="range"  min="0" step="0.05" max="1.0"
-                                   ng-model="spOpacity"
-                                   ng-init="spOpacity=1.0"
-                                   ng-change="spStyle={'opacity':spOpacity}"/>
-                        </div>
-                    </div>
-
-                    <div class="row row-2">
-                        <div class="column column-0" title="blur">blur</div>
-                        <div class="column " title="scene blur:{{spBlur}}">
-                            <input type="range"  min="0" step="0.25" max="10"
-                                   ng-model="spBlur" ng-init="spBlur=0"
-                                   ng-change="imgStyle={'filter':'blur('+spBlur+')', '-webkit-filter': 'blur('+spBlur+'px)'}"/>
-                        </div>
-                        <div class="column column-0" title="">size</div>
-                        <div class="column" title="circle size:{{sp.markerSize}}">
-                            <input type="range" min="0" step="0.25" max="40"
-                                   ng-model="sp.markerSize"
-                                   ng-init="sp.markerSize=10"/>
-                        </div>
-                    </div>
-
-                    <div class="row heading">
-                        <div class="column column-0" ></div>
-                        <div class="column" title="heatmap scale">heat</div>
-                        <div class="column column-0 column-gray">fill</div>
-                        <div class="column" title="">
-                            <input type="color"
-                                   value="#ff7f50"
-                                   onchange="d3.selectAll('.shape').style('fill', this.value )">
-                        </div>
-                    </div>
-                    <div class="row row-1">
-                        <div class="column column-0" title="scale">scale</div>
-                        <div class="column">
-                            <input type="range" min="1" step="1" value="64" max="100"
-                                   title="heatmap scale:{{heatmap.max}}"
-                                   ng-init="heatmap.max=64"
-                                   ng-model="heatmap.max"/>
-                        </div>
-                        <div class="column column-0" title="">stroke</div>
-                        <div class="column column-1" title="">
-                            <input type="color"
-                                   value="#000000"
-                                   onchange="d3.selectAll('.shape').style('stroke', this.value )">
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
+                </fieldset>
+            </div>
         </div>
     </div>
 </div>

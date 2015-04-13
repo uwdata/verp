@@ -1,6 +1,8 @@
-<div class="col-md-7 column recurrence" ng-controller="RecurrenceCtrl">
+<div class="col-md-6 column recurrence" ng-controller="RecurrenceCtrl">
     <div class="row clearfix">
-        <div class="col-md-8 column" style="padding-left:70px" >
+        <!--<div class="col-md-8 column" style="padding-left:70px" >-->
+        <div class="col-md-9 column" >
+
             <label class="viewname">RP</label>
 
            <span class="glyphicon glyphicon-search"
@@ -32,8 +34,8 @@
             <zoom id="rp-zoom" class="stacked" width="500" height="500" flipy="true" ng-show="interaction.mode==='view'"></zoom>
         </div>
 
-        <div class="col-md-4 column" style="padding-left:30px;padding-right:0px" >
-
+        <!--<div class="col-md-3 column" style="padding-left:30px;padding-right:0px" >-->
+        <div class="col-md-3 column" ng-show="sceneReady">
             <form  role="form" class="form" >
                 <fieldset id='fieldset-0' titlex="Adjust recurrence epsilon threshold">
                     <legend>epsilon</legend>
@@ -57,17 +59,34 @@
 
                 <fieldset id='fieldset-1' titlex="Set recurrence distance function">
                     <legend>distance function</legend>
-                    <div class="form-group">
-                        <label class="radio-inline">
-                            <input type="radio" name="norms" value="l1" ng-model="eps.distfn" ng-change="updateDistfn()" />l1</label>
-                        <label class="radio-inline">
-                            <input type="radio" name="norms" value="l2" ng-model="eps.distfn" ng-change="updateDistfn()" checked/>l2</label>
-                        <label class="radio-inline">
-                            <input type="radio" name="norms" value="max" ng-model="eps.distfn" ng-change="updateDistfn()" />max</label>
-                        <label class="radio-inline">
-                            <input type="radio" name="norms" value="min" ng-model="eps.distfn" ng-change="updateDistfn()" />min</label>
-                        <label class="radio-inline">
-                            <input type="radio" name="norms" value="edit" ng-model="eps.distfn" ng-change="updateDistfn()" />edit</label>
+                    <div class="divtable form-group">
+                        <div class="row">
+                            <div class="column">
+                            <input type="radio" name="norms" value="l1" ng-model="eps.distfn" ng-change="updateDistfn()" />
+                            </div>
+                            <div class="column column-0">l1</div>
+                            <div class="column">
+                                    <input type="radio" name="norms" value="l2" ng-model="eps.distfn" ng-change="updateDistfn()" checked/>
+                            </div>
+                            <div class="column column-0">l2</div>
+                            <div class="column">
+                                    <input type="radio" name="norms" value="max" ng-model="eps.distfn" ng-change="updateDistfn()"/>
+                            </div>
+                            <div class="column column-0">max</div>
+                        </div>
+                        <div class="row">
+                            <div class="column">
+                                    <input type="radio" name="norms" value="min" ng-model="eps.distfn" ng-change="updateDistfn()" />
+                            </div>
+                            <div class="column column-0">min</div>
+                            <div class="column">
+                                    <input type="radio" name="norms" value="edit" ng-model="eps.distfn" ng-change="updateDistfn()" />
+                            </div>
+                            <div class="column column-0">edit</div>
+                            <div class="column">
+                                </div>
+                            <div class="column column-0">   </div>
+                        </div>
                     </div>
                 </fieldset>
 
@@ -124,5 +143,18 @@
             </form>
 
         </div>
+
     </div>
+
+
+    <div class="row clearfix">
+        <!--col-md-9-->
+        <ng-include src="'views/timeline.html'"></ng-include>
+
+        <div class="col-md-3 column">
+
+        </div>
+    </div>
+
+
 </div>

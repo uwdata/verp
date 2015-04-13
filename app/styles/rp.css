@@ -176,11 +176,15 @@ legend{
     /*text-underline: none;*/
 }
 .slider{
-    width:95%;
+    width:115%;
+    float:left;
+    margin-left:-8%;
+    padding-left:0;
+    display:inline-block;
 }
 
 .slider input[type=number]{
-    width:20%;
+    width:19%;
     font-size:10px;
     background-color: rgb(250, 250, 250);
     border-radius: 2px;
@@ -202,7 +206,7 @@ legend{
 
 .numinput{
    color: #9b9b9b;
-   font-size:12px;
+   font-size:10px;
 }
 
 .recurrence .glyphicon:hover {
@@ -222,6 +226,32 @@ legend{
 
    color:orangered;
 }
+
+
+
+ #fieldset-1 .divtable{
+    display: table;
+    margin-top:5px;
+}
+
+#fieldset-1 .row{
+    display: table-row;
+    text-align:left;
+}
+
+
+#fieldset-1 .column{
+    display: table-cell;
+    text-align: center;
+    /*vertical-align:middle;*/
+    font-size:13px;
+    width:18%;
+    padding-right:1%;
+}
+#fieldset-1 .column.column-0 {
+   text-align:left;
+}
+
 
 
 /*.flip-vertical canvas{*/
