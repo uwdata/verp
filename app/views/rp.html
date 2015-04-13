@@ -1,6 +1,5 @@
 <div class="col-md-6 column recurrence" ng-controller="RecurrenceCtrl">
     <div class="row clearfix">
-        <!--<div class="col-md-8 column" style="padding-left:70px" >-->
         <div class="col-md-9 column" >
 
             <label class="viewname">RP</label>
@@ -12,26 +11,30 @@
                  ng-click="setMode('view');
           brushIconStyle={'color':'gray'};
           zoomIconStyle={'color': 'orange'}"
-                 style="margin-left:45%"></span>
-
-    <span class="fa fa-paint-brush"
-          ng-model="interaction.mode"
-          ng-style="brushIconStyle"
-          ng-init="brushIconStyle={'color' :'orange'}"
-          ng-click="setMode('selection');
+                 style="margin-left:45%">
+           </span>
+            <span class="fa fa-paint-brush"
+                  ng-model="interaction.mode"
+                  ng-style="brushIconStyle"
+                  ng-init="brushIconStyle={'color' :'orange'}"
+                  ng-click="setMode('selection');
           brushIconStyle={'color': 'orange'};
           zoomIconStyle={'color':'gray'};">
-    </span>
+            </span>
 
-    <span class="glyphicon glyphicon-repeat"
-          ng-click="resetView()">
+            <span class="glyphicon glyphicon-repeat"
+                  ng-click="resetView()">
            </span>
+
 
             <rp class="stacked flip-vertical" width="500" height="500" data="data"></rp>
 
             <brush id="rp" class="stacked" width="500" height="500" flipy="true"></brush>
 
-            <zoom id="rp-zoom" class="stacked" width="500" height="500" flipy="true" ng-show="interaction.mode==='view'"></zoom>
+            <zoom id="rp-zoom" class="stacked" width="500" height="500"
+                  flipy="true"
+                  ng-show="interaction.mode==='view'"></zoom>
+
         </div>
 
         <!--<div class="col-md-3 column" style="padding-left:30px;padding-right:0px" >-->
@@ -46,7 +49,6 @@
                         <label class="numinput">max:</label><input  type="number" id="step-input" value="{{eps.max}}" ng-model="eps.max">
 
                         <input type="range"
-
                                min="{{eps.min}}"
                                step="{{eps.step}}"
                                max="{{eps.max}}"
@@ -56,35 +58,33 @@
                         <label style="display:block;text-align:center">{{eps.value}}</label>
                     </div>
                 </fieldset>
-
                 <fieldset id='fieldset-1' titlex="Set recurrence distance function">
                     <legend>distance function</legend>
                     <div class="divtable form-group">
                         <div class="row">
                             <div class="column">
-                            <input type="radio" name="norms" value="l1" ng-model="eps.distfn" ng-change="updateDistfn()" />
+                                <input type="radio" name="norms" value="l1" ng-model="eps.distfn" ng-change="updateDistfn()" />
                             </div>
                             <div class="column column-0">l1</div>
                             <div class="column">
-                                    <input type="radio" name="norms" value="l2" ng-model="eps.distfn" ng-change="updateDistfn()" checked/>
+                                <input type="radio" name="norms" value="l2" ng-model="eps.distfn" ng-change="updateDistfn()" checked/>
                             </div>
                             <div class="column column-0">l2</div>
                             <div class="column">
-                                    <input type="radio" name="norms" value="max" ng-model="eps.distfn" ng-change="updateDistfn()"/>
+                                <input type="radio" name="norms" value="max" ng-model="eps.distfn" ng-change="updateDistfn()"/>
                             </div>
                             <div class="column column-0">max</div>
                         </div>
                         <div class="row">
                             <div class="column">
-                                    <input type="radio" name="norms" value="min" ng-model="eps.distfn" ng-change="updateDistfn()" />
+                                <input type="radio" name="norms" value="min" ng-model="eps.distfn" ng-change="updateDistfn()" />
                             </div>
                             <div class="column column-0">min</div>
                             <div class="column">
-                                    <input type="radio" name="norms" value="edit" ng-model="eps.distfn" ng-change="updateDistfn()" />
+                                <input type="radio" name="norms" value="edit" ng-model="eps.distfn" ng-change="updateDistfn()" />
                             </div>
                             <div class="column column-0">edit</div>
-                            <div class="column">
-                                </div>
+                            <div class="column"> </div>
                             <div class="column column-0">   </div>
                         </div>
                     </div>
@@ -149,8 +149,15 @@
 
     <div class="row clearfix">
         <!--col-md-9-->
-        <ng-include src="'views/timeline.html'"></ng-include>
-
+        <div class="col-md-9 column timeline">
+            <axis id="rp-x-axis" class="stacked" width="500" height="30"
+                  type="x"
+                  marginleft="10"
+                  marginright="10"
+                  domain="domain()">
+            </axis>
+            <ng-include src="'views/timeline.html'"></ng-include>
+        </div>
         <div class="col-md-3 column">
 
         </div>

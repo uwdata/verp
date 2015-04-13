@@ -255,13 +255,31 @@ legend{
    padding-right:3%;
 }
 
+#rp-x-axis {
+    top: 12%;
+    left:5px;
+}
+
+#rp-x-axis svg text{
+    font-weight:100;
+    text-shadow: none;
+    font-size:11px;
+    stroke:black;
+    stroke-width:0.5;
+    stroke-opacity:0.8;
+    /*stroke:orangered;*/
+    shape-rendering: crispEdges;
+}
 
 
-/*.flip-vertical canvas{*/
-    /*-moz-transform: scaleY(-1);*/
-    /*-webkit-transform: scaleY(-1);*/
-    /*-o-transform: scaleY(-1);*/
-    /*transform: scaleY(-1);*/
-    /*-ms-filter: flipv; *//*IE*/
-    /*filter: flipv;*/
-/*}*/
+#rp-x-axis .x.axis,
+#rp-x-axis .x.axis line {
+    fill: none;
+    stroke:#777;
+    text-shadow: none;
+    stroke-width:1px;
+    font-weight:200;
+    shape-rendering: crispEdges;
+}
+
+

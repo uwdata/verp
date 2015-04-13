@@ -15,7 +15,7 @@ angular.module('verpApp')
                 h = +attrs.height,
                 rp, rqa;
 
-            function init(){
+            function init() {
 
                 if(!scope.data.x) return;
 

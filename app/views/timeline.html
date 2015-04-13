@@ -1,23 +1,21 @@
-<div class="col-md-9 column timeline" ng-controller="TimelineCtrl">
 
-        <div class="timeline player" ng-show="player.sceneReady" >
+<div class="timeline player"  ng-controller="TimelineCtrl" ng-show="player.sceneReady" >
 
-            <div class="time"><span>time:</span>{{player.currentTime}}</div>
-            <input type="range"
-                   min={{player.min}}
-                   step={{player.step}}
-                   max={{player.max}}
-                   ng-change="player.manual()"
-                   ng-model="player.currentTime" />
+    <div class="time"><span>time:</span>{{player.currentTime}}</div>
+    <input type="range"
+           min={{player.min}}
+           step={{player.step}}
+           max={{player.max}}
+           ng-change="player.manual()"
+           ng-model="player.currentTime" />
 
-            <div class="controls" >
-                <span class="btn-sm glyphicon glyphicon-backward" ng-click="player.backward()"></span>
+    <div class="controls" >
+        <span class="btn-sm glyphicon glyphicon-backward" ng-click="player.backward()"></span>
                     <span class="btn-sm glyphicon glyphicon-play"
                           ng-class="{ 'glyphicon-play': !player.playing, 'glyphicon-pause': player.playing }"
                           ng-click="player.playPause()"></span>
-                <span class="btn-sm glyphicon glyphicon-forward" ng-click="player.forward()" ></span>
-            </div>
+        <span class="btn-sm glyphicon glyphicon-forward" ng-click="player.forward()" ></span>
     </div>
-
 </div>
+
 

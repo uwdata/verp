@@ -17,15 +17,11 @@ angular.module('verpApp')
                 y = d3.scale.linear().range([0, h]),
                 labels;
 
-
-//if(w === 100) console.log(scope.data);
-
-            function init(){
-
+            function init() {
 
                 var dom = scope.domain();
 
-                if(!(scope.data && dom)) return;
+                if(! (scope.data && dom) ) return;
 
                 x.domain(dom.dx).range([0, w]);
                 y.domain(dom.dy).range([0, h]);
