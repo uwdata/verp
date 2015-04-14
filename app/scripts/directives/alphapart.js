@@ -27,23 +27,23 @@ angular.module('verpApp')
                         '#abd9e9',
                         '#74add1',
                         '#4575b4',
-                        '#313695'])
+                        '#313695'].reverse())
                     .clamp(true),
-
                 svg, ac;
 
 
-            //creates the maximal complex once
             function init(){
 
                 if(! scope.data) return;
 
                 var  d = scope.data,
-                     n = d.length - 1,
+                     n = d.length,
+                     m = n - 1,
+                     z = c.range().length - 1,
                      dom = scope.domain(),
                      i;
 
-                c.domain(d3.range(0, n + n/10, n/10));
+                c.domain(d3.range(0, m + m/z, m/z));
 
                 if(!svg) {
                     svg = d3.select(element[0]).append('svg')
@@ -82,7 +82,7 @@ angular.module('verpApp')
             }
 
 
-            scope.$watch('data', function(){ init(); });
+            scope.$watch('data', init);
             scope.$on('domain.ready', init);
             scope.$on('view.zoom', updateScale);
             scope.$on('alpha.update', alphaUpdate);

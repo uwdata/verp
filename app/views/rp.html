@@ -27,6 +27,15 @@
            </span>
 
 
+            <axis id="rp-y-axis" class="stacked" width="20" height="500"
+                  type="y"
+                  flipy="true"
+                  marginleft="35"
+                  marginright="0"
+                  margintop="10"
+                  marginbottom="10"
+                  domain="domain()">
+            </axis>
             <rp class="stacked flip-vertical" width="500" height="500" data="data"></rp>
 
             <brush id="rp" class="stacked" width="500" height="500" flipy="true"></brush>
@@ -34,17 +43,17 @@
             <zoom id="rp-zoom" class="stacked" width="500" height="500"
                   flipy="true"
                   ng-show="interaction.mode==='view'"></zoom>
-
         </div>
 
         <!--<div class="col-md-3 column" style="padding-left:30px;padding-right:0px" >-->
         <div class="col-md-3 column" ng-show="sceneReady">
-            <form  role="form" class="form" >
+
                 <fieldset id='fieldset-0' titlex="Adjust recurrence epsilon threshold">
+
                     <legend>epsilon</legend>
                     <div class="form-group slider">
                         <!--<div style="display:block"><label>epsilon</label></div>-->
-                        <label class="numinput">min:</label><input  type="number"  id="min-input" value="{{eps.min}}" ng-model="eps.min">
+                        <label class="numinput">min:</label><input  type="number" id="min-input" value="{{eps.min}}" ng-model="eps.min">
                         <label class="numinput">step:</label><input type="number" id="max-input" value="{{eps.step}}" ng-model="eps.step">
                         <label class="numinput">max:</label><input  type="number" id="step-input" value="{{eps.max}}" ng-model="eps.max">
 
@@ -58,6 +67,7 @@
                         <label style="display:block;text-align:center">{{eps.value}}</label>
                     </div>
                 </fieldset>
+
                 <fieldset id='fieldset-1' titlex="Set recurrence distance function">
                     <legend>distance function</legend>
                     <div class="divtable form-group">
@@ -90,8 +100,6 @@
                     </div>
                 </fieldset>
 
-
-
                 <fieldset id='fieldset-2'  ng-controller="AlphaformCtrl">
 
                     <legend>alpha</legend>
@@ -121,26 +129,31 @@
                 </fieldset>
 
                 <fieldset id='fieldset-3'>
-
                     <legend>time stats</legend>
+                    <div class="divtable">
+                        <div class="row" id="tooltip-0">
+                            <div id="tooltip-0-a" class="column column-0">
+                            </div>
+                            <div id="tooltip-0-b" class="column column">
+                            </div>
+                        </div>
+                        <div class="row" id="tooltip-1">
+                            <div id="tooltip-1-a" class="column column-0">
+                            </div>
+                            <div id="tooltip-1-b" class="column column">
+                            </div>
+                        </div>
+                        <div class="row" id="tooltip-2">
+                            <div id="tooltip-2-a" class="column column-0">
+                            </div>
+                            <div id="tooltip-2-b" class="column column">
+                            </div>
+                        </div>
 
-                    <div class="timetooltip">
-                        <span id="tooltip-0-a"></span>
-                        <span id="tooltip-0-b"></span>
-
-                    </div>
-                    <div class="timetooltip" id="tooltip-1">
-                        <span id="tooltip-1-a"></span>
-                        <span id="tooltip-1-b"></span>
-                    </div>
-                    <div class="timetooltip" id="tooltip-2">
-                        <span id="tooltip-2-a"></span>
-                        <span id="tooltip-2-b"></span>
                     </div>
 
                 </fieldset>
 
-            </form>
 
         </div>
 
@@ -149,15 +162,18 @@
 
     <div class="row clearfix">
         <!--col-md-9-->
-        <div class="col-md-9 column timeline">
+        <div class="col-md-9 column">
             <axis id="rp-x-axis" class="stacked" width="500" height="30"
                   type="x"
                   marginleft="10"
                   marginright="10"
+                  margintop="0"
+                  marginbottom="0"
                   domain="domain()">
             </axis>
             <ng-include src="'views/timeline.html'"></ng-include>
         </div>
+
         <div class="col-md-3 column">
 
         </div>

@@ -17,8 +17,6 @@ angular.module('verpApp')
                 f = attrs.flipy,
                 x = d3.scale.linear().range([0, w]),
                 y = d3.scale.linear().range([0, h]);
-                //x2 = d3.scale.linear().domain([0,w]).range([0, w]),
-                //y2 = d3.scale.linear().domain([0,h]).range([0, h]);
 
 
 

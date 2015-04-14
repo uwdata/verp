@@ -123,7 +123,7 @@ angular.module('verpApp')
         //hack -- fix it
         $scope.onFixationClick  = function(d, i){
 
-            d3.select('#tooltip-0-a').text('Selected fixation cluster: ');
+            d3.select('#tooltip-0-a').text('Cluster: ');
             d3.select('#tooltip-0-b').text(i);
 
             d3.select('#tooltip-1-a').text('Duration: ');
@@ -140,7 +140,7 @@ angular.module('verpApp')
         $scope.onFixationEdgeClick  = function(d,i){
 
 
-            d3.select('#tooltip-0-a').text('Selected fixation edge: ');
+            d3.select('#tooltip-0-a').text('Edge: ');
             d3.select('#tooltip-0-b').text('('+i+','+(i+1)+')');
 
             d3.select('#tooltip-1-a').text('Duration: ');
@@ -183,6 +183,8 @@ angular.module('verpApp')
             //console.log($scope.saccadePath);
 
             $scope.scanPathPoints = GazeAnalytics.clusterPoints($scope.scanPath, p);
+
+
             //$scope.saccadePathPoints = GazeAnalytics.clusterPoints($scope.saccadePath, p);
 
             $scope.saccadePathPoints = s;

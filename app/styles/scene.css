@@ -303,7 +303,6 @@ div[titlex]:hover:after{
 
 
 #circularnodes text {
-
     text-anchor: middle;
     font-family: 'HelveticaNeue-Light';
     alignment-baseline:central;
@@ -311,7 +310,6 @@ div[titlex]:hover:after{
     text-shadow: 1px 1px #000000;
     fill:white;
     font-size:25px;
-
 }
 
 
