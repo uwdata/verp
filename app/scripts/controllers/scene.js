@@ -254,7 +254,6 @@ angular.module('verpApp')
 
             if(! $scope.frm.img)  return;
 
-
             var dx = [0, +$scope.frm.img.naturalWidth],
                 dy = [0, +$scope.frm.img.naturalHeight],
                 v = $scope.velocity;

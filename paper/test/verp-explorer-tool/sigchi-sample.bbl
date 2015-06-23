@@ -1,0 +1,37 @@
+\begin{thebibliography}{1}
+
+\bibitem{acrobat}
+{Adobe Acrobat Reader 7}.
+\newblock \url{http://www.adobe.com/products/acrobat/}.
+
+\bibitem{ethics}
+Anderson, R.~E.
+\newblock {Social Impacts of Computing: Codes of Professional Ethics}.
+\newblock {\em Social Science Computer Review December 10}, 4 (1992), 453--469.
+
+\bibitem{acm_categories}
+{How to Classify Works Using ACM's Computing Classification System}.
+\newblock \url{http://www.acm.org/class/how_to_use.html}.
+
+\bibitem{Klemmer:2002:WSC:503376.503378}
+Klemmer, S.~R., Thomsen, M., Phelps-Goodman, E., Lee, R., and Landay, J.~A.
+\newblock Where do web sites come from?: capturing and interacting with design
+  history.
+\newblock In {\em Proc. CHI 2002}, ACM Press (2002), 1--8.
+
+\bibitem{Mather:2000:MUT}
+Mather, B.~D.
+\newblock Making up titles for conference papers.
+\newblock In {\em Ext. Abstracts CHI 2000}, ACM Press (2000), 1--2.
+
+\bibitem{Schwartz:1995:GBF}
+Schwartz, M.
+\newblock {\em {Guidelines for Bias-Free Writing}}.
+\newblock Indiana University Press, 1995.
+
+\bibitem{Zellweger:2001:FAO:504216.504224}
+Zellweger, P.~T., Bouvin, N.~O., Jeh{\o}j, H., and Mackinlay, J.~D.
+\newblock Fluid annotations in an open world.
+\newblock In {\em Proc. Hypertext 2001}, ACM Press (2001), 9--18.
+
+\end{thebibliography}

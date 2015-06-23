@@ -34,5 +34,6 @@
   },
   "scripts": {
     "test": "grunt test"
-  }
+  },
+	"license": "BSD-3-Clause"
 }

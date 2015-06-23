@@ -1,0 +1,239 @@
+\begin{thebibliography}{10}
+
+\bibitem{Anderson_2013}
+Anderson, N.~C., Bischof, W., Laidlaw, K., Risko, E., and Kingstone, A.
+\newblock Recurrence quantification analysis of eye movements.
+\newblock {\em Behavior Research Methods 45}, 3 (2013), 842--856.
+
+\bibitem{angularweb}
+{AngularJS}.
+\newblock \url{http://angularjs.org/}.
+
+\bibitem{Arriaga_2013}
+Arriaga~AF, Bader~AM, W. J. e.~a.
+\newblock A simulation-based trial of surgical-crisis checklists.
+\newblock {\em New England Journal of Medicine 368}, 15 (apr 2013), 1459--1460.
+
+\bibitem{Blascheck_2014}
+Blascheck, T., Kurzhals, K., Raschke, M., Burch, M., Weiskopf, D., and Ertl, T.
+\newblock {State-of-the-Art of Visualization for Eye Tracking Data}.
+\newblock In {\em EuroVis - STARs}, The Eurographics Association (2014).
+
+\bibitem{Boorman_2001}
+Boorman, D.
+\newblock
+
+\bibitem{Borland_2007}
+Borland, D., and Ii, R.~T.
+\newblock Rainbow color map (still) considered harmful.
+\newblock {\em {IEEE} Computer Graphics and Applications 27}, 2 (mar 2007),
+  14--17.
+
+\bibitem{d3_infovis11}
+Bostock, M., Ogievetsky, V., and Heer, J.
+\newblock D$^3$: Data-driven documents.
+\newblock {\em IEEE Trans. Visualization \& Comp. Graphics 17}, 12 (2011),
+  2301--2309.
+
+\bibitem{Burch_2013}
+Burch, M., Kull, A., and Weiskopf, D.
+\newblock Aoi rivers for visualizing dynamic eye gaze frequencies.
+\newblock {\em Computer Graphics Forum 32\/} (2013), 281--290.
+
+\bibitem{Burch_2014b}
+Burch, M., Schmauder, H., Raschke, M., and Weiskopf, D.
+\newblock Saccade plots.
+\newblock In {\em Proceedings of the Symposium on Eye Tracking Research and
+  Applications - {ETRA'14}}, Association for Computing Machinery ({ACM})
+  (2014).
+
+\bibitem{Cirimele_2014}
+Cirimele, J., Wu, L., Leach, K., Card, S., Harrison, T.~K., Chu, L., and
+  Klemmer, S.
+\newblock {RapidRead}: Step-at-a-glance crisis checklists.
+\newblock In {\em Proceedings of the 8th International Conference on Pervasive
+  Computing Technologies for Healthcare}, Institute for Computer Sciences,
+  Social Informatics and Telecommunications Engineering ({ICST}) (2014).
+
+\bibitem{Burian_2005}
+Degani, A., and Wiener, E.~L.
+\newblock The challenge of aviation emergency and abnormal situations.
+\newblock Tech. rep.
+
+\bibitem{Degani_1990}
+Degani, A., and Wiener, E.~L.
+\newblock Human factors of flight-deck checklists: The normal checklist.
+\newblock Tech. rep., NASA Ames Research Center, 1990.
+
+\bibitem{Eckmann_1987}
+Eckmann, J.-P., Kamphorst, S.~O., and Ruelle, D.
+\newblock Recurrence plots of dynamical systems.
+\newblock {\em EPL (Europhysics Letters) 4}, 9 (1987), 973.
+
+\bibitem{Edelsbrunner_1994}
+Edelsbrunner, H., and Mücke, E.~P.
+\newblock Three-dimensional alpha shapes.
+\newblock {\em {ACM} Trans. Graph. 13}, 1 (1994), 43--72.
+
+\bibitem{Gawande_2009}
+Gawande, A.
+\newblock {\em The Checklist Manifesto: How to Get Things Right}.
+\newblock Metropolitan Books, 2009.
+
+\bibitem{Hagerstrand_1970}
+Hagerstrand, T.
+\newblock What about people in regional science?
+\newblock {\em Papers of the Regional Science Association 24}, 1 (dec 1970),
+  6--21.
+
+\bibitem{Harrison_2006}
+Harrison, T.~K., Manser, T., Howard, S.~K., and Gaba, D.~M.
+\newblock Use of cognitive aids in a simulated anesthetic crisis.
+\newblock {\em Anesthesia {\&} Analgesia 103}, 3 (2006), 551--556.
+
+\bibitem{Harrower_2003}
+Harrower, M., and Brewer, C.~A.
+\newblock {ColorBrewer}.org: An online tool for selecting colour schemes for
+  maps.
+\newblock {\em The Cartographic Journal 40}, 1 (jun 2003), 27--37.
+
+\bibitem{Havre_2000}
+Havre, S., Hetzler, B., and Nowell, L.
+\newblock {ThemeRiver}: visualizing theme changes over time.
+\newblock In {\em {IEEE} Symposium on Information Visualization 2000. {INFOVIS}
+  2000. Proceedings}, Institute of Electrical {\&} Electronics Engineers
+  ({IEEE}) (2000).
+
+\bibitem{Haynes_2009}
+Haynes, A., Weiser, T., Berry, W., Lipsitz, S., Breizat, A.-H., Dellinger, E.,
+  Herbosa, T., Joseph, S., Kibatala, P., Lapitan, M., Merry, A., Moorthy, K.,
+  Reznick, R., Taylor, B., and Gawande, A.
+\newblock A surgical safety checklist to reduce morbidity and mortality in a
+  global population.
+\newblock {\em NEW ENGLAND JOURNAL OF MEDICINE 360\/} (2009), 491--499.
+
+\bibitem{Holmqvist_2011}
+Holmqvist, K., Nystrom, M., Andersson, R., Dewhurst, R., Jarodzka, H., and
+  de~Weijer, J.~V.
+\newblock {\em Eye Tracking: A Comprehensive Guide to Methods and Measures}.
+\newblock Oxford University Press, 2011.
+
+\bibitem{James_2013}
+James, J.~T.
+\newblock A new, evidence-based estimate of patient harms associated with
+  hospital care.
+\newblock {\em Journal of Patient Safety 9}, 3 (2013), 122--128.
+
+\bibitem{Kieras_2014}
+Kieras, D.~E., and Hornof, A.~J.
+\newblock Towards accurate and practical predictive models of
+  active-vision-based visual search.
+\newblock In {\em Proceedings of the 32Nd Annual ACM Conference on Human
+  Factors in Computing Systems}, CHI '14, ACM (New York, NY, USA, 2014),
+  3875--3884.
+
+\bibitem{Kraak_2003}
+Kraak, M.
+\newblock The space-time cube revisited from a geovisualization perspective.
+\newblock In {\em Proceedings of the 21st International Cartographic
+  Conference} (2003).
+
+\bibitem{Kurzhals_2013}
+Kurzhals, K., and Weiskopf, D.
+\newblock Space-time visual analytics of eye-tracking data for dynamic stimuli.
+\newblock {\em {IEEE} Transactions on Visualization and Computer Graphics 19},
+  12 (2013), 2129--2138.
+
+\bibitem{Li_2010}
+Li, X., {\c{C}\"{o}}ltekin, A., and Kraak, M.-J.
+\newblock Visual exploration of eye movement data using the space-time-cube.
+\newblock In {\em Geographic Information Science}, S.~Fabrikant,
+  T.~Reichenbacher, M.~van Kreveld, and C.~Schlieder, Eds., vol.~6292 of {\em
+  Lecture Notes in Computer Science}. Springer Berlin Heidelberg, 2010,
+  295--309.
+
+\bibitem{Makary_2006}
+Makary, M.~A., Holzmueller, C.~G., Thompson, D., Rowen, L., Heitmiller, E.~S.,
+  Maley, W.~R., Black, J.~H., Stegner, K., Freischlag, J.~A., Ulatowski, J.~A.,
+  and Pronovost, P.~J.
+\newblock Operating room briefings: working on the same page.
+\newblock {\em Joint Commission journal on quality and patient safety / Joint
+  Commission Resources 32}, 6 (June 2006), 351—355.
+
+\bibitem{Marwan_2008}
+Marwan, N.
+\newblock A historical review of recurrence plots.
+\newblock {\em Eur. Phys. J. Spec. Top. 164}, 1 (oct 2008), 3--12.
+
+\bibitem{Pirolli_1999}
+Pirolli, Peter;~Card, S.
+\newblock Information foraging.
+\newblock {\em Psychological Review 106}, 4 (1999), 643--675.
+
+\bibitem{Pronovost_2006}
+Pronovost, P., Needham, D., Berenholtz, S., Sinopoli, D., Chu, H., Cosgrove,
+  S., Sexton, B., Hyzy, R., Welsh, R., Roth, G., Bander, J., Kepros, J., and
+  Goeschel, C.
+\newblock An intervention to decrease catheter-related bloodstream infections
+  in the {ICU}.
+\newblock {\em New England Journal of Medicine 355}, 26 (dec 2006), 2725--2732.
+
+\bibitem{Raschke_2012}
+Raschke, M., Chen, X., and Ertl, T.
+\newblock Parallel scan-path visualization.
+\newblock In {\em Proceedings of the Symposium on Eye Tracking Research and
+  Applications - {ETRA'12}}, Association for Computing Machinery ({ACM})
+  (2012).
+
+\bibitem{Salvucci_2000}
+Salvucci, D.~D., and Goldberg, J.~H.
+\newblock Identifying fixations and saccades in eye-tracking protocols.
+\newblock In {\em Proceedings of the symposium on Eye tracking research {\&}
+  applications - {ETRA'00}}, Association for Computing Machinery ({ACM})
+  (2000).
+
+\bibitem{Tsang_2010}
+Tsang, H.~Y., Tory, M., and Swindells, C.
+\newblock eseetrack--visualizing sequential fixation patterns.
+\newblock {\em {IEEE} Transactions on Visualization and Computer Graphics 16},
+  6 (nov 2010), 953--962.
+
+\bibitem{TVERSKY_2002}
+Tversky, B., Morrison, J.~B., and Betrancourt, M.
+\newblock Animation: can it facilitate?
+\newblock {\em International Journal of Human-Computer Studies 57}, 4 (oct
+  2002), 247--262.
+
+\bibitem{Verdaasdonk_2008}
+Verdaasdonk, E. G.~G., Stassen, L. P.~S., Widhiasmara, P.~P., and Dankelman, J.
+\newblock Requirements for the design and implementation of checklists for
+  surgical processes.
+\newblock {\em Surg Endosc 23}, 4 (jul 2008), 715--726.
+
+\bibitem{Wattenberg_2008}
+Wattenberg, M., and Viegas, F.
+\newblock The word tree, an interactive visual concordance.
+\newblock {\em {IEEE} Transactions on Visualization and Computer Graphics 14},
+  6 (nov 2008), 1221--1228.
+
+\bibitem{Winters_2009}
+Winters, B.~D., Gurses, A.~P., Lehmann, H., Sexton, J.~B., Rampersad, C., and
+  Pronovost, P.~J.
+\newblock Clinical review: Checklists - translating evidence into practice.
+\newblock {\em Critical Care 13}, 6 (2009), 210.
+
+\bibitem{Yarbus_1967}
+Yarbus, A.~L.
+\newblock {\em Eye Movements and Vision}.
+\newblock Plenum, New York, 1967.
+
+\bibitem{Ziewacz_2011}
+Ziewacz, J.~E., Arriaga, A.~F., Bader, A.~M., Berry, W.~R., Edmondson, L.,
+  Wong, J.~M., Lipsitz, S.~R., Hepner, D.~L., Peyre, S., Nelson, S., Boorman,
+  D.~J., Smink, D.~S., Ashley, S.~W., and Gawande, A.~A.
+\newblock Crisis checklists for the operating room: Development and pilot
+  testing.
+\newblock {\em Journal of the American College of Surgeons 213}, 2 (aug 2011),
+  212--217.e10.
+
+\end{thebibliography}

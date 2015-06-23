@@ -1,0 +1,72 @@
+This is BibTeX, Version 0.99d (TeX Live 2014)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: verp.aux
+The style file: acm-sigchi.bst
+Database file #1: verp.bib
+Warning--I'm ignoring Burian_2005's extra "author" field
+--line 37 of file verp.bib
+I was expecting a `,' or a `}'---line 37 of file verp.bib
+ : 
+ : institution = {NASA Ames Research Center},
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 88 of file verp.bib
+ :   
+ :   year={2001}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "Stephens_1986)"
+Too many commas in name 1 of "Arriaga AF, Bader AM, Wong JM, et al." for entry Arriaga_2013
+while executing---line 1097 of file acm-sigchi.bst
+Too many commas in name 1 of "Arriaga AF, Bader AM, Wong JM, et al." for entry Arriaga_2013
+while executing---line 1138 of file acm-sigchi.bst
+Warning--empty booktitle in Boorman_2001
+Warning--empty year in Boorman_2001
+1 is an integer literal, not a function, for entry Boorman_2001
+while executing---line 1138 of file acm-sigchi.bst
+You can't pop an empty literal stack for entry Boorman_2001
+while executing---line 1138 of file acm-sigchi.bst
+Warning--empty institution in Burian_2005
+Warning--empty year in Burian_2005
+You've used 39 entries,
+            2243 wiz_defined-function locations,
+            801 strings with 11882 characters,
+and the built_in function-call counts, 13978 in all, are:
+= -- 1305
+> -- 821
+< -- 0
++ -- 344
+- -- 296
+* -- 1176
+:= -- 2351
+add.period$ -- 116
+call.type$ -- 39
+change.case$ -- 263
+chr.to.int$ -- 0
+cite$ -- 43
+duplicate$ -- 418
+empty$ -- 1030
+format.name$ -- 296
+if$ -- 2809
+int.to.chr$ -- 0
+int.to.str$ -- 39
+missing$ -- 39
+newline$ -- 196
+num.names$ -- 78
+pop$ -- 275
+preamble$ -- 1
+purify$ -- 225
+quote$ -- 0
+skip$ -- 234
+stack$ -- 0
+substring$ -- 819
+swap$ -- 55
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 150
+warning$ -- 4
+while$ -- 124
+width$ -- 41
+write$ -- 391
+(There were 6 error messages)
