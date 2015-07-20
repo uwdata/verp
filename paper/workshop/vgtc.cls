@@ -618,7 +618,7 @@ e-mail to: tvcg@computer.org.
 %%              \endgroup\par%
 %%          \fi%
         }%
-	\begin{center}\includegraphics{diamondrule.eps}\end{center}
+	\begin{center}\includegraphics{figures/diamondrule}\end{center}
        %\vspace{\abstxtspace}%
 	\ifx\firstsectiontxt\vgtc@empty \else
 	  \section{\firstsectiontxt}
