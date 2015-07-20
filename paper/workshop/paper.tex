@@ -730,8 +730,11 @@ scatter on faster tasks.
 Our second conclusion is that \emph{It would be helpful to formalize more the patterns identified 
 from the recurrence plot and build up catalog of these patterns.}
 Recurrence plots often contain
-pattern elements that are identifiable building blocks of the recurrence plot and the behavior it expresses. Inspection of the eye movement rp's for our visual search task leads us to here propose the following patterns,  which we will call textual visual search  {\emph motifs}. We applied our implementation of the RQA analysis suggested by~\cite{Anderson_2013} (see Figure~\ref{fig:rqacomparison}). The differences between the metrics for the faster and slower format were modest, although there were some differences, particularly for Vmax  and L. Our third conclusion follows is that since the rp patterns are so different, that is that motifs should be developed taking this into account and that there is an opportunity to 
-develop RQA at several levels. We propose three levels~\ref{fig:motifs}.  
+pattern elements that are identifiable building blocks of the recurrence plot and the behavior it expresses. Inspection of the eye movement rp's for our visual search task leads us to here propose the following patterns,  which we will 
+call textual visual search  \emph{motifs}. We applied our implementation of the RQA analysis suggested by~\cite{Anderson_2013} (see Figure~\ref{fig:rqacomparison}). The differences between the metrics for the faster and slower format were modest, although there were some differences, particularly for Vmax  and L. Our third conclusion follows is that since the rp patterns are so different, 
+that is that motifs should be developed taking this into account and that 
+there is an opportunity to develop RQA at several levels. We propose three 
+levels~\ref{fig:motifs}.  
 
 At Level 1, the Immediate Level, we are concerned with local patterns that could be detected with a template that looks at a cell and it's immediate neighbors:
 
@@ -766,16 +769,18 @@ But the most interesting level of motif we have seen is at Level 3, which we hav
 far, we have been considering eye movements individually, but the square
 motif in our recurrence plots suggests that they interact in groups: a
 sequence of saccades to a position on the checklist followed by a set of
-fixations around that area (see [xx Fig FF]) Notice that the square motif
-appears regardless of the order of the fixation within the cluster. This
-pattern is similar to the patterns found in information foraging
-theory~\cite{Pirolli_1999}. 
+fixations around that area (see Figure~\ref{fig:cases}).  Notice that 
+the square motif appears regardless of the order of the fixation within 
+the cluster. This pattern is similar to the patterns found in information 
+foraging theory~\cite{Pirolli_1999}. 
 
 \begin{figure}
 	\insertpicture{figures/table.pdf}{0.4}
-	\caption{Information Foraging analysis for ten cases. Left pair of columns shows eye movements and recurrence plots for Standard emergency checklist arranged from fastest on top to slowest. Right pair of columns shows Dynamic checklist. Information patches are automatically detected and numbered. generally there are more of them and they are less organized for slower trials. \label{fig:cases}}
+	\caption{Information Foraging analysis for ten cases. 
+Left pair of columns shows eye movements and recurrence plots for 
+\emph{standard} emergency checklist arranged from fastest on top to slowest. 
+Right pair of columns shows \emph{dynamic}checklist. Information patches are automatically detected and numbered. generally there are more of them and they are less organized for slower trials. \label{fig:cases}}
 \end{figure}
-
 
 \section{Conclusion} 
 Evaluating the effectiveness of the visual design of an
