@@ -44,7 +44,7 @@ version		:= 2.2.0
 -include $(HOME)/.latex-makefile/Variables.ini
 #
 # This can be pdflatex or latex - you can change this by adding the following line to your Makefile.ini:
-# BUILD_STRATEGY := latex
+#BUILD_STRATEGY := latex
 BUILD_STRATEGY		?= pdflatex
 #
 # Sets LC_ALL=C, by default, so that the locale-aware tools, like sort, be
