@@ -3,7 +3,7 @@ The VERP Explorer
 
 The VERP (Visualization of Eye movements with Recurrence Plots) Explorer is a
 visual analysis tool for exploring eye movements during visual-cognitive tasks.
-The VERP Explorer couples several spatial visualizations of eye movements with
+The VERP Explorer couples several spatial eye-movement visualizations with
 recurrence plots that reveal patterns of revisitation over time. 
 
 Until we prepare a proper documentation, please refer to this
