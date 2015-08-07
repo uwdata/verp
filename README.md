@@ -12,7 +12,7 @@ details.
 
 ## Run 
 + The VERP Explorer is a web application. You can run a deployed copy from
-  [here](http://www.cs.stanford.edu/~cagatay/projects/verp/) 
+  [here](http://www.cs.stanford.edu/~cagatay/projects/verp/). 
 
   * Two synthetic datasets, [data/lorenz](data/lorenz) and 
     [data/sin](data/sin), in the repo should help you jump start, particularly 
