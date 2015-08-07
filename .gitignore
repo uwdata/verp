@@ -7,6 +7,10 @@ dist
 .DS_store
 .gitignore
 .gitattributes
+.bowerrc
+.gitignore
+.travis.yml
+.jshintrc
 *~
 /*~
 ./todo.txt
