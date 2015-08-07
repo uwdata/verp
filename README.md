@@ -20,8 +20,7 @@ Until we prepare a proper documentation, please refer to this [draft](http://www
 + Get a local copy of the repo either by using `git clone`
   or downloading the zipped folder.
 
-+ In order to build the VERP Explorer you need to have  
-  * [node.js](nodejs.org) and [bower](bower.io) installed.  
++ In order to build the VERP Explorer you need to have [node.js](nodejs.org) and [bower](bower.io) installed.  
 
 + Once you have the above, you can build the VERP Explorer by running :  
   * `npm install` 
