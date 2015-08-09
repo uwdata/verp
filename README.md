@@ -26,10 +26,10 @@ details.
 + In order to build the VERP Explorer you need to have [node.js](nodejs.org)
   and [bower](bower.io) installed.
 
-+ Get a local copy of the repo either by using `git clone` or downloading the
++ Once you have the above, get a local copy of the repo either by using `git clone` or downloading the
   zipped folder.
 
-+ To build, run `npm install` and  `bower install` from the project directory.  
++ Then, to build, run `npm install` and  `bower install` from the project directory.  
 
 + Run `grunt serve` for preview. 
 
