@@ -19,7 +19,7 @@ details.
     if you're curious about recurrence plots. Also, check out this short
     [video](http://www.cs.stanford.edu/~cagatay/projects/verp/lorenz.mov).
 
-+ The VERP Explorer is a research prototype and has been tested only on Chrome.    
++ The VERP Explorer has been tested only on Chrome browser and is best viewed in browser's full screen mode.     
 
 ## Build & Develop 
 
