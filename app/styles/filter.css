@@ -1,0 +1,63 @@
+
+#filter-collapsible{
+    position:absolute;
+    top:730px;
+}
+
+#filter-collapsible legend{
+    margin-bottom: 2px;
+}
+
+#filter-collapsible fieldset .divtable{
+    display: table;
+    margin-top:5px;
+}
+
+#filter-collapsible fieldset .row{
+    display: table-row;
+    text-align:center;
+}
+
+
+#filter-collapsible fieldset .column.column-0{
+    text-align: right;
+    vertical-align:top;
+    padding-right:1%;
+}
+
+
+#filter-collapsible fieldset .row.heading {
+    text-align: center;
+}
+
+
+#filter-collapsible fieldset .column {
+    font-size:11px;
+    display: table-cell;
+    color:gray;
+    width: 80px;
+}
+
+#filter-collapsible fieldset input[type=number]{
+   width:75%;
+}
+
+/*#filter-collapsible fieldset#scene-ctrls-1 .column {*/
+ /* font-size:11px; */
+ /* display: table-cell; */
+ /* color:gray; */
+ /* width:100%; */
+/*}*/
+
+#filter-collapsible fieldset .row.heading .column{
+    color: rgba(255, 69, 0, 0.60);
+}
+
+#filter-collapsible fieldset .row.heading .column-gray{
+    color: gray;
+}
+
+
+/*#filter-collapsible fieldset#scene-ctrls-1 .row.heading .column{*/
+    /*color: rgba(255, 69, 0, 0.60);*/
+/*}*/

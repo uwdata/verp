@@ -21,7 +21,7 @@ angular.module('verpApp')
             s.canvas.height = +attrs.height;
             s.ctx = s.canvas.getContext('2d');
 
-            s.ctx.imageSmoothingEnabled = false;
+            s.ctx.imageSmoothingEnabled = true;
 
             frm.img = new Image();
 

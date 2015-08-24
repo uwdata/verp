@@ -99,6 +99,13 @@ body {
   }
 }
 
+.vis-disabled{
+    color:lightgrey !important;
+    /*visibility: hidden;*/
+}
+
+
+
 label{
   font-weight: 200;
   font-size:12px;

@@ -21,6 +21,10 @@ details.
 
 + The VERP Explorer is research prototype and only tested on Chrome.    
 
+
+## File formats  
+
+
 ## Build & Develop 
 
 + In order to build the VERP Explorer you need to have [node.js](nodejs.org)

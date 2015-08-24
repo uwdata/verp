@@ -12,7 +12,7 @@ angular.module('verpApp')
 
 
         $scope.eps = {value:50, min:0, max:100, step:1, distfn:'l2', filtering:false};
-        $scope.rqa = {};//rr:0, det:0, entropy:0, l:0, tt:0, lam:0, lmax:0, vmax:0};
+        $scope.rqa = {};
 
         $scope.showRQA = true;
 

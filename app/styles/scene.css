@@ -222,6 +222,10 @@ div[titlex]:hover:after{
     width: 150px;
 }
 
+.scene-info fieldset#scene-ctrls-1 label{
+    margin-bottom: -5px;
+}
+
 
 .scene-info fieldset#scene-ctrls-1 .column {
     font-size:11px;
@@ -229,12 +233,27 @@ div[titlex]:hover:after{
     color:gray;
     width:100%;
 }
+.scene-info fieldset#scene-ctrls-1 .column-1 {
+    font-size:11px;
+    display: table-cell;
+    color:gray;
+    text-align:left;
+    width:20px;
+}
 
+
+.scene-info fieldset#scene-ctrls-1 .column.column-0{
+    text-align: right;
+    vertical-align:bottom;
+    padding-right:3%;
+    width:1%;
+}
 
 
 .scene-info fieldset .row.heading .column{
     color: rgba(255, 69, 0, 0.60);
 }
+
 
 .scene-info fieldset .row.heading .column-gray{
     color: gray;
@@ -307,22 +326,24 @@ div[titlex]:hover:after{
     font-family: 'HelveticaNeue-Light';
     alignment-baseline:central;
     font-weight: 300;
-    text-shadow: 1px 1px #000000;
-    fill:white;
+    text-shadow: 1px 1px #ffffff;
+    fill:black;
     font-size:25px;
 }
 
 
-.nodes circle{
+circle{
     opacity:1;
+    stroke-width:5;
+    fill:coral;
 }
 
 .alphashape-boundary{
 
-    stroke-width:2;
-    stroke: black;
+    stroke-width:3;
+    stroke:black;
     vector-effect:non-scaling-stroke;
-    stroke-dasharray:5,5;
+    /*stroke-dasharray:5,5;*/
     stroke-linecap:round;
     stroke-linejoin:round;
 

@@ -19,18 +19,18 @@ angular.module('verpApp')
         $scope.showScanPath = false;
 
 
-
         $scope.frm = {};
         $scope.sp = {};
-        $scope.alpha = {value:50, partition:false};
+        $scope.alpha = { value:50, partition:false};
 
         $scope.visibilityChanged = false;
 
-
-        $scope.velocity = { min:0, step:1, max:10, threshold:5 };
+        $scope.velocity =   {min:0, step:1, max:10, threshold:5 };
+        $scope.dispersion = {min:0, step:1, max:10, threshold:5 };
+        $scope.methods = {ivt:classifyIVT, idt:classifyIDT};
+        $scope.detectionMethod = 'idt';
 
         $scope.mode = 'selection';
-
 
         $scope.dataurl = function(imgdata){
             $scope.heatmapImg = imgdata;
@@ -155,15 +155,46 @@ angular.module('verpApp')
         };
 
 
-
         $scope.classify = function(){
+
+            ($scope.methods[$scope.detectionMethod]).call();
+
+        };
+
+        function classifyIDT(){
+
+
+            console.log('classify IDT', $scope.dispersion.threshold);
+
+            var p = $scope.points,
+                w = 10,
+                ts = 1e-6;
+
+            $scope.scanPath = GazeAnalytics.classifyIDT($scope.points, $scope.gvec, $scope.dispersion.threshold, w, $scope.time);
+            $scope.scanPathDuration = GazeAnalytics.fixationDuration($scope.scanPath, $scope.time, ts);
+            $scope.scanPathPoints = GazeAnalytics.clusterPoints($scope.scanPath, p);
+
+            //$scope.saccadePathPoints = GazeAnalytics.clusterPoints($scope.saccadePath, p);
+            //$scope.saccadePathPoints = s;
+            //$scope.saccadePathDuration = GazeAnalytics.saccadeDuration(e, $scope.time, 0.000001);
+
+            if($scope.showSaccades)  $scope.saccadeVisibility();
+            if($scope.showFixations) $scope.fixationVisibility();
+
+
+        }
+
+
+
+        function classifyIVT(){
 
             var e = GazeAnalytics.classifyIVT($scope.velocity.values, $scope.velocity.threshold, $scope.event),
                 p = $scope.points,
                 n = p.length,
                 f = [],
                 s = [],
-                i = 0;
+                i = 0,
+                ts = 1e-6;
 
 
             for(; i < n; i++)
@@ -176,8 +207,9 @@ angular.module('verpApp')
             $scope.fixations = f;
             $scope.saccades = s;
 
-            $scope.scanPath = GazeAnalytics.cluster(e, p, 20, 0, 1); // fixation path
-            $scope.scanPathDuration = GazeAnalytics.fixationDuration($scope.scanPath, $scope.time,0.000001);
+            $scope.scanPath = GazeAnalytics.cluster(e, p, 10, 0, 1); // fixation path
+            $scope.scanPathDuration = GazeAnalytics.fixationDuration($scope.scanPath, $scope.time, ts);
+
             //$scope.scanPathTooltip =  $scope.generateScanPathTooltip($scope.scanPath, $scope.scanPathDuration);
             //console.log(GazeAnalytics.cluster(e, p, 5, 1, 0));
             //console.log($scope.saccadePath);
@@ -194,7 +226,7 @@ angular.module('verpApp')
             if($scope.showFixations) $scope.fixationVisibility();
 
 
-        };
+        }
 
 
         $scope.generateScanPathTooltip  = function(p, d){
@@ -266,23 +298,25 @@ angular.module('verpApp')
             $scope.yDomain = dy;
 
             $scope.points = d.data.pos;
+            $scope.gvec = d.data.gvec;
             $scope.time = d.data.time;
+
             $scope.duration = 0.000001*($scope.time[$scope.time.length-1] - $scope.time[0]);
 
             v.values = d.data.velocity;
 
-            v.min = ~~Math.max(d.data.avgVelocity - 5 * d.data.stdVelocity, 0);
-            v.max = ~~(d.data.avgVelocity +  5 * d.data.stdVelocity);
+            v.min = Math.max(d.data.avgVelocity - 5 * d.data.stdVelocity, 0);
+            v.max = (d.data.avgVelocity +  5 * d.data.stdVelocity);
 
-            $scope.velocity.threshold = ~~( 0.5 * (v.min + v.max) );
+            $scope.velocity.threshold = ( 0.5 * (v.min + v.max) );
 
-            v.step = ~~(d.data.stdVelocity/16);
+            v.step = (d.data.stdVelocity/16);
 
             $scope.event = stat.array($scope.points.length, 0);
             $scope.visibility = stat.array($scope.points.length, 1);
 
 
-            $scope.classify();
+            ($scope.methods[$scope.detectionMethod]).call();
 
             $scope.$broadcast('domain.ready', d);
 

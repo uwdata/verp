@@ -1,6 +1,6 @@
 !function() {
   var stat = {
-    version: "1.0.0"
+    version: "0.1.0"
   };
   stat.extrama = function(X) {
     if (!(arguments.length && X)) return;
@@ -35,18 +35,29 @@
     return a - b;
   };
   stat.initArray = function(a, v) {
-    var n = a.length, i = 0;
-    for (;i < n; i++) a[i] = v;
+    var n = a.length, i;
+    if (typeof v === "function") for (i = 0; i < n; a[i++] = v(i)) ; else for (i = 0; i < n; a[i++] = v) ;
     return a;
   };
+  stat.slice = function(a, dim, i) {
+    if (dim === 1) return a.slice(i)[0];
+    var n = a.length, slice = stat.array(n), j;
+    for (j = 0; j < n; j++) slice[j] = a[j][i];
+    return slice;
+  };
   stat.array = function(s, v) {
-    return v ? new Array(s) : stat.initArray(new Array(s), v);
+    return arguments.length === 1 ? new Array(s) : stat.initArray(new Array(s), v);
+  };
+  stat.range = function(s) {
+    var a = stat.array(s), i;
+    for (i = 0; i < s; a[i] = i++) ;
+    return a;
   };
   stat.uint8ClampedArray = function(s, v) {
-    return v ? new Uint8ClampedArray(s) : stat.initArray(new Uint8ClampedArray(s), v);
+    return arguments.length === 1 ? new Uint8ClampedArray(s) : stat.initArray(new Uint8ClampedArray(s), v);
   };
   stat.uint8Array = function(s, v) {
-    return v ? new Uint8Array(s) : stat.initArray(new Uint8Array(s), v);
+    return arguments.length === 1 ? new Uint8Array(s) : stat.initArray(new Uint8Array(s), v);
   };
   stat.uint8ArrayCopy = function(a) {
     var n = a.length, acopy = new Uint8Array(n), i;
@@ -54,19 +65,24 @@
     return acopy;
   };
   stat.uint32Array = function(s, v) {
-    return v ? new Uint32Array(s) : stat.initArray(new Uint32Array(s), v);
+    return arguments.length === 1 ? new Uint32Array(s) : stat.initArray(new Uint32Array(s), v);
+  };
+  stat.uint32Range = function(s) {
+    var a = stat.uint32Array(s), i;
+    for (i = 0; i < s; a[i] = i++) ;
   };
   stat.float32Array = function(s, v) {
-    return v ? new Float32Array(s) : stat.initArray(new Float32Array(s), v);
+    return arguments.length === 1 ? new Float32Array(s) : stat.initArray(new Float32Array(s), v);
   };
   stat.equalArray = function(a, b) {
-    var n = a.length, m = b.length, i = 0;
+    var n = a.length, m = b.length, i;
     if (!(n === m)) return false;
-    for (;i < n; i++) if (!(a[i] === b[i])) return false;
+    for (i = 0; i < n; i++) if (!(a[i] === b[i])) return false;
     return true;
   };
-  stat.mean = function(X) {
-    if (!(arguments.length && X.length)) console.error("Invalid parameter!");
+  stat.mean = function(X, dim) {
+    var n = arguments.length;
+    if (!(n && X.length)) console.error("Invalid parameter!");
     return stat_mean(X);
   };
   function stat_mean(X) {
@@ -75,8 +91,9 @@
     for (;i < n; i++) m += (X[i] - m) / (i + 1);
     return m;
   }
-  stat.median = function(X) {
-    if (!(arguments.length && X.length)) console.error("Invalid parameter!"); else return stat_median(X);
+  stat.median = function(X, dim) {
+    var n = arguments.length;
+    if (!(n && X.length) || n > 1 && dim > 1) return console.error("Invalid parameter!"); else if (n === 1) return stat_median(X); else return stat_dim_median(X, dim);
   };
   function stat_median(X) {
     var n = X.length;
@@ -89,6 +106,24 @@
       val: v,
       array: Xs
     };
+  }
+  function stat_dim_median(X, dim) {
+    var n0 = X.length, n1 = X[0].length, i, x;
+    if (dim === 0) {
+      x = stat.array(n1);
+      for (i = 0; i < n1; i++) x[i] = stat_median(stat.slice(X, dim, i)).val;
+    } else {
+      x = stat.array(n0);
+      for (i = 0; i < n0; i++) x[i] = stat_median(stat.slice(X, dim, i)).val;
+    }
+    return x;
+  }
+  stat.quant = function(X, k, q) {
+    if (!(arguments.length === 3 && q > 1 && k > 0 && k < q)) console.error("Invalid input args!"); else return stat_quant(X.sort(stat.numeric), k / q);
+  };
+  function stat_quant(X, i) {
+    var n = X.length, h = i * (n - 1), i0 = Math.floor(h), i1 = i0 + 1, w = h - i0;
+    return (1 - w) * X[i0] + w * X[i1];
   }
   stat.var = function(X) {
     if (!(arguments.length && X.length)) console.error("Invalid parameter!"); else return stat_var(X);
@@ -119,8 +154,8 @@
     return x === 0 ? 0 : Math.log(x);
   }
   function stat_entropy(X, P) {
-    var n = X.length, H = 0, i = 0, p;
-    for (;i < n; i++) {
+    var n = X.length, H = 0, i, p;
+    for (i = 0; i < n; i++) {
       p = P(X(i));
       H += p * stat_log(p);
     }
@@ -165,9 +200,8 @@
       j = 0;
       for (jy = 0; jy < ky; jy++) {
         for (jx = 0; jx < kx; jx++) {
-          if (X[i] > ex[jx] && X[i] <= ex[jx + 1] && Y[i] > ey[jy] && Y[i] <= ey[jy + 1]) {
-            ++h[j];
-          }
+          if (X[i] > ex[jx] && X[i] <= ex[jx + 1] && Y[i] > ey[jy] && Y[i] <= ey[jy + 1]) df;
+          ++h[j];
           ++j;
         }
       }
@@ -252,13 +286,9 @@
     return Math.sqrt(stat.vector.normSquared(v));
   };
   stat.vector.normalize = function(v0) {
-    var v = [], eps = 1 / 256, r = stat.vector.norm(v0);
-    if (r < eps) {
-      console.error("The vector [" + v0 + "] has almost zero norm!");
-      return;
-    }
-    var n = v0.length, i = 0;
-    for (;i < n; i++) v.push(v0[i] / r);
+    var v = [], eps = 1 / 1024, r = stat.vector.norm(v0), n = v0.length, i;
+    if (r < eps) return console.error("The vector [" + v0 + "] has almost zero norm!");
+    for (i = 0; i < n; i++) v.push(v0[i] / r);
     return v;
   };
   stat.vector.dot = function(v0, v1) {
@@ -271,17 +301,16 @@
     return s;
   };
   stat.vector.degree = function(v0, v1) {
-    return 360 * (stat.vector.radian(v0, v1) / (2 * Math.PI));
+    return 180 * (stat.vector.radian(v0, v1) / Math.PI);
   };
   stat.vector.radian = function(v0, v1) {
-    var normalize = stat.vector.normalize, dot = stat.vector.dot;
-    return Math.acos(dot(normalize(v0), normalize(v1)));
+    var normalize = stat.vector.normalize, dot = stat.vector.dot, c = dot(normalize(v0), normalize(v1));
+    return c < -1 ? Math.PI : c > 1 ? 0 : Math.acos(c);
   };
   if (typeof define === "function" && define.amd) {
     define(stat);
   } else if (typeof module === "object" && module.exports) {
     module.exports = stat;
-  } else {
-    this.stat = stat;
   }
+  this.stat = stat;
 }();

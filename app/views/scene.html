@@ -221,29 +221,70 @@
 
                 </fieldset>
 
-
                 <fieldset id="scene-ctrls-1">
                     <div class="divtable">
-                        <div class="row heading">
-                            <div class="column">velocity threshold</div>
-                        </div>
-                        <div class="row row-1">
-                            <div class="column">
-                                <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
-                                <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
-                                <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
+                            <div class="row heading" ng-show='detectionMethod==="ivt"'>
+                                <div class="column">velocity threshold</div>
                             </div>
-                        </div>
-                        <div class="row row-2">
+                            <div class="row row-1" ng-show='detectionMethod==="ivt"'>
+                                <div class="column">
+                                    <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
+                                    <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
+                                    <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
+                                </div>
+                            </div>
+                            <div class="row row-2" ng-show='detectionMethod==="ivt"'>
+                                <div class="column">
+                                    <input type="range"
+                                           min="{{velocity.min}}"
+                                           step="{{velocity.step}}"
+                                           max="{{velocity.max}}"
+                                           value="{{velocity.threshold}}"
+                                           ng-model="velocity.threshold"
+                                           ng-change="classify()"/>
+                                    <label class="center">{{velocity.threshold}}</label>
+                                </div>
+                            </div>
+                            <div class="row heading" ng-show='detectionMethod==="idt"'>
+                                <div class="column">dispersion threshold</div>
+                            </div>
+                            <div class="row row-1" ng-show='detectionMethod==="idt"'>
+                                <div class="column">
+                                    <label class="numinput">min:</label><input type="number"  value="{{dispersion.min}}" ng-model="dispersion.min">
+                                    <label class="numinput">step:</label><input type="number" value="{{dispersion.step}}" ng-model="dispersion.step">
+                                    <label class="numinput">max:</label><input type="number"  value="{{dispersion.max}}" ng-model="dispersion.max">
+                                </div>
+                            </div>
+                            <div class="row row-2" ng-show='detectionMethod==="idt"'>
+                                <div class="column">
+                                    <input type="range"
+                                           min="{{dispersion.min}}"
+                                           step="{{dispersion.step}}"
+                                           max="{{dispersion.max}}"
+                                           value="{{dispersion.threshold}}"
+                                           ng-model="dispersion.threshold"
+                                           ng-change="classify()"/>
+                                    <label class="center">{{dispersion.threshold}}</label>
+                                </div>
+                            </div>
+                        <!--</div>-->
+                        <div class="row row-heading">
+
                             <div class="column">
-                                <input type="range"
-                                       min="{{velocity.min}}"
-                                       step="{{velocity.step}}"
-                                       max="{{velocity.max}}"
-                                       value="{{velocity.threshold}}"
-                                       ng-model="velocity.threshold"
-                                       ng-change="classify()"/>
-                                <label class="center">{{velocity.threshold}}</label>
+                                <div class="row">
+                                    <div class="column column-0">
+                                        IVT
+                                    </div>
+                                    <div class="column column-1">
+                                        <input type="radio" name="detection"  value="ivt" ng-model="detectionMethod">
+                                    </div>
+                                    <div class="column column-0">
+                                        IDT
+                                    </div>
+                                    <div class="column column-1">
+                                        <input type="radio" name="detection"  ng-init='detectionMethod="idt"' value="idt" ng-model="detectionMethod">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

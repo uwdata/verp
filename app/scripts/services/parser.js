@@ -8,7 +8,7 @@
  * Factory in the verpApp.
  */
 angular.module('verpApp')
-    .factory('Parser', ['GazeAnalytics', function (GazeAnalytics) {
+    .factory('Parser', ['GazeAnalytics', 'GazeFilter', function (GazeAnalytics, GazeFilter) {
 
         var calibAreaWidth, calibAreaHeight;
 
@@ -26,6 +26,7 @@ angular.module('verpApp')
                 d[i][0] += tx;
                 d[i][1] += ty;
             }
+
 
         };
 
@@ -73,7 +74,6 @@ angular.module('verpApp')
 
             }
 
-
             if(j > -1) return (header[i].split(delim)[1]);
 
         };
@@ -83,7 +83,7 @@ angular.module('verpApp')
 
             var verp = JSON.parse(txt);
 
-            verp.pixelSize = [verp.stimSize[0]/verp.calibArea[0], verp.stimSize[1]/verp.calibArea[1]];
+            verp.pixelSize = [verp.stimSize[0] / verp.calibArea[0], verp.stimSize[1]/verp.calibArea[1]];
             verp.deltaTime = GazeAnalytics.delta(verp.time);
             verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime);
             //verp.velocity  = GazeAnalytics.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize, verp.headDistance);
@@ -92,6 +92,7 @@ angular.module('verpApp')
             verp.avgVelocity = sigmsqr.mean;
             verp.stdVelocity = Math.sqrt(sigmsqr.val);
 
+            verp.pos = GazeFilter.movingMedian(verp.pos, null, 5);
 
             return verp;
 
@@ -109,13 +110,17 @@ angular.module('verpApp')
                     pos: [],
                     value: [],
                     time: [],
-                    frmid: [],
+                    gvec:[],
                     info: null
                 },
                 n = tracking.length,
-                eps = 1/ 4,
+                eps = 1 / 64,
+                ts = 1 / 1000000, //timestamps are in microsecs; we convert them to secs
                 ix = fields.indexOf('L POR X [px]'),
-                i, j, row, p,
+                ig = fields.indexOf('L GVEC X'),
+                i, j, row, p, v;
+
+            console.log(ig);
 
             p = getIDFParam(header, 'Calibration Area', ':');
             if(p) verp.calibArea = p.match(/\S+/g).map(function(d){return +d;});
@@ -130,7 +135,6 @@ angular.module('verpApp')
 
             verp.info = header;
 
-            // XXX: assumes 1) the default x pos index  is 3, 2) iy = ix + 1.
             ix = ix > -1 ? ix : 3;
 
             j = 0;
@@ -141,15 +145,14 @@ angular.module('verpApp')
                 if (row.length === 0 || row === 'undefined') continue;
 
 
-                p = row.splice(ix, 2);
-                p[0] = +p[0];
-                p[1] = +p[1];
-                if(! (Math.abs(p[0]) < eps  &&
-                    Math.abs(p[1]) < eps)){
+                p = [ +row[ix], +row[ix+1] ];
+                v = [ +row[ig], +row[ig+1],  +row[ig+2] ];
 
+                if(! (Math.abs(p[0]) < eps  && //exclude blinks
+                      Math.abs(p[1]) < eps)){
 
                     verp.pos.push(p);
-                    verp.frmid.push(0);
+                    verp.gvec.push(v);
                     verp.time.push(+row[0]);
                     verp.value.push(verp.pos[j++]);
 
@@ -157,15 +160,12 @@ angular.module('verpApp')
 
             }
 
-            //console.log(verp.pos.join('\n'));
 
-            verp.deltaTime = GazeAnalytics.delta(verp.time, 0.000001);
+            verp.deltaTime = GazeAnalytics.delta(verp.time, ts);
 
-            //console.log(verp.deltaTime.join('\n'));
+            verp.velocity  = GazeAnalytics.angularVelocityGaze(verp.gvec, verp.deltaTime);
 
-
-            verp.velocity  = GazeAnalytics.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize, verp.headDistance);
-
+            //verp.velocity  = GazeAnalytics.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize, verp.headDistance);
             // verp.velocity = GazeAnalytics.spatialVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
             // verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
             // verp.velocity = verp.deltaTime;
@@ -173,16 +173,18 @@ angular.module('verpApp')
 
             var sigmsqr = stat.var(verp.velocity);
             verp.avgVelocity = sigmsqr.mean;
-            verp.stdVelocity = Math.sqrt(sigmsqr.val);
+            verp.stdVelocity = Math.sqrt( sigmsqr.val );
 
-            //console.log(verp.velocity);
             //console.log(verp.avgVelocity);
             //console.log(verp.stdVelocity);
+
 
             calibAreaWidth  = verp.calibArea[0];
             calibAreaHeight = verp.calibArea[1];
 
             verp.coordXform = coordXform;
+
+            // verp.pos = GazeFilter.movingAverage(verp.pos, null, 5);
 
             return verp;
         };

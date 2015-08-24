@@ -217,30 +217,6 @@ legend{
 
 
 
-#fieldset-3{
-   position:absolute;
-    display:block;
-
-}
-
-#fieldset-3 .divtable{
-    display: table;
-    /*margin-top:5px;*/
-}
-
-#fieldset-3 .row{
-    display: table-row;
-    text-align:left;
-}
-
-#fieldset-3 .column{
-    display: table-cell;
-    /*text-align: center;*/
-    vertical-align:middle;
-    font-size:13px;
-    width:50%;
-    /*padding-right:1%;*/
-}
 
 .timetooltip{
     font-size:11px;
@@ -257,29 +233,29 @@ legend{
 }
 
 
-#fieldset-1 .divtable{
-    display: table;
-    float:left;
-    /*margin-top:5px;*/
-}
+/*#fieldset-1 .divtable{*/
+    /*display: table;*/
+    /*float:left;*/
+    /*/!*margin-top:5px;*!/*/
+/*}*/
 
-#fieldset-1 .row{
-    display: table-row;
-    text-align:left;
-}
+/*#fieldset-1 .row{*/
+    /*display: table-row;*/
+    /*text-align:left;*/
+/*}*/
 
-#fieldset-1 .column{
-    display: table-cell;
-    text-align: center;
-    vertical-align:middle;
-    font-size:13px;
-    width:18%;
-    /*padding-right:1%;*/
-}
-#fieldset-1 .column.column-0 {
-   text-align:left;
-   padding-right:3%;
-}
+/*#fieldset-1 .column{*/
+    /*display: table-cell;*/
+    /*text-align: center;*/
+    /*vertical-align:middle;*/
+    /*font-size:13px;*/
+    /*width:18%;*/
+    /*/!*padding-right:1%;*!/*/
+/*}*/
+/*#fieldset-1 .column.column-0 {*/
+   /*text-align:left;*/
+   /*padding-right:3%;*/
+/*}*/
 
 
 #rp-y-axis {
@@ -309,7 +285,8 @@ legend{
 
 
 #rp-x-axis {
-    top: 62%;
+    position:absolute;
+    top: 125px;
     left:5px;
 }
 
@@ -332,6 +309,39 @@ legend{
     stroke-width:1;
     font-weight:100;
     shape-rendering: crispEdges;
+}
+
+#recurrence-ctrls label{
+    margin-bottom: -5px;
+}
+
+
+#recurrence-ctrls .divtable{
+    display: table;
+}
+
+#recurrence-ctrls .row{
+    display: table-row;
+    text-align:left;
+}
+
+#recurrence-ctrls .column {
+    font-size:12px;
+    display: table-cell;
+    color:gray;
+    width:20%;
+}
+
+#recurrence-ctrls .column.column-0{
+    text-align: right;
+    vertical-align:bottom;
+    padding-right:3%;
+}
+#recurrence-ctrls .column-1 {
+    font-size:11px;
+    display: table-cell;
+    color:gray;
+    text-align:left;
 }
 
 

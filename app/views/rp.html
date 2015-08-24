@@ -1,5 +1,6 @@
 <div class="col-md-6 column recurrence" ng-controller="RecurrenceCtrl">
     <div class="row clearfix">
+
         <div class="col-md-9 column" >
 
             <label class="viewname">RP</label>
@@ -18,8 +19,8 @@
                   ng-style="brushIconStyle"
                   ng-init="brushIconStyle={'color' :'orange'}"
                   ng-click="setMode('selection');
-          brushIconStyle={'color': 'orange'};
-          zoomIconStyle={'color':'gray'};">
+                   brushIconStyle={'color': 'orange'};
+                   zoomIconStyle={'color':'gray'};">
             </span>
 
             <span class="glyphicon glyphicon-repeat"
@@ -46,7 +47,7 @@
         </div>
 
         <!--<div class="col-md-3 column" style="padding-left:30px;padding-right:0px" >-->
-        <div class="col-md-3 column" ng-show="sceneReady">
+        <div id='recurrence-ctrls' class="col-md-3 column" ng-show="sceneReady">
 
                 <fieldset id='fieldset-0' titlex="Adjust recurrence epsilon threshold">
 
@@ -72,30 +73,33 @@
                     <legend>distance function</legend>
                     <div class="divtable form-group">
                         <div class="row">
+                            <div class="column column-0">l1</div>
                             <div class="column">
                                 <input type="radio" name="norms" value="l1" ng-model="eps.distfn" ng-change="updateDistfn()" />
                             </div>
-                            <div class="column column-0">l1</div>
+
+                            <div class="column column-0">l2</div>
                             <div class="column">
                                 <input type="radio" name="norms" value="l2" ng-model="eps.distfn" ng-change="updateDistfn()" checked/>
                             </div>
-                            <div class="column column-0">l2</div>
+                            <div class="column column-0">max</div>
                             <div class="column">
                                 <input type="radio" name="norms" value="max" ng-model="eps.distfn" ng-change="updateDistfn()"/>
                             </div>
-                            <div class="column column-0">max</div>
                         </div>
                         <div class="row">
+                            <div class="column column-0">min</div>
                             <div class="column">
                                 <input type="radio" name="norms" value="min" ng-model="eps.distfn" ng-change="updateDistfn()" />
                             </div>
-                            <div class="column column-0">min</div>
+                            <div class="column column-0">angular</div>
+                            <div class="column">
+                                  <input type="radio" name="norms" value="angular" ng-model="eps.distfn" ng-change="updateDistfn()" />
+                            </div>
+                            <div class="column column-0">edit</div>
                             <div class="column">
                                 <input type="radio" name="norms" value="edit" ng-model="eps.distfn" ng-change="updateDistfn()" />
                             </div>
-                            <div class="column column-0">edit</div>
-                            <div class="column"> </div>
-                            <div class="column column-0">   </div>
                         </div>
                     </div>
                 </fieldset>
@@ -117,7 +121,7 @@
                                max="{{alpha.max}}"
                                value="{{alpha.value}}"
                                ng-model="alpha.value"
-                               ng-change="alphaUpdate({{alpha.value}})"/>
+                               ng-change="alphaUpdate()"/>
                         <label class="value">{{alpha.value}}</label>
                         <label class="checkbox" titlex="Show alpha shapes of fixations">
                             alpha patch

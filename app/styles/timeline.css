@@ -7,7 +7,9 @@
     cursor:pointer;
 }
 .timeline {
-    margin-top:33%;
+    position:absolute;
+    width:500px;
+    top:145px;
 }
 
 .timeline.player .time{
