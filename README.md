@@ -7,7 +7,7 @@ The VERP Explorer couples several spatial eye-movement visualizations with
 recurrence plots that reveal patterns of revisitation over time. 
 
 Until we prepare a proper documentation, please refer to this
-[draft](http://www.cs.stanford.edu/~cagatay/projects/verp/draft.pdf) for more
+[draft](http://www.cs.stanford.edu/~cagatay/projects/verp/draft.pdf) for 
 details.  
 
 ## Run 
