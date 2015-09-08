@@ -286,7 +286,7 @@ legend{
 
 #rp-x-axis {
     position:absolute;
-    top: 125px;
+    top: 175px;
     left:5px;
 }
 
@@ -344,4 +344,18 @@ legend{
     text-align:left;
 }
 
+#fieldset-3{
+position:absolute;
+display: block;
+}
+#fieldset-3 .column {
+    text-align:left !important;
+    vertical-align: middle;
+    font-size: 12px;
+    width: 50%;
+}
 
+#tooltip-0-a, #tooltip-1-a, #tooltip-2-a {
+    font-weight: 100;
+    color: #ff4500 !important;
+}

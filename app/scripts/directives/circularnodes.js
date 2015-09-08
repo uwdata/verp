@@ -21,7 +21,7 @@ angular.module('verpApp')
 
             function init() {
 
-                if(!scope.data) return;
+                if( !scope.data ) return;
 
                 var dom = scope.domain();
 

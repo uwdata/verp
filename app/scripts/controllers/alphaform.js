@@ -14,15 +14,12 @@ angular.module('verpApp')
 
 
         $scope.alphaUpdate = function() {
-
             //$rootScope.$broadcast('alpha.update', $scope.alpha.value);
-
         };
 
         $scope.alphaPartition = function(){
-
             //$rootScope.$broadcast('alpha.partition', !$scope.alpha.partition);
-
         }
+
 
     }]);

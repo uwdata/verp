@@ -9,36 +9,117 @@
 angular.module('verpApp')
     .factory('GazeAnalytics', function () {
 
-        //
-        // merge fixations
-        //
-        var mergeMaxDuration  = function(){
 
 
-        };
+        function rangeCount ( range ){
+
+            var n = range.length,
+                z = 0,
+                i;
+
+            for (i = 0; i < n; i++ ) z += ( range[i][1] - range[i][0] ) ;
+
+            return z;
+        }
+
+
+        function mergeRanges (range0, range1){
+
+            var m = range0.length,
+                n = range1.length,
+                i, j0, i1, j1;
+
+            j0 = range0[ m-1 ][1];
+
+            i1 = range1[0][0];
+            j1 = range1[0][1];
+
+
+            if(j0 === i1)
+                range0[m-1][1] = j1;
+            else
+                range0.push(range1[0]);
+
+            for ( i = 1; i < n; i++ )
+                range0.push(range1[i]);
+
+            return range0;
+
+        }
+
+        //
+        //function rangeTime (range){
+        //
+        //    var n = range.length,
+        //        z = 0,
+        //        i;
+        //
+        //    for (i = 0; i < n; i++ ) z += ( range[i][1] - range[i][0] ) ;
+        //
+        //    return z;
+        //
+        //
+        //}
+
+
+        //merge two fixations
+        function merge(f0, f1){
+
+            var range = mergeRanges(f0.range, f1.range),
+                v0 = f0.gvec,
+                v1 = f1.gvec,
+                a =  f0.size / (f0.size + f1.size),
+                gvec = stat.vector.normalize(
+                    stat.vector.add( stat.vector.scalar(v0,a), stat.vector.scalar( v1, 1-a ) ) ),
+                p0 = f0.pos,
+                p1 = f1.pos,
+                pos  = stat.vector.add( stat.vector.scalar(p0,a), stat.vector.scalar(p1, 1-a) );
+
+            return {
+                pos: pos,
+                gvec: gvec,
+                range: range,
+                size: rangeCount(range),
+                start: f0.start,
+                end: f1.end,
+                threshold: f0.threshold + f1.threshold};
+        }
+
+
+
+        function enumerateFixations(fixations){
+
+            var n = fixations.length,
+                i;
+
+            for (i = 0; i < n; i++ ) fixations[i].label=i;
+
+            return fixations;
+
+        }
+
 
         // merge consecutive fixations
         // that are within the max angle
-        var mergeFixations  = function(fixations, maxduration, maxangle, time){
-            //
-            //
-            //
-            var n =  fixations.length,
-                merged = [],
-                ts = 1 / 1e-6,
-                i = 0,
-                f0,f1 ;
+        function mergeFixations(fixations, maxduration, maxangle) {
 
-            while(i < n-1){
+            var n = fixations.length,
+                merged = [],
+                ts = 1e-6,
+                i = 0,
+                f0, f1, deg, delta;
+
+            while( i < n-1 ){
 
                 f0 = fixations[i];
                 f1 = fixations[i+1];
 
-                if( ( ( time[f1.range[1]-1] - time[f0.range[1]-1] ) < maxduration )
-                    && (stat.degree( f0.gvec, f1.gvec)  <=  maxangle ) ) {
+                if( (delta = ts * ( f1.start - f0.end ) ) < maxduration
+                    && (deg = stat.vector.degree( f0.gvec, f1.gvec ))  <=  maxangle )  {
 
-                    merged.push(merge(f0,f1));
+                    merged.push( merge( f0, f1 ) );
                     i += 2;
+
                 } else {
                     merged.push(f0);
                     ++i;
@@ -46,23 +127,21 @@ angular.module('verpApp')
 
             }
 
+            if( i === (n - 1) ) merged.push(fixations[i]);
 
-            console.log(fixations.length);
-            console.log(merged.length);
-            return merged;
+            //console.log( fixations.length );
+            //console.log( merged.length );
 
-        };
+            return enumerateFixations(merged);
+
+        }
 
 
-
-        var discardMinDuration = function (){
-
-            //
-            //
-            //
-
-        };
-
+        //var discardMinDuration = function (){
+        //
+        //
+        //
+        //};
 
 
         var delta = function(t, s){
@@ -70,11 +149,10 @@ angular.module('verpApp')
             if(!t)  return;
 
             var dt = [],
-                ts = s || 1,
-                n = t.length,
+                n  = t.length,
                 i;
 
-            for(i = 0; i < n-1; i++) dt.push( ts * (t[i+1] - t[i]) );
+            for(i = 0; i < n-1; i++) dt.push( s * (t[i+1] - t[i]) );
 
             dt.push(dt[i-1]);
 
@@ -87,39 +165,52 @@ angular.module('verpApp')
         //
         //
         //
-        function dispersion(p, i, j, g){
+        function dispersion(p, g, i, j){
 
             var maxX = -Infinity,
                 minX = +Infinity,
                 maxY = -Infinity,
                 minY = +Infinity,
-                maxXi, minXi, maxYi, minYi, k, x, y;
+                maxXi, minXi, maxYi, minYi, x, y, k;
 
-            for (k = i; k < j; k++) {
+            //console.log(i,j);
 
-                x = p[k][0];
-                y = p[k][1];
+            for(; i < j; i++) {
 
-                if(maxX < x ){ maxX = x; maxXi = k; }
-                if(minX > x ){ minX = x; minXi = k; }
-                if(maxY < y ){ maxY = y; maxYi = k; }
-                if(minY > y ){ minY = y; minYi = k; }
+                x = p[i][0];
+                y = p[i][1];
+
+                if(maxX < x ){ maxX = x; maxXi = i; }
+                if(minX > x ){ minX = x; minXi = i; }
+
+                if(maxY < y ){ maxY = y; maxYi = i; }
+                if(minY > y ){ minY = y; minYi = i; }
 
             }
+
 
             var vMaxX = g[maxXi],
                 vMinX = g[minXi],
                 vMaxY = g[maxYi],
                 vMinY = g[minYi];
 
-            y = 0.5 * ( vMinX[1] + vMaxX[1] );
-            x = 0.5 * ( vMinY[0] + vMaxY[0] );
+            //y = 0.5 * ( vMinX[1] + vMaxX[1] );
+            //x = 0.5 * ( vMinY[0] + vMaxY[0] );
 
 
-            return Math.max(
-                stat.vector.degree([ vMaxX[0], y, vMaxX[2] ], [vMinX[0], y, vMinX[2]] ),
-                stat.vector.degree([ x, vMaxY[1], vMaxY[2] ], [x, vMinY[1], vMinY[2]] )
+            return  Math.max (
+                //maxX - minX, maxY - minY
+                 stat.vector.degree(vMinX, vMaxX), stat.vector.degree(vMinY, vMaxY)
+                //stat.vector.degree([vMaxX[0], y, vMaxX[2] ], [vMinX[0], y, vMinX[2]] ),
+                //stat.vector.degree([x, vMaxY[1], vMaxY[2] ], [x, vMinY[1], vMinY[2]] )
             );
+
+
+            //console.log((maxX - minX)*(maxY-minY)*0.2*0.2);
+            //console.log(maxY - minY);
+            //console.log(t);
+
+            //return t;
 
         }
 
@@ -137,14 +228,15 @@ angular.module('verpApp')
                 j = w,
                 f = false,
                 k = 0,
-                d;
+                d, dlast;
 
             while(j <= n) {
 
-                if( ( d = dispersion( p, i, j, g ) ) < t ) {
+                if( ( d = dispersion( p, g, i, j ) ) < t ) {
 
                     j++ ;
                     f = true ;
+                    dlast = d;
 
                 } else {
 
@@ -155,8 +247,11 @@ angular.module('verpApp')
                             pos: centroid(p, i, --j),
                             gvec: centroid(g, i, j),
                             label: k,
-                            data: j-i,
-                            range: [i, j]
+                            size: j-i,
+                            range: [[i, j]],
+                            start: time[i],
+                            end: time[j-1],
+                            threshold:dlast
                         });
 
                         k++;
@@ -173,20 +268,28 @@ angular.module('verpApp')
 
             }
 
-            if( f ) fixations.push( { pos:centroid(p, i, --j), label:k, data:j-i, range:[i, j]} );
+            if( f ) fixations.push( {
+                pos:centroid( p, i, --j ),
+                gvec:centroid( g, i, j ),
+                label:k,
+                size:j-i,
+                range:[ [i,j] ],
+                start:time[ i ],
+                end:time[ j-1 ],
+                threshold:dlast
+            } );
 
-            return merge(fixations, 0.075, 0.5, time) ;
+            return mergeFixations( fixations, 0.08, 0.5,  time) ;
 
         };
 
 
-        var classifyIVT = function(v, t, c0){
+        var classifyIVT = function(v, t, c){
 
             var n = v.length,
-                c = c0  || [],
-                i = 0;
+                i;
 
-            for(; i < n; i++)  c[i] = v[i] < t ? 0 : 1;
+            for(i = 0; i < n; i++)  c[i] = v[i] < t ? 0 : 1;
 
             return c;
 
@@ -197,7 +300,7 @@ angular.module('verpApp')
 
             var n = c.length;
 
-            while ((i < n)  && (c[i] !== id)) ++i;
+            while ((i < n)  && ( c[i] !== id )) ++i;
 
             return i;
 
@@ -206,7 +309,7 @@ angular.module('verpApp')
 
 
         //group by fixation points
-        var cluster = function(c, p, minsize, id0, id1){
+        var cluster = function(c, p, g, minsize, id0, id1, time){
 
             var n = p.length,
                 cluster = [],
@@ -224,92 +327,109 @@ angular.module('verpApp')
 
                 if (m >= minsize) {
 
-                    cluster.push({pos:centroid(p, i, j), label:cnt, data: m, range:[i, j]});
+                    cluster.push( {
+                        pos:centroid(p, i, j),
+                        gvec: centroid(g, i, j),
+                        label:cnt,
+                        size:m,
+                        range:[[ i, j]],
+                        start:time[i],
+                        end:time[j-1]} );
+
                     ++cnt;
                 }
 
                 if (j >= n )  break;
-
                 i = j;
-            }
 
+            }
 
             return cluster;
 
         };
 
 
-        //saccade duration
-        var saccadeDuration = function(c, t){
+        //
+        // saccade duration
+        // var saccadeDuration = function(c, t){
+        //
+        //};
 
-        };
-
-        //fixation durations in secs
-        //c: cluster
-        //t: time
-        //s: time scale
-        var fixationDuration = function(c, t, s){
+        //
+        // fixation durations in secs
+        // c: cluster
+        // t: time
+        // s: time scale
+        //
+        var fixationDuration = function(c, s){
 
             var n = c.length,
                 fixationTime = [],
                 btwTime = [],
                 total0 = 0,
                 total1 = 0,
-                d, i0, j0, i1,  k;
+                d, k;
 
             if(!n) return;
 
             for (k = 0; k < n - 1; k++){
 
-                i0 = c[k].range[0];
-                j0 = c[k].range[1];
-
-                d = s * (t[j0] - t[i0]);
+                d = s * (c[k].end - c[k].start);
                 total0 += d;
                 fixationTime.push(d);
 
-                i1 = c[k+1].range[0];
-
-                d = s * ( t[i1] - t[j0] );
+                d = s * ( c[k+1].start - c[k].end );
                 total1 += d;
                 btwTime.push(d);
 
+
             }
 
-            i0 = c[k].range[0];
-            j0 = Math.min(c[k].range[1], t.length-1);
 
-            d = s * (t[j0] - t[i0]);
+            d = s * (c[k].end - c[k].start);
             total0 += d;
 
             fixationTime.push(d);
 
+            //console.log(k, d);
+
             return {
-                fixation:fixationTime,
-                between:btwTime,
-                totalFixation:total0,
-                totalBetween:total1
+
+                fixation: fixationTime,
+                between: btwTime,
+                totalFixation: total0,
+                totalBetween: total1
+
             };
 
         };
 
 
-        // extract actual fixation points using range
-        // indices from  clustering
+        //
+        // extract actual fixation points
+        // using range indices from clustering
+        //
         var clusterPoints = function(c, p){
 
             var n = c.length,
                 f = [],
-                i, j, k;
+                i, j, k, m, r, ir;
 
-            for (k = 0; k < n; k++) {
+            for (k = 0; k < n; k++){
 
-                i = c[k].range[0];
-                j = c[k].range[1];
+                r = c[k].range;
+                m = r.length;
 
-                var fk  = [];
+                var fk = [];
 
-                for (; i < j; i++)  fk.push(p[i]);
+                for (ir = 0; ir < m;ir++ ){
+
+                    i = r[ir][0];
+                    j = r[ir][1];
+
+                    while(i < j) fk.push(p[i++]);
+
+                }
 
                 f.push(fk);
             }
@@ -320,11 +440,35 @@ angular.module('verpApp')
 
 
         //not to be confused w/ medoid
-        var medianoid = function(p, i, j){
+        //var medianoid = function(p, i, j){
+        //
+        //    return stat.median( p.slice(i,j),0 );
+        //
+        //};
 
-            return stat.median( p.slice(i,j),0 );
+        /*
 
-        };
+         var rangeCentroid = function(p, range){
+
+         var n = range.length,
+         d = p[0].length,
+         c = stat.array(d, 0),
+         z = 0,
+         i, j, k;
+
+         for(i = 0; i < n; i++){
+         for (j = range[i][0] ; j < range[i][1]; j++) {
+         for (k = 0; k < d; k++) c[k] += p[j][k];
+         z += range[i][1] - range[i][0];
+         }
+         }
+
+         for (k = 0; k < d; k++) c[k] /= z;
+
+         return c;
+
+         };
+         */
 
         var centroid = function(p, i, j){
 
@@ -342,8 +486,10 @@ angular.module('verpApp')
         };
 
 
+        //
         // angular velocities from gaze vectors
         // and time deltas
+        //
         var angularVelocityGaze = function(g, t){
 
             var n = g.length,
@@ -354,10 +500,11 @@ angular.module('verpApp')
 
                 c = stat.vector.dot( g[i], g[ i + 1 ] );
 
-                deg = (c < -1) ? 180 : c > 1 ? 0 : deg = 180 *  Math.acos ( c) / Math.PI;
+                deg = (c < -1) ? 180 : c > 1 ? 0 : deg = 180 *  Math.acos (c) / Math.PI;
 
-                w.push( deg / t[i] ) ;
+                 w.push( deg / ( t[i] ) ) ;
             }
+
 
             w.push( w[ i - 1 ] );
 
@@ -370,18 +517,21 @@ angular.module('verpApp')
 
             var n = p.length,
                 w = [],
-                i = 0,
-                x0, y0, x1, y1, v, v0, v1, v2;
+                i, x0, y0, x1, y1, v, v0, v1, v2;
 
-            for( ; i < n-1; i++) {
+            for(i = 0 ; i < n-1; i++) {
 
+                //
                 // in mm
+                //
                 x0 = s[0]*p[i][0];
                 x1 = s[0]*p[i+1][0];
+
                 y0 = s[1]*p[i][1];
                 y1 = s[1]*p[i+1][1];
 
-                v = stat.vector.normalize([-(y1 - y0), (x1 - x0)]);
+                v = stat.vector.normalize( [ -(y1 - y0), (x1 - x0) ]);
+
 
                 if(v){
 
@@ -423,10 +573,10 @@ angular.module('verpApp')
 
                 delta = Math.sqrt(x0*x0 + y0*y0 - 2*x0*x1 - 2*y0*y1 + y1*y1 + x1*x1);
 
-                v.push(delta/t[i]);
+                v.push( delta / t[i] );
             }
 
-            v.push(v[i-1]);
+            v.push( v[ i-1 ] );
 
             return v;
 
@@ -452,7 +602,7 @@ angular.module('verpApp')
 
             }
 
-            v.push(v[i-1]);
+            v.push( v[i-1] );
             return v;
 
         };

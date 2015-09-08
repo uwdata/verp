@@ -115,7 +115,7 @@ angular.module('verpApp')
                 },
                 n = tracking.length,
                 eps = 1 / 64,
-                ts = 1 / 1000000, //timestamps are in microsecs; we convert them to secs
+                ts = 1e-6, //timestamps are in microsecs; we convert them to secs
                 ix = fields.indexOf('L POR X [px]'),
                 ig = fields.indexOf('L GVEC X'),
                 i, j, row, p, v;
@@ -135,6 +135,8 @@ angular.module('verpApp')
 
             verp.info = header;
 
+            var orig = stat.vector.scalar(verp.stimSize, 0.5);
+
             ix = ix > -1 ? ix : 3;
 
             j = 0;
@@ -146,10 +148,14 @@ angular.module('verpApp')
 
 
                 p = [ +row[ix], +row[ix+1] ];
-                v = [ +row[ig], +row[ig+1],  +row[ig+2] ];
 
-                if(! (Math.abs(p[0]) < eps  && //exclude blinks
-                      Math.abs(p[1]) < eps)){
+
+                //v = stat.vector.normalize([ p[0]-orig[0], p[1]-orig[1], -verp.headDistance]);
+
+
+                if( Math.abs(p[0]) > eps && //exclude blinks
+                    Math.abs(p[1]) > eps &&
+                    (v=stat.vector.normalize([ +row[ig], +row[ig+1], +row[ig+2] ] ) ) ){
 
                     verp.pos.push(p);
                     verp.gvec.push(v);
@@ -165,7 +171,7 @@ angular.module('verpApp')
 
             verp.velocity  = GazeAnalytics.angularVelocityGaze(verp.gvec, verp.deltaTime);
 
-            //verp.velocity  = GazeAnalytics.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize, verp.headDistance);
+            // verp.velocity  = GazeAnalytics.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize, verp.headDistance);
             // verp.velocity = GazeAnalytics.spatialVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
             // verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
             // verp.velocity = verp.deltaTime;

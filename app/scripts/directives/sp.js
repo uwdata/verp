@@ -53,9 +53,18 @@ angular.module('verpApp')
 
             function inKeyRange(d, i, r){
 
-                var r = inKeyRange.data;
+                var ranges  = inKeyRange.data,
+                    n = ranges.length,
+                    j;
 
-                return !(i < r[0] || i >= r[1]);
+                for (j = 0; j < n; j++){
+
+                    r =  ranges[j];
+                    if ( !(i < r[0] || i >= r[1] ) ) return true;
+
+                }
+
+                return false;
 
             }
 

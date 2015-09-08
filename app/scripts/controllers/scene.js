@@ -25,7 +25,7 @@ angular.module('verpApp')
 
         $scope.visibilityChanged = false;
 
-        $scope.velocity =   {min:0, step:1, max:10, threshold:5 };
+        $scope.velocity =   {min:0, step:1, max:600, threshold:300 };
         $scope.dispersion = {min:0, step:1, max:10, threshold:5 };
         $scope.methods = {ivt:classifyIVT, idt:classifyIDT};
         $scope.detectionMethod = 'idt';
@@ -123,14 +123,18 @@ angular.module('verpApp')
         //hack -- fix it
         $scope.onFixationClick  = function(d, i){
 
-            d3.select('#tooltip-0-a').text('Cluster: ');
+            d3.select('#tooltip-0-a').text('Id: ');
             d3.select('#tooltip-0-b').text(i);
 
             d3.select('#tooltip-1-a').text('Duration: ');
             d3.select('#tooltip-1-b').text( (+$scope.scanPathDuration.fixation[i]).toFixed(3) + ' (secs)');
 
-            d3.select('#tooltip-2-a').text('Total: ');
-            d3.select('#tooltip-2-b').text((+$scope.scanPathDuration.totalFixation).toFixed(3) + ' (secs)');
+            //d3.select('#tooltip-2-a').text('Total: ');
+            //d3.select('#tooltip-2-b').text((+$scope.scanPathDuration.totalFixation).toFixed(3) + ' (secs)');
+
+
+            d3.select('#tooltip-2-a').text('Thresh: ');
+            d3.select('#tooltip-2-b').text((+$scope.scanPath[i].threshold).toFixed(3) + ' (secs)');
 
 
             $scope.sp.selection = d.range;
@@ -171,12 +175,9 @@ angular.module('verpApp')
                 ts = 1e-6;
 
             $scope.scanPath = GazeAnalytics.classifyIDT($scope.points, $scope.gvec, $scope.dispersion.threshold, w, $scope.time);
-            $scope.scanPathDuration = GazeAnalytics.fixationDuration($scope.scanPath, $scope.time, ts);
+            $scope.scanPathDuration = GazeAnalytics.fixationDuration($scope.scanPath, ts);
             $scope.scanPathPoints = GazeAnalytics.clusterPoints($scope.scanPath, p);
 
-            //$scope.saccadePathPoints = GazeAnalytics.clusterPoints($scope.saccadePath, p);
-            //$scope.saccadePathPoints = s;
-            //$scope.saccadePathDuration = GazeAnalytics.saccadeDuration(e, $scope.time, 0.000001);
 
             if($scope.showSaccades)  $scope.saccadeVisibility();
             if($scope.showFixations) $scope.fixationVisibility();
@@ -190,15 +191,16 @@ angular.module('verpApp')
 
             var e = GazeAnalytics.classifyIVT($scope.velocity.values, $scope.velocity.threshold, $scope.event),
                 p = $scope.points,
+                g = $scope.gvec,
                 n = p.length,
                 f = [],
                 s = [],
                 i = 0,
                 ts = 1e-6;
 
-
             for(; i < n; i++)
-                if(e[i] === 0) { //fixation
+                if(e[i] === 0) {
+                    //fixation
                     f.push(p[i]);
                 } else {  //saccade
                     s.push(p[i]);
@@ -207,20 +209,17 @@ angular.module('verpApp')
             $scope.fixations = f;
             $scope.saccades = s;
 
-            $scope.scanPath = GazeAnalytics.cluster(e, p, 10, 0, 1); // fixation path
-            $scope.scanPathDuration = GazeAnalytics.fixationDuration($scope.scanPath, $scope.time, ts);
+            $scope.scanPath = GazeAnalytics.cluster(e, p, g, 10, 0, 1, $scope.time); // fixation path
+            $scope.scanPathDuration = GazeAnalytics.fixationDuration($scope.scanPath, ts);
 
-            //$scope.scanPathTooltip =  $scope.generateScanPathTooltip($scope.scanPath, $scope.scanPathDuration);
-            //console.log(GazeAnalytics.cluster(e, p, 5, 1, 0));
-            //console.log($scope.saccadePath);
+            // $scope.scanPathTooltip =  $scope.generateScanPathTooltip($scope.scanPath, $scope.scanPathDuration);
 
-            $scope.scanPathPoints = GazeAnalytics.clusterPoints($scope.scanPath, p);
+            $scope.scanPathPoints = GazeAnalytics.clusterPoints( $scope.scanPath, p);
 
-
-            //$scope.saccadePathPoints = GazeAnalytics.clusterPoints($scope.saccadePath, p);
+            // $scope.saccadePathPoints = GazeAnalytics.clusterPoints($scope.saccadePath, p);
 
             $scope.saccadePathPoints = s;
-            //$scope.saccadePathDuration = GazeAnalytics.saccadeDuration(e, $scope.time, 0.000001);
+            // $scope.saccadePathDuration = GazeAnalytics.saccadeDuration(e, $scope.time, 0.000001);
 
             if($scope.showSaccades)  $scope.saccadeVisibility();
             if($scope.showFixations) $scope.fixationVisibility();
@@ -301,20 +300,16 @@ angular.module('verpApp')
             $scope.gvec = d.data.gvec;
             $scope.time = d.data.time;
 
-            $scope.duration = 0.000001*($scope.time[$scope.time.length-1] - $scope.time[0]);
+            $scope.duration = 1e-6*($scope.time[$scope.time.length-1] - $scope.time[0]);
 
             v.values = d.data.velocity;
-
-            v.min = Math.max(d.data.avgVelocity - 5 * d.data.stdVelocity, 0);
-            v.max = (d.data.avgVelocity +  5 * d.data.stdVelocity);
-
-            $scope.velocity.threshold = ( 0.5 * (v.min + v.max) );
-
-            v.step = (d.data.stdVelocity/16);
+            //v.min = Math.max(d.data.avgVelocity - 5 * d.data.stdVelocity, 0);
+            //v.max = (d.data.avgVelocity +  5 * d.data.stdVelocity);
+            //v.threshold = ( 0.5 * (v.min + v.max) );
+            //v.step = (d.data.stdVelocity/16);
 
             $scope.event = stat.array($scope.points.length, 0);
             $scope.visibility = stat.array($scope.points.length, 1);
-
 
             ($scope.methods[$scope.detectionMethod]).call();
 

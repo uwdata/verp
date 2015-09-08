@@ -7,7 +7,7 @@
  * # rp  -- recurrence plot directive
  */
 angular.module('verpApp')
-    .directive('rp',['$rootScope', 'DataService', 'EventService', function($rootScope, DataService, EventService) {
+    .directive('rp',['$rootScope', 'DataService', 'EventService', function( $rootScope, DataService, EventService) {
 
         var postLink = function(scope, element, attrs) {
 
@@ -70,7 +70,7 @@ angular.module('verpApp')
 
                 if(rp) {
 
-                    if(d)
+                    if ( d )
                         EventService.broadcastRPSelection(rp.boxHighlight(d));
                     else
                         EventService.broadcastRPSelection(rp.resetHighlight());

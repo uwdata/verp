@@ -1,6 +1,6 @@
 !function() {
   var rep = {
-    version: "1.0.0"
+    version: "0.1.0"
   };
   "use strict";
   rep.crp = function() {
@@ -256,7 +256,7 @@
     return s;
   }
   rep.rqa = function(d, n, eps) {
-    var dlmin = 1, vlmin = 1, dl = rep_distanceToRP(d, eps), rc = rep_rc(dl, n), vl = stat.uint8ArrayCopy(dl), hl = stat.uint8ArrayCopy(dl), histdl = rep_diagonalLineHistogram(dl, n), histvl = rep_verticalLineHistogram(vl, n), histhl = rep_horizontalLineHistogram(hl, n), rr = 2 * rc / (n * n - n), Sdlmin = 0, Svlmin = 0, Zdl = 0, Zvl = 0, i, p, det, entropy, l, lmax, lam, tt, vmax;
+    var dlmin = 1, vlmin = 1, dl = rep_distanceToRP(d, eps), rc = rep_rc(dl, n), vl = stat.uint8ArrayCopy(dl), hl = stat.uint8ArrayCopy(dl), histdl = rep_diagonalLineHistogram(dl, n), histvl = rep_verticalLineHistogram(vl, n), histhl = rep_horizontalLineHistogram(hl, n), rectCounts = rep_countRects(stat.uint8ArrayCopy(dl), n, 10, 10), rr = 2 * rc / (n * n - n), Sdlmin = 0, Svlmin = 0, Zdl = 0, Zvl = 0, i, p, det, entropy, l, lmax, lam, tt, vmax;
     for (i = 0; i < n; i++) {
       if (i < dlmin) Sdlmin += (i + 1) * histdl[i]; else Zdl += histdl[i];
     }
@@ -286,7 +286,9 @@
       vmax: vmax,
       dl: dl,
       vl: vl,
-      hl: hl
+      hl: hl,
+      dsq: rectCounts.dsq / (2 * rc),
+      odr: rectCounts.odr / (2 * rc)
     };
   };
   rep.rr = function(d, n, eps) {
@@ -406,6 +408,167 @@
     var n = d.length, rp = stat.uint8Array(n, 0), i = 0;
     for (;i < n; i++) rp[i] = d[i] <= eps ? 1 : 0;
     return rp;
+  };
+  var rep_rectCollectionArea = function(bc) {
+    var s = 0, n = bc.length, i;
+    for (i = 0; i < n; i++) s += bc[i].w * bc[i].h;
+    return s;
+  };
+  var rep_isHorzLine = function(rp, s, i, j, h, w) {
+    var m = i + h, n = j + w, ii = (m - 1) * s, k;
+    if (m > s || n > s) return false;
+    for (k = j; k < n; k++) if (rp[ii + k] <= 0) return false;
+    return true;
+  };
+  var rep_isVertLine = function(rp, s, i, j, h, w) {
+    var m = i + h, n = j + w, jj = n - 1, k;
+    if (m > s || n > s) return false;
+    for (k = i; k < m; k++) if (rp[k * s + jj] <= 0) return false;
+    return true;
+  };
+  var rep_isHalfAnnulus = function(rp, s, i, j, h, w) {
+    var m = i + h, n = j + w, ii = (m - 1) * s, jj = n - 1, k;
+    if (m > s || n > s) return false;
+    for (k = i; k < m; k++) if (rp[k * s + jj] <= 0) return false;
+    for (k = j; k < n - 1; k++) if (rp[ii + k] <= 0) return false;
+    return true;
+  };
+  var rep_setRPVal = function(rp, s, i, j, h, w, val) {
+    var m = i + h, n = j + w, k, l;
+    for (k = i; k < m; k++) for (l = j; l < n; l++) rp[k * s + l] = val;
+  };
+  var rep_isRect = function(rp, s, i, j, h, w) {
+    var m = i + h, n = j + w, k, l;
+    if (n > s || m > s) return false;
+    for (k = i; k < m; k++) for (l = j; l < n; l++) if (rp[k * s + l] <= 0) return false;
+    return true;
+  };
+  var rep_diagonalSquares = function(rp, s, minsize) {
+    var w = minsize, h = minsize, squares = [], last = {}, k = 0, i = 0, j = 0, f = false;
+    while (i <= s - minsize) {
+      if (rep_isRect(rp, s, i, j, h, w)) {
+        f = true;
+        last.i = i;
+        last.j = j;
+        last.w = w;
+        last.h = h;
+        w = w + 1;
+        h = w;
+      } else {
+        if (f) {
+          squares.push({
+            i: last.i,
+            j: last.j,
+            h: last.h,
+            w: last.w
+          });
+          rep_setRPVal(rp, s, last.i, last.j, last.h, last.w, 0);
+          j = last.j + last.w;
+          i = k = j;
+          h = w = minsize;
+          f = false;
+        } else {
+          j = i = ++k;
+          h = w = minsize;
+        }
+      }
+    }
+    if (f) squares.push({
+      i: last.i,
+      j: last.j,
+      h: last.h,
+      w: last.w
+    });
+    return squares;
+  };
+  var rep_offDiagonalRects = function(rp, s, minw, minh) {
+    var match = [ rep_isRect, rep_isHalfAnnulus, rep_isVertLine, rep_isHorzLine ], rects = [], last = {}, lastSquare = {}, wideRect = {}, w = minw, h = minh, f = false, i = 0, j = 0, gdir = 0, found;
+    while (s - minh > i) {
+      if (match[gdir](rp, s, i, j, h, w)) {
+        f = true;
+        last.i = i;
+        last.j = j;
+        last.w = w;
+        last.h = h;
+        if (gdir === 0 || gdir === 1) {
+          w = w + 1;
+          h = h + 1;
+          gdir = 1;
+        } else if (gdir === 2) {
+          w = w + 1;
+        } else if (gdir === 3) {
+          h = h + 1;
+        }
+      } else {
+        if (f) {
+          if (gdir === 3) {
+            found = last;
+            if (wideRect.w && wideRect.h) found = wideRect.w * wideRect.h > last.w * last.h ? wideRect : last;
+            rects.push({
+              i: found.i,
+              j: found.j,
+              h: found.h,
+              w: found.w
+            });
+            rep_setRPVal(rp, s, found.i, found.j, found.h, found.w, 0);
+            f = false;
+            gdir = 0;
+            i = found.i;
+            j = found.j + found.w;
+            if (j > s - minw) {
+              j = 0;
+              ++i;
+            }
+            w = minw;
+            h = minh;
+          } else if (gdir === 1) {
+            lastSquare.i = last.i;
+            lastSquare.j = last.j;
+            lastSquare.h = last.h;
+            lastSquare.w = last.w;
+            w = lastSquare.w + 1;
+            h = lastSquare.h;
+            gdir = 2;
+          } else if (gdir === 2) {
+            wideRect.i = last.i;
+            wideRect.j = last.j;
+            wideRect.w = last.w;
+            wideRect.h = last.h;
+            i = lastSquare.i;
+            j = lastSquare.j;
+            h = lastSquare.h + 1;
+            w = lastSquare.w;
+            gdir = 3;
+          }
+        } else {
+          ++j;
+          if (j > s - minw) {
+            j = 0;
+            ++i;
+          }
+          gdir = 0;
+          w = minw;
+          h = minh;
+        }
+      }
+    }
+    if (f) {
+      found = wideRect.w * wideRect.h > last.w * last.h ? wideRect : last;
+      rects.push({
+        i: found.i,
+        j: found.j,
+        h: found.h,
+        w: found.w
+      });
+    }
+    return rects;
+  };
+  var rep_countRects = function(rp, n, w, h) {
+    var minh = h || 5, minw = w || 5;
+    return {
+      dsq: rep_rectCollectionArea(rep_diagonalSquares(rp, n, minw)),
+      odr: rep_rectCollectionArea(rep_offDiagonalRects(rp, n, minw, minh))
+    };
   };
   if (typeof define === "function" && define.amd) {
     define(rep);
