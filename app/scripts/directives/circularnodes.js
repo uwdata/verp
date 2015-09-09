@@ -7,7 +7,7 @@
  * # CircularNodes
  */
 angular.module('verpApp')
-  .directive('circularnodes', function () {
+    .directive('circularnodes', function () {
 
         var postLink = function (scope, element, attrs) {
 
@@ -44,6 +44,7 @@ angular.module('verpApp')
             function update(){
 
                 if(!scope.data) return;
+
                 // var dom = scope.domain();
                 // x.domain(dom.dx).range([0, w]);
                 // y.domain(dom.dy).range([0, h]);
@@ -60,16 +61,20 @@ angular.module('verpApp')
                 x.domain(d.xs().domain()).range(d.xs().range());
                 y.domain(d.ys().domain()).range(d.ys().range());
 
-                nodes.xScale(x)
-                    .yScale(y)
-                    .update();
+                if( nodes )
+                    nodes.xScale(x)
+                        .yScale(y)
+                        .update();
 
             }
 
+
             function handleClick(d, i){
 
+                nodes.visSelect([i]);
                 scope.click({d:d, i:i});
 
+                d3.event.stopPropagation();
             }
 
             scope.$watch('data', function(){
@@ -98,4 +103,4 @@ angular.module('verpApp')
 
         };
 
-  });
+    });

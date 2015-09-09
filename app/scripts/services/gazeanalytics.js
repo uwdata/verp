@@ -7,9 +7,7 @@
  * # GazeAnalytics
  */
 angular.module('verpApp')
-    .factory('GazeAnalytics', function () {
-
-
+    .factory('GazeAnalytics',  [ 'DataService', function (DataService) {
 
         function rangeCount ( range ){
 
@@ -47,7 +45,6 @@ angular.module('verpApp')
 
         }
 
-        //
         //function rangeTime (range){
         //
         //    var n = range.length,
@@ -82,7 +79,8 @@ angular.module('verpApp')
                 size: rangeCount(range),
                 start: f0.start,
                 end: f1.end,
-                threshold: f0.threshold + f1.threshold};
+                threshold: f0.threshold + f1.threshold
+            };
         }
 
 
@@ -98,6 +96,27 @@ angular.module('verpApp')
 
         }
 
+
+
+        function discardFixations (fixations, minduration){
+
+            var n = fixations.length,
+                updated = [],
+                ts = 1e-6,
+                i;
+
+
+            for( i = 0; i < n;  i ++ ){
+                if( ts*( fixations[i].end - fixations[i].start ) >= minduration )
+                    updated.push(fixations[i]);
+
+
+            }
+
+            //console.log(updated.length, fixations.length);
+            return updated;
+
+        }
 
         // merge consecutive fixations
         // that are within the max angle
@@ -171,11 +190,10 @@ angular.module('verpApp')
                 minX = +Infinity,
                 maxY = -Infinity,
                 minY = +Infinity,
-                maxXi, minXi, maxYi, minYi, x, y, k;
+                maxXi, minXi, maxYi, minYi, x, y;
 
-            //console.log(i,j);
 
-            for(; i < j; i++) {
+            while(i < j){
 
                 x = p[i][0];
                 y = p[i][1];
@@ -186,6 +204,7 @@ angular.module('verpApp')
                 if(maxY < y ){ maxY = y; maxYi = i; }
                 if(minY > y ){ minY = y; minYi = i; }
 
+                i++
             }
 
 
@@ -197,10 +216,9 @@ angular.module('verpApp')
             //y = 0.5 * ( vMinX[1] + vMaxX[1] );
             //x = 0.5 * ( vMinY[0] + vMaxY[0] );
 
-
             return  Math.max (
                 //maxX - minX, maxY - minY
-                 stat.vector.degree(vMinX, vMaxX), stat.vector.degree(vMinY, vMaxY)
+                stat.vector.degree(vMinX, vMaxX), stat.vector.degree(vMinY, vMaxY)
                 //stat.vector.degree([vMaxX[0], y, vMaxX[2] ], [vMinX[0], y, vMinX[2]] ),
                 //stat.vector.degree([x, vMaxY[1], vMaxY[2] ], [x, vMinY[1], vMinY[2]] )
             );
@@ -220,46 +238,55 @@ angular.module('verpApp')
         // d - dispersion threshold
         // w - window size in the number of samples
         //
-        var classifyIDT = function(p, g, t, w, time){
+        var classifyIDT = function(p, g, threshold, time){
 
-            var n = p.length,
+            var fixations = [],
+                match = {},
+                o = DataService.options(),
+                w = DataService.timeToSamples (o.idt.duration, 1e-3),
+                n = p.length,
                 i = 0,
-                fixations = [],
                 j = w,
                 f = false,
                 k = 0,
-                d, dlast;
+                d;
+
 
             while(j <= n) {
 
-                if( ( d = dispersion( p, g, i, j ) ) < t ) {
+                if( ( d = dispersion( p, g, i, j ) ) < threshold ) {
+
+                    match.d = d;
+                    match.i = i;
+                    match.j = j;
 
                     j++ ;
-                    f = true ;
-                    dlast = d;
+                    f = true;
 
                 } else {
 
                     if( f ){
 
-                        //backup, --j,  and record the found fixation
+                        //backup and record the found fixation
                         fixations.push({
-                            pos: centroid(p, i, --j),
-                            gvec: centroid(g, i, j),
+                            pos: centroid(p, match.i, match.j),
+                            gvec: centroid(g, match.i, match.j),
                             label: k,
-                            size: j-i,
-                            range: [[i, j]],
-                            start: time[i],
-                            end: time[j-1],
-                            threshold:dlast
+                            size: match.j-match.i,
+                            range: [[match.i, match.j]],
+                            start: time[ match.i ],
+                            end: time[match.j - 1 ],
+                            threshold: match.d
                         });
 
                         k++;
                         f = false;
-                        i = j;
+                        i = match.j;
 
                     } else {
+
                         i++;
+
                     }
 
                     j = i + w;
@@ -269,17 +296,30 @@ angular.module('verpApp')
             }
 
             if( f ) fixations.push( {
-                pos:centroid( p, i, --j ),
-                gvec:centroid( g, i, j ),
-                label:k,
-                size:j-i,
-                range:[ [i,j] ],
-                start:time[ i ],
-                end:time[ j-1 ],
-                threshold:dlast
+                pos: centroid(p, match.i, match.j),
+                gvec: centroid(g, match.i, match.j),
+                label: k,
+                size: match.j-match.i,
+                range: [[match.i, match.j]],
+                start: time[ match.i ],
+                end: time[match.j - 1 ],
+                threshold: match.d
             } );
 
-            return mergeFixations( fixations, 0.08, 0.5,  time) ;
+
+
+            //console.log(o.post);
+
+            if( o.post.merge )
+                fixations = mergeFixations(fixations,
+                    1e-3* (o.post.mergeBtwTime),
+                    o.post.mergeBtwAngle);
+
+            if (o.post.discard)
+                fixations = discardFixations(fixations, 1e-3 * (o.post.discardDuration));
+
+
+            return fixations;
 
         };
 
@@ -312,12 +352,11 @@ angular.module('verpApp')
         var cluster = function(c, p, g, minsize, id0, id1, time){
 
             var n = p.length,
-                cluster = [],
+                fixations = [],
                 cnt = 0,
                 i = 0,
                 j = 0,
                 m = 0;
-
 
             while( (i = nextEvent(c, i, id0)) < n ) {
 
@@ -327,7 +366,7 @@ angular.module('verpApp')
 
                 if (m >= minsize) {
 
-                    cluster.push( {
+                    fixations.push( {
                         pos:centroid(p, i, j),
                         gvec: centroid(g, i, j),
                         label:cnt,
@@ -344,10 +383,19 @@ angular.module('verpApp')
 
             }
 
-            return cluster;
+            var o = DataService.options();
+
+            if( o.post.merge )
+                fixations = mergeFixations(fixations,
+                    1e-3* (o.post.mergeBtwTime),
+                    o.post.mergeBtwAngle);
+
+            if (o.post.discard)
+                fixations = discardFixations(fixations, 1e-3 * (o.post.discardDuration));
+
+            return fixations;
 
         };
-
 
         //
         // saccade duration
@@ -486,31 +534,88 @@ angular.module('verpApp')
         };
 
 
+
+
+
         //
-        // angular velocities from gaze vectors
-        // and time deltas
+        // angular velocities from
+        // gaze vectors and time deltas (secs)
         //
-        var angularVelocityGaze = function(g, t){
+        var angularVelocityGaze = function(g, t, current) {
 
             var n = g.length,
-                w = [],
-                i, c, deg;
+                v = [] || current,
+                o = DataService.options(),
+                ts = 1e6, //scale to secs
+                wv = 0,
+                i, c, cnt, deg, w, s, e, d;
 
-            for( i=0 ; i < n-1; i++) {
 
-                c = stat.vector.dot( g[i], g[ i + 1 ] );
+            if(o.ivt.velocity === 'point') {
 
-                deg = (c < -1) ? 180 : c > 1 ? 0 : deg = 180 *  Math.acos (c) / Math.PI;
+                for (i = 0; i < ( n - 1); i++) {
 
-                 w.push( deg / ( t[i] ) ) ;
+                    c = stat.vector.dot(g[i], g[i + 1]);
+                    deg = c < -1 ? 180 : c > 1 ? 0 : 180 * Math.acos(c) / Math.PI;
+
+                    v[i] = ts * deg / ( t[i + 1] - t[ i ] ) ;
+
+
+                }
+
+
+            } else if ( o.ivt.velocity === 'window' ) {
+
+                w = DataService.timeToSamples(o.ivt.window, 1e-3);
+
+                for (i = 0; i <  n-1; i++ ) {
+
+                    s =  Math.max ( 0, i - w );
+                    e =  Math.min ( n - 1, i + w );
+                    d =  Math.min ( i - s, e - i );
+                    s = i - d;
+                    e = i + d;
+
+                    wv = 0;
+                    cnt = 0;
+
+                    while( ( s - e ) > 1 ){
+
+                        c  = stat.vector.dot(g[s], g[e]);
+                        deg = c < -1 ? 180 : c > 1 ? 0 : 180 * Math.acos(c) / Math.PI;
+                        wv +=  deg / (t[e] - t[s]) ;
+
+                        ++cnt;
+                        --e;
+                        ++s;
+
+                    }
+
+                    if( cnt ) {
+
+                        v[i] = ts * wv / cnt;
+
+
+                    } else {
+
+                        c  = stat.vector.dot(g[i], g[i+1]);
+                        deg = c < -1 ? 180 : c > 1 ? 0 : 180 * Math.acos(c) / Math.PI;
+
+                        v[i] = ts * deg /  (t[i+1] - t[i] ) ;
+
+                    }
+
+                }
+
             }
 
+            v[i] = v[i - 1];
 
-            w.push( w[ i - 1 ] );
-
-            return w;
+            return v;
 
         };
+
+
 
 
         var angularVelocity = function(p, t, s, h){
@@ -539,7 +644,7 @@ angular.module('verpApp')
                     v1 = [h * v[0], h * v[1]];
                     v2 = stat.vector.add(v0, v1);
 
-                    w.push(2 * (90 - stat.vector.degree(v0, v2)) / t[i]);
+                    w.push(2 * ( 90 - stat.vector.degree(v0, v2) ) / t[i]);
 
                 } else {
 
@@ -623,4 +728,4 @@ angular.module('verpApp')
 
         };
 
-    });
+    } ] );

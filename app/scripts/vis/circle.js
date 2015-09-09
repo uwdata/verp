@@ -36,7 +36,7 @@ var circle = function(){
             '#313695'].reverse())
             .clamp(true),
           listeners=[],
-          tooltip, svg, div;
+          tooltip, svg;
 
 
     function _circle(s, d){
@@ -44,7 +44,15 @@ var circle = function(){
 
         svg = s.append('svg')
             .attr('width', width)
-            .attr('height', height);
+            .attr('height', height)
+            .on('click', function(){
+
+                console.log('clicked');
+                d3.select(this).selectAll('.circle')
+                    .classed('deselected', false);
+
+            });
+
 
 
 
@@ -216,6 +224,39 @@ var circle = function(){
         return  _circle;
 
     };
+
+
+    _circle.clearVisSelect = function(){
+
+        svg.selectAll('.circle')
+            .classed('deselected', false);
+
+        return _circle;
+
+    };
+
+    // Exclusive visual selection---in contrast to d3 selection--of shapes
+    // assumes indices in _ are sorted in ascending order
+    _circle.visSelect = function(_){
+
+
+        var j = 0,
+            n = _.length;
+
+
+        if( ! n ) return _circle.clearVisSelect();
+
+        svg.selectAll('.circle')
+            .classed('deselected', function( d, i ) {
+
+                return ( (j < n) && ( i  === _[j])) ? !(++j) : true;
+
+            });
+
+        return _circle;
+
+    };
+
 
 
     _circle.on  = function(event, handler){

@@ -101,9 +101,12 @@ body {
 
 .vis-disabled{
     color:lightgrey !important;
-    /*visibility: hidden;*/
+
 }
 
+input[type=number].vis-disabled{
+    color:lightgrey !important;
+}
 
 
 label{

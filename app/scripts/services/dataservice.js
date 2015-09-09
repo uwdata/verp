@@ -13,8 +13,42 @@ angular.module('verpApp')
 
         var scene   = {},
             heatmaps = {},
-            services = {};
-            //
+            services = {},
+            params =  {},
+            opts =  {noise:{filter:'none', window:10},
+                ivt:{velocity:'point', window:20},
+                idt:{duration: 80 },
+                post:{
+                    merge:true,
+                    mergeBtwAngle: 0.5,
+                    mergeBtwTime: 75,
+                    discard:true,
+                    discardDuration:60 }
+            };
+
+
+        var timeToSamples = function ( t, s ){
+
+            if(! params.sampleRate) {
+
+                console.warn('params.sampleRate is undefined!...using the default value 120Hz ')
+                params.sampleRate = 120;
+
+            }
+
+           return Math.ceil( params.sampleRate *  t * s );
+
+        };
+
+        var options  = function (_){
+
+            if (! arguments.length ) return opts;
+
+            opts  = _;
+
+        };
+
+        //
         ////var alphaUpdate = function(v){
         //    if(!arguments.length) return alpha.value;
         //    alpha.value = v;
@@ -26,17 +60,34 @@ angular.module('verpApp')
         //};
 
 
+        var parameters = function(_) {
+
+            if ( ! arguments.length ) return params;
+
+            params = _;
+
+        };
 
         var tracking = function(_){
 
             if(!arguments.length) return  scene.tracking;
 
             if(scene.tracking !== _){
+
                 scene.tracking = _;
+
+                params.calibArea = _.calibArea;
+                params.stimSize =  _.stimSize;
+                params.headDistance = _.headDistance;
+                params.sampleRate = _.sampleRate;
+                params.pixelSize = _.pixelSize;
+                params.scaleToSec = 1e-6;
+
                 $rootScope.$broadcast('scene.tracking.update', scene.tracking);
             }
 
         };
+
 
 
         var heatmap = function(name,heatmap){
@@ -71,6 +122,9 @@ angular.module('verpApp')
             tracking:tracking,
             img:img,
             heatmap:heatmap,
+            parameters: parameters,
+            options: options,
+            timeToSamples:timeToSamples,
             service:service
         };
 

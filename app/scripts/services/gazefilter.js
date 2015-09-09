@@ -11,25 +11,6 @@ angular.module('verpApp')
     .factory('GazeFilter', function () {
 
 
-        var opts = { noise:{filter:'none', window:40},
-            ivt:{velocity:'point', window:20},
-            idt:{duration:80},
-            post:{
-                merge:true,
-                mergeBtwAngle:0.5,
-                mergeBtwTime:75,
-                discard:true,
-                discardDuration:60 }
-        };
-
-
-        var options  = function (_){
-
-           if (! arguments.length ) return opts;
-
-            opts  = _;
-
-        };
 
 
 
@@ -158,12 +139,12 @@ angular.module('verpApp')
 
         };
 
-        function median(a, indx){
+        function median(a, indx) {
 
             var n = a.length,
                 left = 0,
                 right = n - 1,
-                k =  right / 2;
+                k = right / 2;
 
             return select(a, indx, left, right, k);
 
@@ -172,7 +153,6 @@ angular.module('verpApp')
 
         // Public API here
         return {
-            options: options,
             movingAverage: movingAverage,
             movingMedian: movingMedian
         };

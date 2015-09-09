@@ -8,7 +8,7 @@
  * Factory in the verpApp.
  */
 angular.module('verpApp')
-    .factory('Parser', ['GazeAnalytics', 'GazeFilter', function (GazeAnalytics, GazeFilter) {
+    .factory('Parser', ['GazeAnalytics', function (GazeAnalytics) {
 
         var calibAreaWidth, calibAreaHeight;
 
@@ -38,7 +38,7 @@ angular.module('verpApp')
                 rest   = trimLines(text.substring(indx).split(/[\r\n]+/)),
                 fields = (rest.splice(0,1)[0]).split('\t');
 
-            return {header:header, fields:fields, tracking:rest};
+            return { header:header, fields:fields, tracking:rest  };
 
         };
 
@@ -83,16 +83,15 @@ angular.module('verpApp')
 
             var verp = JSON.parse(txt);
 
-            verp.pixelSize = [verp.stimSize[0] / verp.calibArea[0], verp.stimSize[1]/verp.calibArea[1]];
+            verp.pixelSize = [ verp.stimSize[0] / verp.calibArea[0], verp.stimSize[1] / verp.calibArea[1] ];
             verp.deltaTime = GazeAnalytics.delta(verp.time);
-            verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime);
+            verp.velocity  = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime);
+
             //verp.velocity  = GazeAnalytics.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize, verp.headDistance);
-
-            var sigmsqr = stat.var(verp.velocity);
-            verp.avgVelocity = sigmsqr.mean;
-            verp.stdVelocity = Math.sqrt(sigmsqr.val);
-
-            verp.pos = GazeFilter.movingMedian(verp.pos, null, 5);
+            //var sigmsqr = stat.var(verp.velocity);
+            //verp.avgVelocity = sigmsqr.mean;
+            //verp.stdVelocity = Math.sqrt(sigmsqr.val);
+            //verp.pos = GazeFilter.movingMedian( verp.pos, null, 5 );
 
             return verp;
 
@@ -100,7 +99,6 @@ angular.module('verpApp')
 
 
         var parseIDF = function (txt) {
-
 
             var parts =  getIDFParts(txt),
                 header  = parts.header,
@@ -114,13 +112,16 @@ angular.module('verpApp')
                     info: null
                 },
                 n = tracking.length,
-                eps = 1 / 64,
+                eps = 1 / 1024,
                 ts = 1e-6, //timestamps are in microsecs; we convert them to secs
                 ix = fields.indexOf('L POR X [px]'),
                 ig = fields.indexOf('L GVEC X'),
                 i, j, row, p, v;
 
-            console.log(ig);
+
+            p = getIDFParam(header, 'Sample Rate', ':');
+            if(p) verp.sampleRate = p.match(/\S+/g).map(function(d){return +d;});
+
 
             p = getIDFParam(header, 'Calibration Area', ':');
             if(p) verp.calibArea = p.match(/\S+/g).map(function(d){return +d;});
@@ -137,25 +138,21 @@ angular.module('verpApp')
 
             var orig = stat.vector.scalar(verp.stimSize, 0.5);
 
-            ix = ix > -1 ? ix : 3;
-
             j = 0;
+
             for (i = 0; i < n-1; i++) {
 
                 row = tracking[i].split('\t');
 
                 if (row.length === 0 || row === 'undefined') continue;
 
-
-                p = [ +row[ix], +row[ix+1] ];
-
+                p = [ +row[ ix ], +row[ ix + 1] ];
 
                 //v = stat.vector.normalize([ p[0]-orig[0], p[1]-orig[1], -verp.headDistance]);
 
-
                 if( Math.abs(p[0]) > eps && //exclude blinks
                     Math.abs(p[1]) > eps &&
-                    (v=stat.vector.normalize([ +row[ig], +row[ig+1], +row[ig+2] ] ) ) ){
+                    ( v = stat.vector.normalize([ +row[ig], +row[ig+1], +row[ig+2] ] ) ) ){
 
                     verp.pos.push(p);
                     verp.gvec.push(v);
@@ -166,24 +163,19 @@ angular.module('verpApp')
 
             }
 
-
-            verp.deltaTime = GazeAnalytics.delta(verp.time, ts);
-
-            verp.velocity  = GazeAnalytics.angularVelocityGaze(verp.gvec, verp.deltaTime);
+            verp.deltaTime = GazeAnalytics.delta( verp.time, ts );
+            verp.velocity  = GazeAnalytics.angularVelocityGaze( verp.gvec, verp.time);
 
             // verp.velocity  = GazeAnalytics.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize, verp.headDistance);
             // verp.velocity = GazeAnalytics.spatialVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
             // verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
             // verp.velocity = verp.deltaTime;
             // velocity(verp.pos, verp.deltaTime, verp.velocity, 0.000001);
-
-            var sigmsqr = stat.var(verp.velocity);
-            verp.avgVelocity = sigmsqr.mean;
-            verp.stdVelocity = Math.sqrt( sigmsqr.val );
-
-            //console.log(verp.avgVelocity);
-            //console.log(verp.stdVelocity);
-
+            // var sigmsqr = stat.var(verp.velocity);
+            // verp.avgVelocity = sigmsqr.mean;
+            // verp.stdVelocity = Math.sqrt( sigmsqr.val );
+            // console.log(verp.avgVelocity);
+            // console.log(verp.stdVelocity);
 
             calibAreaWidth  = verp.calibArea[0];
             calibAreaHeight = verp.calibArea[1];
@@ -193,6 +185,7 @@ angular.module('verpApp')
             // verp.pos = GazeFilter.movingAverage(verp.pos, null, 5);
 
             return verp;
+
         };
 
 

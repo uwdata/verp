@@ -168,7 +168,7 @@ angular.module('verpApp')
         };
 
         return {
-            template: '<div ng-show="showTracking"></div>',
+            template: '<div ng-show="show.tracking"></div>',
             restrict: 'E',
             replace: true,
             link: postLink

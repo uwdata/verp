@@ -36,7 +36,6 @@ angular.module('verpApp')
 
             function updateScale(e, d) {
 
-                if(!focusmap) return;
 
                 var k = d.zoomer.scale(),
                     t = d.zoomer.translate();
@@ -44,12 +43,15 @@ angular.module('verpApp')
                 x.domain([0,w].map(function(x) { return (x - t[0]) / k; }));
                 y.domain([0,h].map(function(y) { return (y - t[1]) / k; }));
 
+                if( focusmap )
+                    focusmap.xScale(x)
+                        .yScale(y)
+                        .update();
 
-                focusmap.xScale(x)
-                    .yScale(y)
-                    .update();
 
             }
+
+
 
             function update(e, d) {
 

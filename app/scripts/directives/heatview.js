@@ -55,7 +55,9 @@ angular.module('verpApp')
 
             function init(){
 
-                if(!scope.points) return;
+                if(! scope.points) return;
+
+                //console.log('initializing ' + name);
 
                 data = [];
                 pos = scope.points;
@@ -77,29 +79,59 @@ angular.module('verpApp')
                     max: +scope.cfg,
                     data:data});
 
-                scope.dataurl({imgdata:heatmap.getDataURL()});
+
+                scope.dataurl( { imgdata:heatmap.getDataURL()});
+
 
             }
 
-            function updateScale(e, d){
+            function update(e, d){
 
-                x.domain(d.xs().domain()).range(d.xs().range());
-                y.domain(d.ys().domain()).range(d.ys().range());
+              data = [];
+              pos = scope.points;
+              n =  pos.length;
 
-                for(var i = 0; i < n; i++)
-                    data[i]={x:x(pos[i][0]), y:y(pos[i][1]), value:1};
+              for (var i = 0; i < n; i++)
+                     data.push({x: x(pos[i][0]), y: y(pos[i][1]), value: 1});
 
                 heatmap.setData({
                     max: +scope.cfg,
                     data:data});
 
-                 //scope.dataurl({imgdata:heatmap.getDataURL()});
+                scope.dataurl( { imgdata:heatmap.getDataURL()});
+            }
+
+            function updateScale(e, d) {
+
+                if (!heatmap) return;
+
+                //console.log('scaling ' + name);
+
+                x.domain(d.xs().domain()).range(d.xs().range());
+                y.domain(d.ys().domain()).range(d.ys().range());
+
+                //console.log(n);
+
+                for (var i = 0; i < n; i++) {
+                    data[i].x = x(pos[i][0]);
+                    data[i].y = y(pos[i][1]);
+                }
+
+                heatmap.setData({
+                    max: +scope.cfg,
+                    data:data});
+
+                //scope.dataurl ( { imgdata:heatmap.getDataURL() } );
 
             }
 
+
+
+
+
+
             function updateMax(d) {
 
-                //console.log('setting update max');
 
                 if(heatmap) heatmap.setDataMax(d);
 
@@ -110,8 +142,17 @@ angular.module('verpApp')
             scope.$watch('cfg', function(d){
                 if(heatmap) updateMax(d);
             });
+
             scope.$watch('points', function(points){
-                if(points) init();
+
+                //console.log('points changed ... ');
+
+                if( points  && points.length ) {
+
+                     if ( ! heatmap) init(); else update();
+
+                }
+
             });
 
             scope.$on('domain.ready', init);

@@ -36,40 +36,37 @@
 
                 <focusmap id="focusmap" class="stacked" width="650" height="500"
                           domain="domain()"
-                          ng-show="showFocusmap">
+                          ng-show="show.focusmap">
                 </focusmap>
 
-                <!--data="heatmapImg"-->
 
-                <!--ng-init="imgStyle={'z-index':1}" >-->
-
-                <heatview  id="heatmap" class="stacked" width="650" height="500" colormap="1"
+                <heatview  id="heatmap" class="stacked" width="650" height="500"
+                           colormap="1"
                            points='points'
-                           cfg="heatmap.max"
+                           cfg='heatmap.max'
                            domain='domain()'
-                           dataurl="dataurl(imgdata)"
-                           ng-style="heatmapstyle"
-                           ng-show="showHeatmap">
+                           dataurl='dataurl(imgdata)'
+                           ng-show='show.heatmap'>
                 </heatview>
 
 
-                <heatview  id="fixation-heatmap" class="stacked" width="650" height="500" colormap="0"
-                           domain='domain()'
+                <heatview  id="fixation-heatmap" class="stacked" width="650" height="500"
+                           colormap="0"
                            points='fixations'
-                           ng-style="fixationStyle"
-                           ng-show='showFixationHeatmap'>
+                           cfg='heatmap.max'
+                           domain='domain()'
+                           ng-show='show.fixationHeatmap'>
                 </heatview>
-
+                <!--dataurl='dataurl(imgdata)'-->
 
                 <heatview  id="saccade-heatmap" class="stacked" width="650" height="500"
                            colormap="2"
-                           domain='domain()'
                            points='saccades'
-                           ng-style="saccadeStyle"
-                           ng-show="showSaccadeHeatmap">
+                           cfg='heatmap.max'
+                           domain='domain()'
+                           ng-show="show.saccadeHeatmap">
                 </heatview>
-
-                <!--ng-init="saccadeStyle={'z-index':4}"-->
+                <!--dataurl='dataurl(imgdata)'-->
 
                 <sp id="scatterplot" class="stacked" width="650" height="500"
                     ng-style="spStyle">
@@ -78,17 +75,17 @@
 
 
                 <!--<alphapart id="alphapart" class="stacked" width="650" height="500"-->
-                           <!--ng-style="alphapartStyle"-->
-                           <!--data="scanPathPoints"-->
-                           <!--alpha="alpha.value"-->
-                           <!--domain="domain()"-->
-                           <!--ng-show="alpha.partition">-->
+                <!--ng-style="alphapartStyle"-->
+                <!--data="scanPathPoints"-->
+                <!--alpha="alpha.value"-->
+                <!--domain="domain()"-->
+                <!--ng-show="alpha.partition">-->
                 <!--</alphapart>-->
 
                 <directedpath id="saccadepath" class="stacked saccadepath" width="650" height="500"
                               data='saccadePathPoints'
                               domain='domain()'
-                              ng-show="showSaccadePath"
+                              ng-show="show.saccadePath"
                               ng-style="pathStyle">
                 </directedpath>
 
@@ -97,7 +94,7 @@
                               data='scanPath'
                               domain='domain()'
                               click='onFixationEdgeClick(d,i)'
-                              ng-show="showScanPath"
+                              ng-show="show.scanPath"
                               ng-style="pathStyle">
                 </directedpath>
 
@@ -108,7 +105,7 @@
                                tooltip="scanPathTooltip"
                                click='onFixationClick(d,i)'
                                ng-style="nodeStyle"
-                               ng-show="showScanPath">
+                               ng-show="show.scanPath">
                 </circularnodes>
 
                 <!--ng-init="nodeStyle={'z-index':7}"-->
@@ -122,7 +119,7 @@
 
                 <brush id="sp" class="stacked" width="650" height="500"
                        ng-style="brushStyle"
-                       ng-show="showTracking">
+                       ng-show="show.tracking">
                 </brush>
 
                 <!--ng-init="brushStyle={'z-index' : 10}"-->
@@ -161,19 +158,19 @@
                             <div class="column column-0">all</div>
                             <div class="column column-1">
                                 <input type="checkbox" titlex='Show all tracking points'
-                                       ng-model="showTracking"
-                                       ng-click="imgStyle={'opacity':showTracking ? 1 : 0.5}">
+                                       ng-model="show.tracking"
+                                       ng-click="imgStyle={'opacity':show.tracking? 1 : 0.5}">
                             </div>
 
                             <div class="column column-2">
-                                <input type="checkbox" titlex='Show heatmap of tracking points' ng-model="showHeatmap">
+                                <input type="checkbox" titlex='Show heatmap of tracking points' ng-model="show.heatmap">
                             </div>
 
                             <div class="column column-3">
-                                <input type="checkbox" titlex='Show focusmap of tracking points' ng-model="showFocusmap">
+                                <input type="checkbox" titlex='Show focusmap of tracking points' ng-model="show.focusmap">
                             </div>
                             <div class="column column-4">
-                                <input type="checkbox" titlex='Show scan-path' ng-model="showScanPath">
+                                <input type="checkbox" titlex='Show scan-path' ng-model="show.scanPath">
                             </div>
                         </div>
 
@@ -181,15 +178,15 @@
                             <div class="column column-0">fixations</div>
                             <div class="column column-1">
                                 <input type="checkbox" titlex='Show scatter plot of fixations'
-                                       ng-model="showFixations"
+                                       ng-model="show.fixations"
                                        ng-change="fixationVisibility()">
                             </div>
                             <div class="column column-2">
                                 <input type="checkbox" titlex="Show heatmap of fixations"
-                                       ng-model="showFixationHeatmap">
+                                       ng-model="show.fixationHeatmap">
                             </div>
                             <div class="column column-3">
-                                <input type="checkbox" titlex='Show focusmap of fixations' ng-model="showFixationFocusmap">
+                                <input type="checkbox" titlex='Show focusmap of fixations' ng-model="show.fixationFocusmap">
                             </div>
                             <div class="column column-4" >
                                 <input type="checkbox">
@@ -200,20 +197,20 @@
                             <div class="column column-0">saccades</div>
                             <div class="column column-1">
                                 <input type="checkbox" titlex='Show scatter plot of saccades'
-                                       ng-model="showSaccades"
+                                       ng-model="show.saccades"
                                        ng-change="saccadeVisibility()">
                             </div>
                             <div class="column column-2">
                                 <input type="checkbox" titlex='Show heatmap of saccades'
-                                       ng-model="showSaccadeHeatmap">
+                                       ng-model="show.saccadeHeatmap">
                             </div>
                             <div class="column column-3">
                                 <input type="checkbox" titlex='Show focusmap of saccades'
-                                       ng-model="showSaccadeFocusmap">
+                                       ng-model="show.saccadeFocusmap">
                             </div>
                             <div class="column column-4">
                                 <input type="checkbox" titlex='Show saccade path'
-                                       ng-model="showSaccadePath">
+                                       ng-model="show.saccadePath">
                             </div>
                         </div>
 
@@ -223,50 +220,50 @@
 
                 <fieldset id="scene-ctrls-1">
                     <div class="divtable">
-                            <div class="row heading" ng-show='detectionMethod==="ivt"'>
-                                <div class="column">velocity threshold</div>
+                        <div class="row heading" ng-show='detectionMethod==="ivt"'>
+                            <div class="column">velocity threshold</div>
+                        </div>
+                        <div class="row row-1" ng-show='detectionMethod==="ivt"'>
+                            <div class="column">
+                                <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
+                                <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
+                                <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
                             </div>
-                            <div class="row row-1" ng-show='detectionMethod==="ivt"'>
-                                <div class="column">
-                                    <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
-                                    <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
-                                    <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
-                                </div>
+                        </div>
+                        <div class="row row-2" ng-show='detectionMethod==="ivt"'>
+                            <div class="column">
+                                <input type="range"
+                                       min="{{velocity.min}}"
+                                       step="{{velocity.step}}"
+                                       max="{{velocity.max}}"
+                                       value="{{velocity.threshold}}"
+                                       ng-model="velocity.threshold"
+                                       ng-change="classify()"/>
+                                <label class="center">{{velocity.threshold}}</label>
                             </div>
-                            <div class="row row-2" ng-show='detectionMethod==="ivt"'>
-                                <div class="column">
-                                    <input type="range"
-                                           min="{{velocity.min}}"
-                                           step="{{velocity.step}}"
-                                           max="{{velocity.max}}"
-                                           value="{{velocity.threshold}}"
-                                           ng-model="velocity.threshold"
-                                           ng-change="classify()"/>
-                                    <label class="center">{{velocity.threshold}}</label>
-                                </div>
+                        </div>
+                        <div class="row heading" ng-show='detectionMethod==="idt"'>
+                            <div class="column">dispersion threshold</div>
+                        </div>
+                        <div class="row row-1" ng-show='detectionMethod==="idt"'>
+                            <div class="column">
+                                <label class="numinput">min:</label><input type="number"  value="{{dispersion.min}}" ng-model="dispersion.min">
+                                <label class="numinput">step:</label><input type="number" value="{{dispersion.step}}" ng-model="dispersion.step">
+                                <label class="numinput">max:</label><input type="number"  value="{{dispersion.max}}" ng-model="dispersion.max">
                             </div>
-                            <div class="row heading" ng-show='detectionMethod==="idt"'>
-                                <div class="column">dispersion threshold</div>
+                        </div>
+                        <div class="row row-2" ng-show='detectionMethod==="idt"'>
+                            <div class="column">
+                                <input type="range"
+                                       min="{{dispersion.min}}"
+                                       step="{{dispersion.step}}"
+                                       max="{{dispersion.max}}"
+                                       value="{{dispersion.threshold}}"
+                                       ng-model="dispersion.threshold"
+                                       ng-change="classify()"/>
+                                <label class="center">{{dispersion.threshold}}</label>
                             </div>
-                            <div class="row row-1" ng-show='detectionMethod==="idt"'>
-                                <div class="column">
-                                    <label class="numinput">min:</label><input type="number"  value="{{dispersion.min}}" ng-model="dispersion.min">
-                                    <label class="numinput">step:</label><input type="number" value="{{dispersion.step}}" ng-model="dispersion.step">
-                                    <label class="numinput">max:</label><input type="number"  value="{{dispersion.max}}" ng-model="dispersion.max">
-                                </div>
-                            </div>
-                            <div class="row row-2" ng-show='detectionMethod==="idt"'>
-                                <div class="column">
-                                    <input type="range"
-                                           min="{{dispersion.min}}"
-                                           step="{{dispersion.step}}"
-                                           max="{{dispersion.max}}"
-                                           value="{{dispersion.threshold}}"
-                                           ng-model="dispersion.threshold"
-                                           ng-change="classify()"/>
-                                    <label class="center">{{dispersion.threshold}}</label>
-                                </div>
-                            </div>
+                        </div>
                         <!--</div>-->
                         <div class="row row-heading">
 
@@ -344,7 +341,7 @@
                         <div class="row row-1">
                             <div class="column column-0" title="scale">scale</div>
                             <div class="column">
-                                <input type="range" min="1" step="1" value="64" max="100"
+                                <input type="range" min="0" step="0.1" value="64" max="100"
                                        title="heatmap scale:{{heatmap.max}}"
                                        ng-init="heatmap.max=64"
                                        ng-model="heatmap.max"/>

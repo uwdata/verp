@@ -304,6 +304,9 @@
   };
   stat.vector.dot = function(v0, v1) {
     var n = v0.length, s = 0, i;
+    if (!(n === v1.length)) {
+      console.warn("attempting to compute the dot-product of vectors of unequal lentgth!");
+    }
     for (i = 0; i < n; i++) s += v0[i] * v1[i];
     return s;
   };
