@@ -100,7 +100,7 @@ angular.module('verpApp')
                 }
 
             }
-
+            
             scope.$on('view.zoom', updateScale);
             scope.$on('scene.img.update', updateImg);
             scope.$on('scene.tracking.update', updateTracking);

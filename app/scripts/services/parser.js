@@ -165,17 +165,16 @@ angular.module('verpApp')
 
             verp.deltaTime = GazeAnalytics.delta( verp.time, ts );
             verp.velocity  = GazeAnalytics.angularVelocityGaze( verp.gvec, verp.time);
-
-            // verp.velocity  = GazeAnalytics.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize, verp.headDistance);
-            // verp.velocity = GazeAnalytics.spatialVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
-            // verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
-            // verp.velocity = verp.deltaTime;
-            // velocity(verp.pos, verp.deltaTime, verp.velocity, 0.000001);
-            // var sigmsqr = stat.var(verp.velocity);
-            // verp.avgVelocity = sigmsqr.mean;
-            // verp.stdVelocity = Math.sqrt( sigmsqr.val );
-            // console.log(verp.avgVelocity);
-            // console.log(verp.stdVelocity);
+           // verp.velocity  = GazeAnalytics.angularVelocity(verp.pos, verp.deltaTime, verp.pixelSize, verp.headDistance);
+           // verp.velocity = GazeAnalytics.spatialVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
+           // verp.velocity = GazeAnalytics.pixelVelocity(verp.pos, verp.deltaTime, verp.pixelSize);
+           // verp.velocity = verp.deltaTime;
+           // velocity(verp.pos, verp.deltaTime, verp.velocity, 0.000001);
+           // var sigmsqr = stat.var(verp.velocity);
+           // verp.avgVelocity = sigmsqr.mean;
+           // verp.stdVelocity = Math.sqrt( sigmsqr.val );
+           // console.log(verp.avgVelocity);
+           // console.log(verp.stdVelocity);
 
             calibAreaWidth  = verp.calibArea[0];
             calibAreaHeight = verp.calibArea[1];

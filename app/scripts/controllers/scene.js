@@ -27,22 +27,13 @@ angular.module('verpApp')
                 saccadeFocusmap:false
             };
 
-            //$scope.showFixations = false;
-            //$scope.showSaccades = false;
-            //$scope.showScanPath = false;
-            //$scope.showTracking = true;
-            //$scope.showHeatmap = false;
-            //$scope.showFixations = false;
-            //$scope.showSaccades = false;
-            //$scope.showScanPath = false;
-
             $scope.frm = {};
             $scope.sp = {};
             $scope.alpha = { value:50, partition:false };
 
             $scope.visibilityChanged = false;
 
-            $scope.velocity = {min:0, step:1,   max:600,  threshold:300 };
+            $scope.velocity = {min:0, step:1,   max:600,  threshold:200};
             $scope.dispersion = {min:0, step:0.1, max:10, threshold:3 };
             $scope.methods = {ivt:classifyIVT, idt:classifyIDT};
             $scope.detectionMethod = 'idt';
@@ -69,8 +60,8 @@ angular.module('verpApp')
                     });
 
                 //send src back & bring dest front
-                srcnode.style.zIndex  = destz-1;
-                destnode.style.zIndex = srcz+1;
+                srcnode.style.zIndex  = destz - 1;
+                destnode.style.zIndex = srcz + 1;
 
                 //simulate click
                 (document.elementFromPoint(window.event.clientX, window.event.clientY).dispatchEvent(e));
@@ -178,7 +169,7 @@ angular.module('verpApp')
 
             $scope.classify = function(){
 
-                ($scope.methods[$scope.detectionMethod]).call();
+                $scope.methods[$scope.detectionMethod]();
 
             };
 
@@ -214,22 +205,27 @@ angular.module('verpApp')
                     i = 0,
                     ts = 1e-6;
 
-                for(; i < n; i++)
-                    if(e[i] === 0) {
+                for(; i < n; i++) {
+                    
+                    if (e[i] === 0) {
                         //fixation
                         f.push(p[i]);
                     } else {  //saccade
                         s.push(p[i]);
                     }
 
+                }
+                
                 $scope.fixations = f;
                 $scope.saccades = s;
 
                 $scope.scanPath = GazeAnalytics.cluster(e, p, g, 10, 0, 1, $scope.time); // fixation path
+                
+                console.log(e); 
+                
                 $scope.scanPathDuration = GazeAnalytics.fixationDuration($scope.scanPath, ts);
-
-                // $scope.scanPathTooltip =  $scope.generateScanPathTooltip($scope.scanPath, $scope.scanPathDuration);
-
+                
+                //$scope.scanPathTooltip =  $scope.generateScanPathTooltip($scope.scanPath, $scope.scanPathDuration);
                 $scope.scanPathPoints = GazeAnalytics.clusterPoints( $scope.scanPath, p);
 
                 // $scope.saccadePathPoints = GazeAnalytics.clusterPoints($scope.saccadePath, p);

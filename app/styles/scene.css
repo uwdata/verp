@@ -180,13 +180,13 @@ div[titlex]:hover:after{
 }
 
 .scene-info fieldset#scene-ctrls-1 {
-    width:25%;
+    width:27%;
     float:left;
 }
 
 
 .scene-info fieldset#scene-ctrls-2 {
-    width:40%;
+    width:38%;
     float:left;
 }
 
@@ -207,6 +207,7 @@ div[titlex]:hover:after{
     text-align: right;
     vertical-align:top;
     padding-right:1%;
+    width:18%;
 }
 
 
@@ -334,7 +335,7 @@ div[titlex]:hover:after{
 
 circle{
     opacity:1;
-    stroke-width:5;
+    stroke-width:2;
     fill:coral;
 }
 

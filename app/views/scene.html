@@ -57,7 +57,6 @@
                            domain='domain()'
                            ng-show='show.fixationHeatmap'>
                 </heatview>
-                <!--dataurl='dataurl(imgdata)'-->
 
                 <heatview  id="saccade-heatmap" class="stacked" width="650" height="500"
                            colormap="2"
@@ -66,13 +65,10 @@
                            domain='domain()'
                            ng-show="show.saccadeHeatmap">
                 </heatview>
-                <!--dataurl='dataurl(imgdata)'-->
 
                 <sp id="scatterplot" class="stacked" width="650" height="500"
                     ng-style="spStyle">
                 </sp>
-
-
 
                 <!--<alphapart id="alphapart" class="stacked" width="650" height="500"-->
                 <!--ng-style="alphapartStyle"-->
@@ -108,31 +104,19 @@
                                ng-show="show.scanPath">
                 </circularnodes>
 
-                <!--ng-init="nodeStyle={'z-index':7}"-->
-                <!--<textlabel id="textlabel" class="stacked" width="650" height="500"-->
-                <!--domain='domain()'-->
-                <!--data='scanPath'-->
-                <!--ng-style="labelStyle"-->
-                <!--ng-init="labelStyle={'z-index' : 8}"-->
-                <!--ng-show="showScanPath">-->
-                <!--</textlabel>-->
 
                 <brush id="sp" class="stacked" width="650" height="500"
                        ng-style="brushStyle"
                        ng-show="show.tracking">
                 </brush>
 
-                <!--ng-init="brushStyle={'z-index' : 10}"-->
-
                 <zoom id="scene-zoom" class="stacked" width="650" height="500"
                       ng-style="zoomStyle"
                       ng-show="mode==='view'"
                       ng-click="clickPropagate('scene-zoom', 'circularnodes'); clickPropagate('scene-zoom', 'directedpath')">
                 </zoom>
-                <!--ng-init="zoomStyle={'z-index' : 11; 'pointer-events}"-->
 
             </div>
-
         </div>
     </div>
 
@@ -225,9 +209,15 @@
                         </div>
                         <div class="row row-1" ng-show='detectionMethod==="ivt"'>
                             <div class="column">
-                                <label class="numinput">min:</label><input type="number"  value="{{velocity.min}}" ng-model="velocity.min">
-                                <label class="numinput">step:</label><input type="number" value="{{velocity.step}}" ng-model="velocity.step">
-                                <label class="numinput">max:</label><input type="number"  value="{{velocity.max}}" ng-model="velocity.max">
+                                <label class="numinput">min:</label>
+                                <input type="number"
+                                       ng-model="velocity.min">
+                                <label class="numinput">step:</label>
+                                <input type="number"
+                                       ng-model="velocity.step">
+                                <label class="numinput">max:</label>
+                                <input type="number"
+                                       ng-model="velocity.max">
                             </div>
                         </div>
                         <div class="row row-2" ng-show='detectionMethod==="ivt"'>
@@ -247,9 +237,9 @@
                         </div>
                         <div class="row row-1" ng-show='detectionMethod==="idt"'>
                             <div class="column">
-                                <label class="numinput">min:</label><input type="number"  value="{{dispersion.min}}" ng-model="dispersion.min">
-                                <label class="numinput">step:</label><input type="number" value="{{dispersion.step}}" ng-model="dispersion.step">
-                                <label class="numinput">max:</label><input type="number"  value="{{dispersion.max}}" ng-model="dispersion.max">
+                                <label class="numinput">min:</label><input type="number"  ng-model="dispersion.min">
+                                <label class="numinput">step:</label><input type="number" ng-model="dispersion.step">
+                                <label class="numinput">max:</label><input type="number"  ng-model="dispersion.max">
                             </div>
                         </div>
                         <div class="row row-2" ng-show='detectionMethod==="idt"'>
@@ -335,7 +325,7 @@
                             <div class="column" title="">
                                 <input type="color"
                                        value="#ff7f50"
-                                       onchange="d3.selectAll('.shape').style('fill', this.value )">
+                                       onchange="d3.selectAll('.shape > .circle').style('fill', this.value )">
                             </div>
                         </div>
                         <div class="row row-1">
@@ -350,7 +340,7 @@
                             <div class="column column-1" title="">
                                 <input type="color"
                                        value="#000000"
-                                       onchange="d3.selectAll('.shape').style('stroke', this.value )">
+                                       onchange="d3.selectAll('.shape > .circle').style('stroke', this.value )">
                             </div>
                         </div>
                     </div>

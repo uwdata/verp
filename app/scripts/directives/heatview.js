@@ -105,23 +105,21 @@ angular.module('verpApp')
 
                 if (!heatmap) return;
 
-                //console.log('scaling ' + name);
-
                 x.domain(d.xs().domain()).range(d.xs().range());
                 y.domain(d.ys().domain()).range(d.ys().range());
-
-                //console.log(n);
 
                 for (var i = 0; i < n; i++) {
                     data[i].x = x(pos[i][0]);
                     data[i].y = y(pos[i][1]);
                 }
 
-                heatmap.setData({
-                    max: +scope.cfg,
-                    data:data});
 
-                //scope.dataurl ( { imgdata:heatmap.getDataURL() } );
+                heatmap.setData(
+                    {
+                        max:+scope.cfg,
+                        data:data
+                    }
+                );
 
             }
 
