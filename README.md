@@ -3,11 +3,11 @@ The VERP Explorer
 
 The VERP (Visualization of Eye movements with Recurrence Plots) Explorer is a
 visual analysis tool for exploring eye movements during visual-cognitive tasks.
-The VERP Explorer couples several spatial eye-movement visualizations with
+It couples several spatial eye-movement visualizations with
 recurrence plots that reveal patterns of revisitation over time. 
 
 Until we prepare a proper documentation, please refer to this
-[draft](http://www.cs.stanford.edu/~cagatay/projects/verp/draft.pdf) for more
+[draft](http://www.cs.stanford.edu/~cagatay/projects/verp/draft.pdf) for 
 details.  
 
 ## Run 
@@ -19,7 +19,7 @@ details.
     if you're curious about recurrence plots. Also, check out this short
     [video](http://www.cs.stanford.edu/~cagatay/projects/verp/lorenz.mov).
 
-+ The VERP Explorer is research prototype and only tested on Chrome.    
++ The VERP Explorer has been tested only on Chrome browser and is best viewed in browser's full screen mode.     
 
 
 ## File formats  
@@ -30,10 +30,10 @@ details.
 + In order to build the VERP Explorer you need to have [node.js](nodejs.org)
   and [bower](bower.io) installed.
 
-+ Get a local copy of the repo either by using `git clone` or downloading the
++ Once you have the above, get a local copy of the repo either by using `git clone` or downloading the
   zipped folder.
 
-+ To build, run `npm install` and  `bower install` from the project directory.  
++ Then, to build, run `npm install` and  `bower install` from the project directory.  
 
 + Run `grunt serve` for preview. 
 
